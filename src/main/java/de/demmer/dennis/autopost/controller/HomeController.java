@@ -48,12 +48,14 @@ public class HomeController {
 
 
 
-    @GetMapping("/setStatus")
-    public String setStatus(@RequestParam("status") String status){
+    @GetMapping("/post")
+    public String setStatus(@RequestParam("post") String post){
 
-        facebookService.setStatus(status);
-        return facebookService.setStatus(status);
+        return "" + facebookService.postOnPage(post);
 
     }
+
+
+
 
 }
