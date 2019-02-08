@@ -1,0 +1,11 @@
+package de.demmer.dennis.autopost.repositories;
+
+import de.demmer.dennis.autopost.entities.User;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<User, Integer> {
+
+    int findIdByFbId(String fbId);
+
+
+}
