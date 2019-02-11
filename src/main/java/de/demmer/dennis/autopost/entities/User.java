@@ -1,8 +1,15 @@
 package de.demmer.dennis.autopost.entities;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
+
+@ToString
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "users")
 public class User {
 
@@ -14,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private String fbId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="TEXT")
     private String oauthToken;
 
     @Column(nullable = false)
@@ -23,9 +30,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PostGroup> groups;
 
-    public User() {
 
-    }
 
     public User(String fbId, String token, String secret) {
         this.fbId = fbId;
@@ -33,31 +38,6 @@ public class User {
         this.oauthTokenSecret = secret;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public String getFbId() {
-        return fbId;
-    }
-
-    public String getOauthToken() {
-        return oauthToken;
-    }
-
-    public String getOauthTokenSecret() {
-        return oauthTokenSecret;
-    }
-
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fbId='" + fbId + '\'' +
-                ", oauthToken='" + oauthToken + '\'' +
-                ", oauthTokenSecret='" + oauthTokenSecret + '\''+
-                '}';
-    }
 }
 

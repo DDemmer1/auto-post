@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     int findIdByFbId(String fbId);
+    User findUserById(int Id);
 
 
 }

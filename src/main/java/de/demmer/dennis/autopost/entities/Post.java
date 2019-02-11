@@ -18,6 +18,8 @@ public class Post implements Comparable<Post>
     @JoinColumn (name="user_id", nullable = false)
     private User user;
 
+    private  String pageID;
+
     @Column(nullable = false)
     private String content;
 
@@ -57,14 +59,9 @@ public class Post implements Comparable<Post>
 
     }
 
-    public Post (String content, PostGroup group){
+    public Post(String content, String date, PostGroup group, String pageID){
         this.content = content;
-        this.group = group;
-        this.user = group.getUser();
-    }
-
-    public Post(String content, String date, PostGroup group){
-        this.content = content;
+        this.pageID = pageID;
         this.date  = date;
         this.group = group;
         this.user = group.getUser();
@@ -124,6 +121,15 @@ public class Post implements Comparable<Post>
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+
+    public String getPageID() {
+        return pageID;
+    }
+
+    public void setPageID(String pageID) {
+        this.pageID = pageID;
     }
 
     public int compareTo(Post post) {

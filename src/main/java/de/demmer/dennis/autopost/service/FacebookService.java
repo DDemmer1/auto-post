@@ -1,6 +1,10 @@
 package de.demmer.dennis.autopost.service;
 
 
+import de.demmer.dennis.autopost.entities.Post;
+import de.demmer.dennis.autopost.entities.User;
+import lombok.extern.log4j.Log4j2;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PageOperations;
@@ -12,75 +16,70 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class FacebookService {
 
     @Value("${spring.social.facebook.appId}")
-    String facebookAppId;
+    private String facebookAppId;
     @Value("${spring.social.facebook.appSecret}")
-    String facebookSecret;
-
-    String accessToken ="";
+    private String facebookSecret;
 
 
 
-    public String createFacebookAuthorizationURL(){
+    public String createFacebookAuthorizationURL() {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
         OAuth2Parameters params = new OAuth2Parameters();
         params.setRedirectUri("http://localhost:8080/facebook");
-        params.setScope("email,manage_pages,publish_pages");
+        params.setScope("email," +
+                "manage_pages," +
+                "publish_pages,");
+
         return oauthOperations.buildAuthorizeUrl(params);
     }
 
 
-    public void createFacebookAccessToken(String code) {
+    public String createFacebookAccessToken(String code) {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, "http://localhost:8080/facebook", null);
-        accessToken = accessGrant.getAccessToken();
+        return accessGrant.getAccessToken();
     }
 
 
-
-    public String getName() {
-        Facebook facebook = new FacebookTemplate(accessToken);
+    public String getName(User user) {
+        Facebook facebook = new FacebookTemplate(user.getOauthToken());
         String[] fields = {"id", "name"};
         return facebook.fetchObject("me", String.class, fields);
     }
 
-    public String setStatus(String status){
-        Facebook facebook = new FacebookTemplate(accessToken);
-        return facebook.feedOperations().updateStatus(status);
-    }
 
-    public String getEmail(){
-        Facebook facebook = new FacebookTemplate(accessToken);
-        String[] fields = {"id", "email"};
+    public String getEmail(User user) {
+        Facebook facebook = new FacebookTemplate(user.getOauthToken());
+        String[] fields = {"email"};
         return facebook.fetchObject("me", String.class, fields);
 
     }
 
 
+    public String getID(User user) {
+        Facebook facebook = new FacebookTemplate(user.getOauthToken());
+        String jsonID = facebook.fetchObject("me", String.class, "id");
+        JSONObject jsonObject = new JSONObject(jsonID);
+        return jsonObject.get("id").toString();
+    }
 
-    public int postOnPage(String post){
 
-        try{
-            Facebook facebook = new FacebookTemplate(accessToken);
+    public void post(User user, Post post) {
 
-            PageOperations pageOps = facebook.pageOperations();
-            PagePostData ppd = new PagePostData("599851913798667");
+        Facebook facebook = new FacebookTemplate(user.getOauthToken());
+        PageOperations pageOps = facebook.pageOperations();
+        PagePostData ppd = new PagePostData(post.getPageID());
 
-            ppd.message(post);
+        ppd.message(post.getContent());
 
-            pageOps.post(ppd);
+        pageOps.post(ppd);
 
-            return 1;
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-            return 0;
-        }
 
     }
 

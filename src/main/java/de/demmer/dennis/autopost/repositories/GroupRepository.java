@@ -13,6 +13,8 @@ public interface GroupRepository extends CrudRepository<PostGroup, Integer> {
 
     PostGroup findByIdAndUserId(int groupId, int userId);
 
+    PostGroup findPostGroupByEnabled(boolean enabled);
+
     boolean findEnabledByUserIdAndId(int userId, int groupId);
 
     void deleteByUserId(int userId);
