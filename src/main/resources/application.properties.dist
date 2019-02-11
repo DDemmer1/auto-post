@@ -1,0 +1,39 @@
+#H2
+spring.h2.console.enabled=
+spring.h2.console.path=
+
+#Turn Statistics on
+#spring.jpa.properties.hibernate.generate_statistics=
+#logging.level.org.hibernate.stat=
+
+## JPA
+#spring.jpa.show-sql=
+#spring.jpa.properties.hibernate.format_sql=
+spring.jpa.hibernate.ddl-auto=
+
+
+#logging.level.org.hibernate.type=
+
+
+# Datasource
+
+#Production
+#spring.datasource.url=
+#spring.datasource.username=
+#spring.datasource.password=
+#spring.datasource.driver-class-name=
+
+
+#Development
+#spring.datasource.url=
+#spring.datasource.username=
+#spring.datasource.password=
+#spring.datasource.driver-class-name=
+
+spring.output.ansi.enabled=
+
+
+
+spring.social.facebook.appId=
+spring.social.facebook.appSecret=
+
