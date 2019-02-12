@@ -31,15 +31,15 @@ public class FacebookServiceTest {
 
     @Before
     public void connectToFacebook_testAccessTokenGiven_requestedIdNotNull(){
-        testUser = new User(testProperties.getFbID(),testProperties.getAccessToken(),"secret");
-        Assert.assertTrue("No ID fetched. No connection to Facebook",!facebookService.getID(testUser).isEmpty());
+        testUser = new User(testProperties.getFbID(),testProperties.getAccessToken());
+        Assert.assertTrue("No ID fetched. No connection to Facebook",!facebookService.getID(testProperties.getAccessToken()).isEmpty());
         log.info("Facebook connection established");
     }
 
 
     @Test
     public void getID_testIDGiven_requestedIdShouldMatchGivenId(){
-        String id = facebookService.getID(testUser);
+        String id = facebookService.getID(testProperties.getAccessToken());
         Assert.assertTrue("Facebook id should be: " + testProperties.getFbID()+" but is: " + id,id.equals(testProperties.getFbID()));
         log.info("Could get right Facebook ID. ID: " + id);
     }

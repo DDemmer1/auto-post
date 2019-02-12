@@ -24,20 +24,31 @@ public class User {
     @Column(nullable = false, columnDefinition="TEXT")
     private String oauthToken;
 
-    @Column(nullable = false)
-    private String oauthTokenSecret;
+    @Column
+    private String name;
+
+    @Column
+    private String email;
+
+    @ElementCollection
+    private List<String> pageIds;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PostGroup> groups;
 
-
-
-    public User(String fbId, String token, String secret) {
+    //TODO delete
+    public User(String fbId, String token) {
         this.fbId = fbId;
         this.oauthToken = token;
-        this.oauthTokenSecret = secret;
     }
 
 
+    protected User(String fbId, String oauthToken, String name, String email, List<String> pageIds) {
+        this.fbId = fbId;
+        this.oauthToken = oauthToken;
+        this.name = name;
+        this.email = email;
+        this.pageIds = pageIds;
+    }
 }
 

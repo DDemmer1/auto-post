@@ -1,7 +1,12 @@
 package de.demmer.dennis.autopost.entities;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity(name="posts")
 public class Post implements Comparable<Post>
 {
@@ -38,27 +43,6 @@ public class Post implements Comparable<Post>
 
     private float latitude;
 
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public Post(){
-
-    }
-
     public Post(String content, String date, PostGroup group, String pageID){
         this.content = content;
         this.pageID = pageID;
@@ -67,70 +51,7 @@ public class Post implements Comparable<Post>
         this.user = group.getUser();
     }
 
-    public void setUser(User user){
-        this.user = user;
-    }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public boolean isScheduled() {
-        return scheduled;
-    }
-
-    public void setScheduled(boolean scheduled) {
-        this.scheduled = scheduled;
-    }
-
-    public boolean isPosted() {
-        return posted;
-    }
-
-    public void setPosted(boolean posted) {
-        this.posted = posted;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public PostGroup getGroup() {
-        return group;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-
-    public String getPageID() {
-        return pageID;
-    }
-
-    public void setPageID(String pageID) {
-        this.pageID = pageID;
-    }
 
     public int compareTo(Post post) {
         return this.date.compareTo(post.date);

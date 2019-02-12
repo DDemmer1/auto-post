@@ -43,7 +43,7 @@ public class PostSchedulingTests {
         LocalDateTime plus5 = LocalDateTime.now().plusSeconds(10);
         LocalDateTime now = LocalDateTime.now();
 
-        User testUser = new User(testProperties.getFbID(),testProperties.getAccessToken(),"secret");
+        User testUser = new User(testProperties.getFbID(),testProperties.getAccessToken());
         PostGroup testGroup = new PostGroup("TestGroup","Group for JUnit tests", testUser);
 
         Post post = new Post("autoPost Unit Test vom " + dtf.format(now),DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(plus5),testGroup, testProperties.getPageID());
@@ -53,9 +53,6 @@ public class PostSchedulingTests {
         scheduleService.scheduleGroup(testGroup);
 
         Thread.sleep(15000);
-
-//        facebookService.
-//        Assert.assertTrue("Not posted", );
 
     }
 
