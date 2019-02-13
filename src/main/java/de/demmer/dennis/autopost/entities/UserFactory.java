@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Component
@@ -22,10 +23,11 @@ public class UserFactory {
         String id = facebookService.getID(oAuthToken);
         String name = facebookService.getName(oAuthToken);
         String email = facebookService.getEmail(oAuthToken);
-        List<String> pageIds = facebookService.getPageIds(oAuthToken);
+        Map<String,String> pageIds = facebookService.getPageIds(oAuthToken);
 
 
         return new User(id,oAuthToken,name,email,pageIds);
+//        return new User(id,oAuthToken,name,email);
     }
 
 }

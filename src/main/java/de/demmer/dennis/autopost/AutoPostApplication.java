@@ -10,34 +10,27 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Map;
+import java.util.TreeMap;
 
 
 @Log4j2
 @SpringBootApplication
-public class AutoPostApplication{
-
-
+public class AutoPostApplication implements CommandLineRunner{
 
     @Autowired
     UserRepository repository;
 
 
-    public static void main(String[] args) {
-        SpringApplication.run(AutoPostApplication.class, args);
+    public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}
+
+
+    @Override
+    public void run(String... args) throws Exception {
+//        User user = new User("id", "oauth", "name", "mail");
+//        repository.save(user);
+//        log.info("All users  -> {}", repository.findAll());
     }
-
-//    @Override
-//    public void run(String... args) throws Exception {
-//
-////        repository.save(new User("id123","token123","secret123"));
-//
-////        log.info("All users  -> {}", repository.findAll());
-//
-//    }
-
-
-
-
 }
 
 

@@ -17,9 +17,7 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Log4j2
 @Service
@@ -86,7 +84,7 @@ public class FacebookService {
         pageOps.post(ppd);
     }
 
-    public List<String> getPageIds(String oAuthToken) {
+    public Map<String,String> getPageIds(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String accountData = facebook.fetchObject("me", String.class, "accounts");
 
@@ -95,18 +93,14 @@ public class FacebookService {
 
         JSONArray jsonArray = jsonAcountData.getJSONArray("data");
 
-        List<String> pageIds = new ArrayList<>();
-        List<String> names = new ArrayList<>();
+        SortedMap<String, String> pages = new TreeMap<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
-            pageIds.add(obj.get("id").toString());
-            names.add(obj.get("name").toString());
-
+            String id = obj.get("id").toString();
+            String name = obj.get("name").toString();
+            pages.put(id,name);
         }
-        log.info(pageIds.toString());
-        log.info(names.toString());
 
-
-        return Collections.singletonList("123");
+        return pages;
     }
 }

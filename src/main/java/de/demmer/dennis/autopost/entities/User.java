@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 
 @ToString
@@ -31,24 +32,21 @@ public class User {
     private String email;
 
     @ElementCollection
-    private List<String> pageIds;
+    private Map<String,String> pages;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @ElementCollection
     private List<PostGroup> groups;
 
-    //TODO delete
-    public User(String fbId, String token) {
-        this.fbId = fbId;
-        this.oauthToken = token;
-    }
 
-
-    protected User(String fbId, String oauthToken, String name, String email, List<String> pageIds) {
+    public User(String fbId, String oauthToken, String name, String email, Map<String,String> pages) {
         this.fbId = fbId;
         this.oauthToken = oauthToken;
         this.name = name;
         this.email = email;
-        this.pageIds = pageIds;
+        this.pages = pages;
     }
+
+
 }
 
