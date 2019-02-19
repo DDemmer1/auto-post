@@ -1,6 +1,6 @@
 package de.demmer.dennis.autopost.repositories;
 
-import de.demmer.dennis.autopost.entities.User;
+import de.demmer.dennis.autopost.entities.user.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Integer> {

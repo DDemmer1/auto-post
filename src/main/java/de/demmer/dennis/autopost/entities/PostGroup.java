@@ -1,5 +1,6 @@
 package de.demmer.dennis.autopost.entities;
 
+import de.demmer.dennis.autopost.entities.user.User;
 import lombok.ToString;
 
 import javax.persistence.*;

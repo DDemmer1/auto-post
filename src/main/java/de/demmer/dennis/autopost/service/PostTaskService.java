@@ -2,7 +2,7 @@ package de.demmer.dennis.autopost.service;
 
 
 import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.User;
+import de.demmer.dennis.autopost.entities.user.User;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

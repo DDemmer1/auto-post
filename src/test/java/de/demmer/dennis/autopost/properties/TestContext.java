@@ -2,8 +2,8 @@ package de.demmer.dennis.autopost.properties;
 
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.PostGroup;
-import de.demmer.dennis.autopost.entities.User;
-import de.demmer.dennis.autopost.entities.UserFactory;
+import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

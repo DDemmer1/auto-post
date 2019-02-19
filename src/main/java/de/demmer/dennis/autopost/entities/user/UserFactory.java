@@ -1,4 +1,4 @@
-package de.demmer.dennis.autopost.entities;
+package de.demmer.dennis.autopost.entities.user;
 
 
 import de.demmer.dennis.autopost.service.FacebookService;
@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
 @Log4j2

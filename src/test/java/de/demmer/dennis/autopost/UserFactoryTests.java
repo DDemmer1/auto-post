@@ -1,10 +1,8 @@
 package de.demmer.dennis.autopost;
 
 
-import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.PostGroup;
-import de.demmer.dennis.autopost.entities.User;
-import de.demmer.dennis.autopost.entities.UserFactory;
+import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.properties.TestProperties;
 import de.demmer.dennis.autopost.service.FacebookService;
 import lombok.extern.log4j.Log4j2;
