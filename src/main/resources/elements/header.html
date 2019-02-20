@@ -1,0 +1,18 @@
+<head th:fragment="head (title)">
+    <meta charset="UTF-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+    <meta name="author" content="Alena Geduldig [geduldia@smail.uni-koeln.de], Philip Schildkamp [philip.schildkamp@smail.uni-koeln.de]"></meta>
+    <meta name="description" content="autoChirp: Automate Your Twitter experiance!"></meta>
+    <meta name="keywords" content="autoChirp, auto, automate, twitter, publish, tweet, social"></meta>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png"></link>
+    <meta name="application-name" content="autoChirp"></meta>
+    <meta name="theme-color" content="#ffffff"></meta>
+
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet"></link>
+
+    <title th:text="${title} + ' &mdash; autoPost'"></title>
+
+</head>

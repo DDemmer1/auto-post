@@ -43,6 +43,16 @@ public class FacebookServiceTest extends TestContext {
 
 
 
+    @Test
+    public void getUserPictureTest(){
+
+        facebookService.getProfilePicture(testProperties.getAccessToken());
+
+
+    }
+
+
+
 
 
 

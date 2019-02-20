@@ -1,19 +1,73 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 
-<head></head>
+<head th:replace="../elements/header (title='Home')"></head>
 
 <body>
 
-<div>
-    <div>
-        <div>
+<nav th:replace="../elements/navbar"></nav>
+
+
+
+<div class="wrapper">
+    <div class="jumbotron">
+        <div class="container">
             <h1><strong>autoPost</strong> welcomes You</h1>
             <p>Hi there, I'm autoPost and I'll assist You scheduling the spread of Your words!</p>
-            <p>Logged in as:</p>
-            <p th:text="${code}"></p>
-
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Scheduling, Imports and much more</h3>
+                <p class="text-justify">
+                    autoPost is a small and easy-to-use webapplication to ease the scheduled publication of Your Posts on a Facebook page.
+                </p>
+                <p class="text-justify">
+                    If You&apos;re a power-user, upload a bunch of posts from Your desktop or GoogleDrive:
+                    Just follow the markup-guidlines describing the creation of a Post-table or clone the
+                    predefined GoogleDrive Spreadsheet, input Your data and import the file - et voil&agrave;!
+                </p>
+                <p class="text-justify">
+                    And of course: Much more!
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Recent Posts by autoPost</h3>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<!--<div>-->
+    <!--<div>-->
+        <!--<div class="container">-->
+            <!--<h1><strong>autoPost</strong> welcomes You</h1>-->
+            <!--<p>Hi there, I'm autoPost and I'll assist You scheduling the spread of Your words!</p>-->
+
+            <!--<div th:unless="${session.activeuser != null}">-->
+                <!--<a class="btn btn-primary" type="submit" th:href="${loginlink}">Login with Facebook</a>-->
+            <!--</div>-->
+
+            <!--<div th:if="${session.activeuser != null}">-->
+
+                <!--<p>Logged in as:</p>-->
+                <!--<p th:text="|Welcome to autoPost, ${session.activeuser.get('name')}|"></p>-->
+                <!--<img th:src="${session.activeuser.profilePic}" />-->
+                <!--<hr>-->
+
+                <!--<p>Facebook Pages</p>-->
+                <!--<ul th:each="page : ${session.userPages.keySet()}" >-->
+                    <!--<li th:text = "${session.userPages.get(page)}"></li>-->
+                <!--</ul>-->
+
+                <!--<a class="btn btn-danger" type="submit" href="/logout" >Logout</a>-->
+
+            <!--</div>-->
+
+
+<!--</div>-->
 
 </body>
 

@@ -37,6 +37,7 @@ public class FacebookService {
         params.setRedirectUri("http://localhost:8080/facebook");
         params.setScope("email," +
                 "manage_pages," +
+                "user_photos," +
                 "publish_pages,");
 
         return oauthOperations.buildAuthorizeUrl(params);
@@ -102,5 +103,21 @@ public class FacebookService {
         }
 
         return pages;
+    }
+
+
+
+
+    public String getProfilePicture(String oAuthToken) {
+        Facebook facebook = new FacebookTemplate(oAuthToken);
+
+        String accountData = facebook.fetchObject("me", String.class, "picture");
+
+        JSONObject jsonAcountData = new JSONObject(accountData).getJSONObject("picture").getJSONObject("data");
+
+        String url = jsonAcountData.get("url").toString();
+
+        return url;
+
     }
 }

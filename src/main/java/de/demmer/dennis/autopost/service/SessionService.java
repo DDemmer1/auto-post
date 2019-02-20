@@ -1,55 +1,46 @@
 package de.demmer.dennis.autopost.service;
 
+import de.demmer.dennis.autopost.entities.user.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionFactory;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.web.ConnectInterceptor;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.User;
-import org.springframework.social.facebook.api.UserOperations;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.request.WebRequest;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Log4j2
-//@Component
-public class SessionService implements ConnectInterceptor<Facebook> {
+@Service
+public class SessionService{
 
-    private ConnectionRepository connectionRepository;
-    private HttpSession session;
+    @Autowired
+    HttpSession session;
 
     @Autowired
     FacebookService facebookService;
 
-    @Inject
-    public SessionService(ConnectionRepository connectionRepository, HttpSession session) {
-        this.connectionRepository = connectionRepository;
-        this.session = session;
+    public void addActiveUser(User user){
+
+        Map<String ,String> activeuser = new HashMap<>();
+
+
+        activeuser.put("name",user.getName());
+        activeuser.put("email",user.getEmail());
+        activeuser.put("fbid",user.getFbId());
+        activeuser.put("oAuthToken",user.getOauthToken());
+        activeuser.put("profilePic",facebookService.getProfilePicture(user.getOauthToken()));
+
+
+        session.setAttribute("activeuser",activeuser);
+        session.setAttribute("userPages",user.getPages());
     }
 
-    @Override
-    public void preConnect(ConnectionFactory<Facebook> connectionFactory, MultiValueMap<String, String> multiValueMap, WebRequest webRequest) {
 
+    public void removeActiveUser(){
+        session.removeAttribute("activeuser");
+        session.removeAttribute("userPages");
     }
 
-    @Override
-    public void postConnect(Connection<Facebook> connection, WebRequest webRequest) {
 
-        Facebook facebook = connection.getApi();
-
-        UserOperations userOperations = facebook.userOperations();
-
-        User user = userOperations.getUserProfile();
-
-        log.info(user.getEmail());
-
-
-
-    }
 }
