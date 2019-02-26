@@ -5,66 +5,81 @@
 
 <body>
 
+
+
+<body id="page-top">
+
+<!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
 
-
-
-<div class="wrapper">
-    <div class="jumbotron">
-        <div class="container">
-            <h1><strong>autoPost</strong> welcomes You</h1>
-            <p>Hi there, I'm autoPost and I'll assist You scheduling the spread of Your words!</p>
-        </div>
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        <h1>Welcome to <strong>autoPost</strong> <i class="fa fa-facebook-square"></i></h1>
+        <p class="lead">Your Facebook scheduling Service</p>
     </div>
+</header>
+
+<section id="about">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h3>Scheduling, Imports and much more</h3>
-                <p class="text-justify">
-                    autoPost is a small and easy-to-use webapplication to ease the scheduled publication of Your Posts on a Facebook page.
-                </p>
-                <p class="text-justify">
-                    If You&apos;re a power-user, upload a bunch of posts from Your desktop or GoogleDrive:
-                    Just follow the markup-guidlines describing the creation of a Post-table or clone the
-                    predefined GoogleDrive Spreadsheet, input Your data and import the file - et voil&agrave;!
-                </p>
-                <p class="text-justify">
-                    And of course: Much more!
-                </p>
-            </div>
-            <div class="col-md-6">
-                <h3>Recent Posts by autoPost</h3>
+            <div class="col-lg-8 mx-auto">
+                <h2>About this page</h2>
+                <p class="lead">This is a great place to talk about your webpage. This template is purposefully unstyled so you can use it as a boilerplate or starting point for you own landing page designs! This template features:</p>
+                <ul>
+                    <li>Clickable nav links that smooth scroll to page sections</li>
+                    <li>Responsive behavior when clicking nav links perfect for a one page website</li>
+                    <li>Bootstrap's scrollspy feature which highlights which section of the page you're on in the navbar</li>
+                    <li>Minimal custom CSS so you are free to explore your own unique design options</li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
+</section>
 
+
+
+<!-- Footer -->
+<footer th:replace="../elements/footer" ></footer>
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<script src="js/scrolling-nav.js"></script>
+
+
+<!--<div th:unless="${session.activeuser != null}" class="container text-center login">-->
+    <!--<div class="col">-->
+        <!--<h1>autoPost</h1>-->
+        <!--<a class="btn btn-lg btn-primary " th:href="${loginlink}"><i class="fa fa-facebook-square"></i> Login with facebook</a>-->
+    <!--</div>-->
+<!--</div>-->
 
 <!--<div>-->
-    <!--<div>-->
-        <!--<div class="container">-->
-            <!--<h1><strong>autoPost</strong> welcomes You</h1>-->
-            <!--<p>Hi there, I'm autoPost and I'll assist You scheduling the spread of Your words!</p>-->
+<!--<div>-->
+<!--<div class="container">-->
+<!--<h1><strong>autoPost</strong> welcomes You</h1>-->
+<!--<p>Hi there, I'm autoPost and I'll assist You scheduling the spread of Your words!</p>-->
 
-            <!--<div th:unless="${session.activeuser != null}">-->
-                <!--<a class="btn btn-primary" type="submit" th:href="${loginlink}">Login with Facebook</a>-->
-            <!--</div>-->
+<!--<div th:unless="${session.activeuser != null}">-->
+<!--<a class="btn btn-primary" type="submit" th:href="${loginlink}">Login with Facebook</a>-->
+<!--</div>-->
 
-            <!--<div th:if="${session.activeuser != null}">-->
+<!--<div th:if="${session.activeuser != null}">-->
 
-                <!--<p>Logged in as:</p>-->
-                <!--<p th:text="|Welcome to autoPost, ${session.activeuser.get('name')}|"></p>-->
-                <!--<img th:src="${session.activeuser.profilePic}" />-->
-                <!--<hr>-->
+<!--<p>Logged in as:</p>-->
+<!--<p th:text="|Welcome to autoPost, ${session.activeuser.get('name')}|"></p>-->
+<!--<img th:src="${session.activeuser.profilePic}" />-->
+<!--<hr>-->
 
-                <!--<p>Facebook Pages</p>-->
-                <!--<ul th:each="page : ${session.userPages.keySet()}" >-->
-                    <!--<li th:text = "${session.userPages.get(page)}"></li>-->
-                <!--</ul>-->
+<!--<p>Facebook Pages</p>-->
+<!--<ul th:each="page : ${session.userPages.keySet()}" >-->
+<!--<li th:text = "${session.userPages.get(page)}"></li>-->
+<!--</ul>-->
 
-                <!--<a class="btn btn-danger" type="submit" href="/logout" >Logout</a>-->
+<!--<a class="btn btn-danger" type="submit" href="/logout" >Logout</a>-->
 
-            <!--</div>-->
+<!--</div>-->
 
 
 <!--</div>-->
