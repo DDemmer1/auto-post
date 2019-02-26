@@ -16,7 +16,7 @@
                         <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                     </li>
                     <li th:unless="${session.activeuser != null}" class="  nav-item">
-                        <a class="btn btn-login btn-primary" th:href="${loginlink}"><i class="fa fa-facebook-square"></i> Login with Facebook</a>
+                        <a class="btn btn-login btn-facebook" th:href="${loginlink}"><i class="fa fa-facebook-square"></i> Login with Facebook</a>
                     </li>
 
                     <li th:if="${session.activeuser != null}" class=" btn-login nav-item">

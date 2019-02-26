@@ -1,0 +1,29 @@
+header {
+    padding: 156px 0 100px;
+}
+
+section {
+    padding: 150px 0;
+}
+
+.btn-login{
+    color: white;
+}
+
+
+li{
+    list-style-type: none;
+}
+
+
+.bg-facebook{
+    background-color: #3b5998;
+}
+
+.btn-facebook{
+    background-color: #3b5998;
+}
+
+
+
+/*das ist ein test*/
