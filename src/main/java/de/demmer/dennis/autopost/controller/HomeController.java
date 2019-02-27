@@ -29,7 +29,7 @@ public class HomeController {
 
     @GetMapping(value="/")
     public String home(){
-        sessionService.addActiveUser(userFactory.getUser("EAAeJZARgEZAQMBAAxA8vo9BAji74kRB6cUXxnpffFmpN6ZCKvuthon4zjZBiKVBhBIeQGpZB0L3mx9DT9hdxZAe9gph2XQXxSCQ2wZBAXZCPONTcyrEeGGAAAZCzQESvJNDuZCl7uF9kAy0YoVYAo7YbCHLZCLnPX8AD23QVKzZBjQg6DwZDZD"));
+        sessionService.addActiveUser(userFactory.getUser(""));
 
 
         return "redirect:/home";
