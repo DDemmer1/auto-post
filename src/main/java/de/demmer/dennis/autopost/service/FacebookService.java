@@ -1,6 +1,7 @@
 package de.demmer.dennis.autopost.service;
 
 
+import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.user.User;
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +39,7 @@ public class FacebookService {
         params.setScope("email," +
                 "manage_pages," +
                 "user_photos," +
-                "publish_pages,");
+                "publish_pages");
 
         return oauthOperations.buildAuthorizeUrl(params);
     }
@@ -103,6 +104,32 @@ public class FacebookService {
         }
 
         return pages;
+    }
+
+
+
+    public List<Page> getPages(String oAuthToken){
+
+        List<Page> pageList = new ArrayList<>();
+        Facebook facebook = new FacebookTemplate(oAuthToken);
+        String accountData = facebook.fetchObject("me", String.class, "accounts");
+
+        JSONObject jsonAcountData = new JSONObject(accountData).getJSONObject("accounts");
+
+        JSONArray jsonArray = jsonAcountData.getJSONArray("data");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            String id = obj.get("id").toString();
+            String name = obj.get("name").toString();
+            Page page = new Page();
+            page.setFbId(id);
+            page.setName(name);
+            pageList.add(page);
+        }
+
+        return pageList;
+
     }
 
 

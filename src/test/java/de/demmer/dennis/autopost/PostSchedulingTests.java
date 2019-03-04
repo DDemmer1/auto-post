@@ -1,7 +1,5 @@
 package de.demmer.dennis.autopost;
 
-import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.PostGroup;
 import de.demmer.dennis.autopost.properties.TestContext;
 import de.demmer.dennis.autopost.properties.TestProperties;
 import de.demmer.dennis.autopost.service.FacebookService;
@@ -13,9 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Log4j2
 @RunWith(SpringRunner.class)
@@ -37,9 +32,9 @@ public class PostSchedulingTests extends TestContext{
     @Test
     public void shouldPostIn10sec(){
 
-        testGroup.addPost(testPost);
-        testGroup.setEnabled(true);
-        scheduleService.scheduleGroup(testGroup);
+        testPage.getPosts().add(testPost);
+        testPage.setEnabled(true);
+        scheduleService.scheduleGroup(testPage);
 
         Thread.sleep(15000);
 

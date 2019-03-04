@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost.properties;
 
 import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.PostGroup;
+import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.UserRepository;
@@ -29,18 +29,20 @@ public abstract class TestContext {
     TestProperties testProperties;
 
     public User testUser;
-    public PostGroup testGroup;
+    public Page testPage;
     public Post testPost;
 
     @PostConstruct
     public void init(){
         testUser = userFactory.getUser(testProperties.getAccessToken());
-        testGroup = new PostGroup("TestGroup","Group for JUnit tests", testUser);
+//        testPage = new Page("TestPage","Page for JUnit tests", testUser);
+        testPage = new Page();
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         LocalDateTime plus5 = LocalDateTime.now().plusSeconds(10);
-        testPost = new Post("autoPost Unit Test vom " + dtf.format(now), DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(plus5),testGroup, testProperties.getPageID());
+
+        testPost = new Post("autoPost Unit Test vom " + dtf.format(now), DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(plus5), testPage, testProperties.getPageID());
         userRepository.save(testUser);
     }
 

@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface PostRepository extends CrudRepository<Post, Integer> {
 
-    List<Post> findByGroupIdAndUserId(int groupID, int userId);
+    List<Post> findByPageIdAndUserId(int pageID, int userId);
 
-    List<Post> deleteByGroupIdAndUserId(int groupID, int userId);
+    List<Post> deleteByPageIdAndUserId(int pageID, int userId);
 
-    void deleteAllByUserIdAndGroupId(int userId, int groupId);
+    void deleteAllByUserIdAndPageId(int userId, int pageId);
 
     Post findByIdAndUserId(int postId, int userId);
 

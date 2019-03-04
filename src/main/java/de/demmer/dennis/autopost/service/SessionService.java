@@ -24,16 +24,15 @@ public class SessionService{
 
         Map<String ,String> activeuser = new HashMap<>();
 
-
         activeuser.put("name",user.getName());
         activeuser.put("email",user.getEmail());
         activeuser.put("fbid",user.getFbId());
         activeuser.put("oAuthToken",user.getOauthToken());
         activeuser.put("profilePic",facebookService.getProfilePicture(user.getOauthToken()));
 
-
         session.setAttribute("activeuser",activeuser);
         session.setAttribute("userPages",user.getPages());
+
     }
 
 

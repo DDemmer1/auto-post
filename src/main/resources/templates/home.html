@@ -3,9 +3,6 @@
 
 <head th:replace="../elements/header (title='Home')"></head>
 
-<body>
-
-
 
 <body id="page-top">
 
@@ -39,49 +36,6 @@
 
 <!-- Footer -->
 <footer th:replace="../elements/footer" ></footer>
-
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-<script src="js/scrolling-nav.js"></script>
-
-
-<!--<div th:unless="${session.activeuser != null}" class="container text-center login">-->
-    <!--<div class="col">-->
-        <!--<h1>autoPost</h1>-->
-        <!--<a class="btn btn-lg btn-primary " th:href="${loginlink}"><i class="fa fa-facebook-square"></i> Login with facebook</a>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div>-->
-<!--<div>-->
-<!--<div class="container">-->
-<!--<h1><strong>autoPost</strong> welcomes You</h1>-->
-<!--<p>Hi there, I'm autoPost and I'll assist You scheduling the spread of Your words!</p>-->
-
-<!--<div th:unless="${session.activeuser != null}">-->
-<!--<a class="btn btn-primary" type="submit" th:href="${loginlink}">Login with Facebook</a>-->
-<!--</div>-->
-
-<!--<div th:if="${session.activeuser != null}">-->
-
-<!--<p>Logged in as:</p>-->
-<!--<p th:text="|Welcome to autoPost, ${session.activeuser.get('name')}|"></p>-->
-<!--<img th:src="${session.activeuser.profilePic}" />-->
-<!--<hr>-->
-
-<!--<p>Facebook Pages</p>-->
-<!--<ul th:each="page : ${session.userPages.keySet()}" >-->
-<!--<li th:text = "${session.userPages.get(page)}"></li>-->
-<!--</ul>-->
-
-<!--<a class="btn btn-danger" type="submit" href="/logout" >Logout</a>-->
-
-<!--</div>-->
-
-
-<!--</div>-->
 
 </body>
 

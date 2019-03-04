@@ -2,6 +2,7 @@ header {
     padding: 156px 0 100px;
 }
 
+
 section {
     padding: 150px 0;
 }
@@ -10,6 +11,15 @@ section {
     color: white;
 }
 
+.btn-login:hover{
+    color: white;
+    background-color:#374681;
+}
+
+.btn-logout{
+    color: white;
+    margin-left: 11%
+}
 
 li{
     list-style-type: none;
@@ -24,6 +34,38 @@ li{
     background-color: #3b5998;
 }
 
+img.profile-pic{
+    border-radius: 30%;
+    height: 10%;
+    width: 10%;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
 
 
-/*das ist ein test*/
+.btn-schedule{
+    color:white;
+    border-color: #3b6baa;
+    background-color: #3b5998;
+    margin-right: 0.5rem;
+}
+
+
+.btn-schedule:hover{
+    background-color: #374681;
+}

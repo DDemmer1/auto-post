@@ -4,6 +4,7 @@ package de.demmer.dennis.autopost.controller;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.service.FacebookService;
+import de.demmer.dennis.autopost.service.LoginService;
 import de.demmer.dennis.autopost.service.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +24,18 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-
-    @Autowired
-    UserFactory userFactory;
-
     @Autowired
     SessionService sessionService;
 
     @Autowired
-    FacebookService facebookService;
+    LoginService loginService;
 
 
     @GetMapping(value = "/facebook")
-    public String login(Model model, @RequestParam(value = "code") String code) {
-
-        User user;
+    public String login(@RequestParam(value = "code") String code) {
         if (!code.isEmpty()) {
-            String accessToken = facebookService.createFacebookAccessToken(code);
-            user = userFactory.getUser(accessToken);
-            sessionService.addActiveUser(user);
-            log.info("Access Token: " + accessToken);
+            loginService.login(code);
         }
-
-
         return "redirect:/home";
     }
 

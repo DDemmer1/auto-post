@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="../elements/header (title='Schedule')"></head>
+
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav th:replace="../elements/navbar"></nav>
+
+<header class="bg-facebook text-white">
+    <div class="container">
+        <h2>Schedule posts for <strong>[[${page}]]</strong></h2>
+        <hr/>
+    </div>
+</header>
+
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div th:each="page : ${pageList}">
+                    <a th:text="${page.getName()}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer th:replace="../elements/footer" ></footer>
+
+</body>
+
+</html>

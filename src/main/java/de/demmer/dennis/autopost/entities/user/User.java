@@ -1,6 +1,6 @@
 package de.demmer.dennis.autopost.entities.user;
 
-import de.demmer.dennis.autopost.entities.PostGroup;
+import de.demmer.dennis.autopost.entities.Page;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +14,6 @@ import java.util.Map;
 @Setter
 @Entity(name = "users")
 public class User {
-
 
     @Id
     @GeneratedValue
@@ -37,7 +36,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @ElementCollection
-    private List<PostGroup> groups;
+    private List<Page> pageList;
 
 
     public User(String fbId, String oauthToken, String name, String email, Map<String,String> pages) {
