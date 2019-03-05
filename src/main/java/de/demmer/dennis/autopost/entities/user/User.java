@@ -31,22 +31,17 @@ public class User {
     @Column
     private String email;
 
-    @ElementCollection
-    private Map<String,String> pages;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @ElementCollection
     private List<Page> pageList;
 
 
-    public User(String fbId, String oauthToken, String name, String email, Map<String,String> pages) {
+    public User(String fbId, String oauthToken, String name, String email, List<Page> pageList) {
         this.fbId = fbId;
         this.oauthToken = oauthToken;
         this.name = name;
         this.email = email;
-        this.pages = pages;
+        this.pageList = pageList;
     }
-
-
 }
 

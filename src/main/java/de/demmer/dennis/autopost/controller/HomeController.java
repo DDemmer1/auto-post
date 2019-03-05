@@ -1,7 +1,6 @@
 package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.user.User;
-import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.service.FacebookService;
 import de.demmer.dennis.autopost.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +15,25 @@ public class HomeController {
     FacebookService facebookService;
 
     @Autowired
-    UserFactory userFactory;
-
-    @Autowired
     SessionService sessionService;
 
 
-    @GetMapping(value="/")
-    public String home(){
+    @GetMapping(value = "/")
+    public String home() {
         return "redirect:/home";
     }
 
-    @GetMapping(value="/home")
-    public String home(Model model){
-        model.addAttribute("loginlink",facebookService.createFacebookAuthorizationURL());
+
+    @GetMapping(value = "/home")
+    public String home(Model model) {
+
+        User activeUser = sessionService.getActiveUser();
+
+        if (activeUser!=null) model.addAttribute("pageList", activeUser.getPageList());
+        model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
         return "home";
     }
-
-
-    @GetMapping(value="/test")
-    public String test(){
-        return "index";
-    }
-
-
 
 
 }

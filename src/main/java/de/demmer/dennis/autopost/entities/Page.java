@@ -7,8 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -38,5 +36,15 @@ public class Page {
     @Column(columnDefinition="boolean default 1")
     private boolean enabled;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Page page = (Page) o;
+
+        return fbId.equals(page.fbId);
+    }
 
 }

@@ -1,5 +1,6 @@
 package de.demmer.dennis.autopost.entities.user;
 
+import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.service.FacebookService;
 import lombok.extern.log4j.Log4j2;
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
+import java.util.List;
 
 @Transactional
 @Log4j2
@@ -24,10 +25,9 @@ public class UserFactory {
         String id = facebookService.getID(oAuthToken);
         String name = facebookService.getName(oAuthToken);
         String email = facebookService.getEmail(oAuthToken);
-        Map<String,String> pageIds = facebookService.getPageIds(oAuthToken);
-        User user = new User(id,oAuthToken,name,email,pageIds);
+        List<Page> pageList = facebookService.getPages(oAuthToken);
 
-        user.setPageList(facebookService.getPages(oAuthToken));
+        User user = new User(id,oAuthToken,name,email,pageList);
         user.getPageList().forEach(page -> page.setUser(user));
 
         return user;

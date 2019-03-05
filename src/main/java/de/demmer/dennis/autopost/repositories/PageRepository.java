@@ -13,7 +13,11 @@ public interface PageRepository extends CrudRepository<Page, Integer> {
 
     Page findByIdAndUserId(int pageId, int userId);
 
+    Page findByFbId(String fbId);
+
     void deleteByUserId(int userId);
+
+    void deleteByFbId(String fbId);
 
 
 }

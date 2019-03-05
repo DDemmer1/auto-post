@@ -31,12 +31,14 @@
                         Schedule
                     </button>
                     <div  class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <a th:each="page : ${session.userPages.keySet()}" th:href="'/schedule/' + ${page}" th:classappend="dropdown-item"><i class="fa fa-facebook-square"></i> [[${session.userPages.get(page)}]]</a>
+                        <!--/*<a th:each="page : ${session.userPages.keySet()}" th:href="'/schedule/' + ${page}" th:classappend="dropdown-item"><i class="fa fa-facebook-square"></i> [[${session.userPages.get(page)}]]</a>*/-->
+                        <a th:each="page : ${pageList}" th:href="'/schedule/' + ${page.getFbId()}" th:classappend="dropdown-item"><i class="fa fa-facebook-square"></i> [[${page.getName()}]]</a>
                     </div>
                 </li>
                 <li th:if="${session.activeuser != null}" class="nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!--/*<i class="fa fa-facebook-square"></i> [[${session.activeuser.name}]] <img class="profile-pic" th:src="${session.activeuser.profilePic}"/>*/-->
                         <i class="fa fa-facebook-square"></i> [[${session.activeuser.name}]] <img class="profile-pic" th:src="${session.activeuser.profilePic}"/>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

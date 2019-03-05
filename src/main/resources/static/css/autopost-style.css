@@ -69,3 +69,7 @@ body {
 .btn-schedule:hover{
     background-color: #374681;
 }
+
+.schedule-banner{
+    padding: 100px 0 0;
+}

@@ -1,9 +1,12 @@
 package de.demmer.dennis.autopost.controller;
 
+import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.service.BugReportService;
+import de.demmer.dennis.autopost.service.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +21,15 @@ public class ErrorController {
     @Autowired
     BugReportService bugReportService;
 
+    @Autowired
+    SessionService sessionService;
+
     @GetMapping(value = "/error")
-    public String error(){
+    public String error(Model model){
+
+        User activeUser = sessionService.getActiveUser();
+        if (activeUser!=null) model.addAttribute("pageList", activeUser.getPageList());
+
         return "error";
     }
 
