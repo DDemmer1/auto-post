@@ -18,12 +18,47 @@
     </div>
 </div>
 
+<!--/*<div class="container jumbotron" th:if="${postList == null}">
+
+    <h1 class="no-post-scheduled">No posts scheduled</h1>
+    <a class="btn text-white btn-facebook" href="/add"><i class="fa fa-plus"></i> Add new Post</a>
+
+</div>
 
 
+
+<div th:if="${postList != null}" class="container schedule-table">*/-->
+<div class="container schedule-table">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Content</th>
+            <th scope="col">Image</th>
+            <th scope="col">Enabled</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="clickable-row" th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}" th:each="post : ${postList}">
+        <!--/*<tr th:each="post : ${postList}">*/-->
+            <td th:text="${post.getDate()}"></td>
+            <td th:text="${post.getContent()}">This is a test post</td>
+            <td><img th:src="${post.getImg()}" class="post-picture"
+                     src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
+            <td th:if="${post.isEnabled()}"><i class="check-enabled fa fa-check-circle"></i></td>
+            <td th:if="${!post.isEnabled()}"><i class="not-enabled fa fa-times"></i></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn text-white btn-facebook" href="/add"><i class="fa fa-plus"></i> Add new Post</a>
+
+</div>
 
 
 <!-- Footer -->
-<footer th:replace="../elements/footer" ></footer>
+<footer th:replace="../elements/footer"></footer>
 
 </body>
 

@@ -73,3 +73,31 @@ body {
 .schedule-banner{
     padding: 100px 0 0;
 }
+
+img.post-picture{
+    height: 5rem;
+}
+
+i.check-enabled{
+    color: green;
+    font-size: 1.5rem;
+}
+
+i.not-enabled{
+    color: red;
+    font-size: 1.5rem;
+}
+
+div.no-post-list{
+    background-color: #3b5998;
+    border-radius: 1%;
+    opacity: 0.8;
+}
+
+h1.no-post-scheduled{
+    padding-bottom: 2%
+}
+
+tr{
+    cursor: pointer;
+}

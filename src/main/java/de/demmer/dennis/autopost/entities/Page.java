@@ -34,7 +34,7 @@ public class Page {
     private List<Post> posts;
 
     @Column(columnDefinition="boolean default 1")
-    private boolean enabled;
+    private boolean enabled = true;
 
 
     @Override

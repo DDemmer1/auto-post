@@ -37,11 +37,17 @@ public class Post implements Comparable<Post> {
     @Column(columnDefinition = "boolean default 0")
     private boolean posted;
 
+    @Column
     private String img;
 
+    @Column
     private float longitude;
 
+    @Column
     private float latitude;
+
+    @Column(columnDefinition="boolean default true")
+    private boolean enabled;
 
     public Post(String content, String date, Page page, String pageID) {
         this.content = content;

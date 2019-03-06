@@ -22,7 +22,6 @@ import java.util.Map;
 public class ScheduleController {
 
 
-
     @Autowired
     SessionService sessionService;
 
@@ -31,13 +30,16 @@ public class ScheduleController {
 
 
     @GetMapping(value = "/schedule/{id}")
-    public String schedule(@PathVariable(value = "id") String id, Model model){
+    public String schedule(@PathVariable(value = "id") String id, Model model) {
 
         User user = sessionService.getActiveUser();
 
-        model.addAttribute("page",pageRepository.findByFbId(id).getName());
+        model.addAttribute("page", pageRepository.findByFbId(id).getName());
 
-        if(user!=null) model.addAttribute("pageList",user.getPageList());
+        if (user != null) {
+            model.addAttribute("pageList", user.getPageList());
+            model.addAttribute("postList", pageRepository.findByFbId(id).getPosts());
+        }
 
         return "schedule";
     }
