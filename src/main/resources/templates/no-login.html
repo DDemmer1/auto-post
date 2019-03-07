@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="../elements/header (title='Not logged in')"></head>
+
+<body>
+
+
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav th:replace="../elements/navbar"></nav>
+
+<header class="bg-facebook text-white">
+    <div class="container text-center">
+        <h1>You are not logged in!</h1>
+        <p class="lead">Please login with your Facebook account</p>
+    </div>
+</header>
+
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Want to report a bug? </h2>
+
+                <form id="contact-form" method="post" action="/bugreport" role="form">
+
+                    <div class="messages"></div>
+
+                    <div class="controls">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstName">Firstname</label>
+                                    <input id="firstName" type="text" name="firstName" class="form-control" placeholder="Please enter your firstname" data-error="Firstname is required.">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">Lastname</label>
+                                    <input id="lastName" type="text" name="lastName" class="form-control" placeholder="Please enter your lastname" data-error="Lastname is required.">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="replyAdress">Email *</label>
+                                    <input id="replyAdress" type="email" name="replyAdress" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+                                    <div class="help-block with-errors"></div>
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bugType">Please specify the bug *</label>
+                                    <select id="bugType" name="bugType" class="form-control" required="required" data-error="Please specify your need.">
+                                        <option value=""></option>
+                                        <option value="login error">Login error</option>
+                                        <option value="page not found">Page not found</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="form_message">Message *</label>
+                                    <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please, leave us a message."></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="submit" class="btn btn-success btn-send" value="Send message">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-muted">
+                                    <strong>*</strong> These fields are required.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer th:replace="../elements/footer" ></footer>
+
+</body>
+
+</html>
