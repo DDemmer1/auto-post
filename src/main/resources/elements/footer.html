@@ -1,5 +1,6 @@
 <footer th:fragment="footer" xmlns:th="http://www.thymeleaf.org" class="py-5 footer bg-dark">
     <div class="container">
+        <a href="http://dh.uni-koeln.de/"><img class="idh-logo rounded mx-auto d-block" th:src="@{/img/IDH_Logo.png}" /></a>
         <p class="m-0 text-center text-white">Copyright &copy; Dennis Demmer 2019</p>
     </div>
 
@@ -9,7 +10,13 @@
 
     <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
     <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/emoji-picker/js/config.js}"></script>
+    <script th:src="@{/emoji-picker/js/util.js}"></script>
+    <script th:src="@{/emoji-picker/js/jquery.emojiarea.js}"></script>
+    <script th:src="@{/emoji-picker/js/emoji-picker.js}"></script>
     <script th:src="@{/js/scrolling-nav.js}"></script>
     <script th:src="@{/js/location-picker.js}"></script>
+    <script th:src="@{/js/image-preview.js}"></script>
+    <script th:src="@{/js/lightbox.js}"></script>
 
 </footer>

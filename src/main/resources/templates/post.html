@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="../elements/header (title='Home')"></head>
+<head th:replace="../elements/header (title='Post')"></head>
 
 
 <body id="page-top">
@@ -12,73 +12,48 @@
 <div class="bg-facebook text-white schedule-banner">
     <div>
         <div class="container">
-            <h2>Schedule post on "<strong>[[${page.getName()}]]</strong>"</h2>
+            <h2><i class="fa fa-file-o" aria-hidden="true"></i> [[${page.getName()}]]</h2>
             <hr/>
         </div>
     </div>
 </div>
 
 
-
 <div class="container">
     <div class="row">
         <div class="col-lg-8 mx-auto">
-            <h2>Edit post:</h2>
-            <form id="post-form" method="post" action="/bugreport" role="form">
+            <h2><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit post:</h2>
+            <form id="post-form" method="post" action="/post" role="form">
 
                 <div class="messages"></div>
-
                 <div class="controls">
-
+                   <div class="jumbotron" >
+                    <!--Content-->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="content">Content</label>
-                                <textarea rows="4" id="content" type="text" name="content" class="form-control" placeholder="Please enter your Content"></textarea>
-                                <div class="help-block with-errors"></div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="image">Image URL</label>
-                                <input rows="4" id="image" type="text" name="image" class="form-control" placeholder="https://upload.wikimedia.org/wikipedia/commons/1/1b/Universitaet_zu_Koeln-Siegel.jpg"/>
-                                <div class="help-block with-errors"></div>
-                            </div>
-                        </div>
-                        <div  class="col-md-4">
-                            <img  class="img-thumbnail img-fluid rounded" src="https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg">
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="latInput">Latitude</label>
-                                <input id="latInput" type="text" name="latInput" class="form-control" placeholder="50.941357">
-                                <div class="help-block with-errors"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="lngInput">Longitude</label>
-                                <input id="lngInput" type="text" name="lngInput" class="form-control" placeholder="6.958307">
+                                <label for="content"><i class="fa fa-pencil" aria-hidden="true"></i> Content</label>
+                                <p class="lead emoji-picker-container">
+                                <textarea data-emoji-input="unicode" data-emojiable="true" rows="4" id="content" type="text" name="content" class="form-control"
+                                          placeholder="Please enter your Content"></textarea>
+                                </p>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
                     </div>
+                   </div>
+                    <div th:replace="../elements/scheduling"></div>
+
+                    <div th:replace="../elements/image-picker"></div>
+
+                    <div th:replace="../elements/location-picker"></div>
 
 
 
-                    <div id="map" style="height : 200px"></div>
 
+                    <button class="btn btn-facebook text-white submit-post" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 
                 </div>
-
             </form>
 
         </div>
@@ -86,10 +61,8 @@
 </div>
 
 
-
-
 <!-- Footer -->
-<footer th:replace="../elements/footer" ></footer>
+<footer th:replace="../elements/footer"></footer>
 
 </body>
 

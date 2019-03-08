@@ -24,36 +24,31 @@ public class FacebookServiceTest extends TestContext {
     private TestProperties testProperties;
 
 
-
-
-
     @Before
-    public void connectToFacebook_testAccessTokenGiven_requestedIdNotNull(){
-        Assert.assertTrue("No ID fetched. No connection to Facebook",!facebookService.getID(testProperties.getAccessToken()).isEmpty());
+    public void connectToFacebook_testAccessTokenGiven_requestedIdNotNull() {
+        Assert.assertTrue("No ID fetched. No connection to Facebook", !facebookService.getID(testProperties.getAccessToken()).isEmpty());
         log.info("Facebook connection established");
     }
 
 
     @Test
-    public void getID_testIDGiven_requestedIdShouldMatchGivenId(){
+    public void getID_testIDGiven_requestedIdShouldMatchGivenId() {
         String id = testUser.getFbId();
-        Assert.assertTrue("Facebook id should be: " + testProperties.getFbID()+" but is: " + id,id.equals(testProperties.getFbID()));
+        Assert.assertTrue("Facebook id should be: " + testProperties.getFbID() + " but is: " + id, id.equals(testProperties.getFbID()));
         log.info("Valid Facebook ID. ID: " + id);
     }
 
 
-
     @Test
-    public void getUserPictureTest(){
-
+    public void getUserPictureTest() {
         facebookService.getProfilePicture(testProperties.getAccessToken());
-
-
     }
 
-
-
-
+    @Test
+    public void getPageProfilePicture() {
+        String imageURL = facebookService.getPageProfilePicture(testProperties.getAccessToken(), testProperties.getPageID());
+        log.info(imageURL);
+    }
 
 
 }

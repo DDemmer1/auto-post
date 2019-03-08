@@ -48,7 +48,7 @@ public class ScheduleController {
             return "no-login";
         }
 
-        return "schedule";
+        return "schedule-list";
     }
 
 }

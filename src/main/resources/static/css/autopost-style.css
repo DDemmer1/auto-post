@@ -46,14 +46,14 @@ html {
 }
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    margin-bottom: 120px;
 }
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     /* fixed height of the footer here */
-    height: 60px;
+    height: 120px;
     background-color: #f5f5f5;
 }
 
@@ -67,6 +67,10 @@ body {
 
 
 .btn-schedule:hover{
+    background-color: #374681;
+}
+
+.btn-facebook:hover{
     background-color: #374681;
 }
 
@@ -100,4 +104,17 @@ h1.no-post-scheduled{
 
 tr{
     cursor: pointer;
+}
+
+.img-preview{
+    height: 5%;
+}
+
+img.idh-logo{
+    background-color: lightgray; height: 2rem
+}
+
+button.submit-post{
+    margin-top: 1rem;
+    margin-bottom: 4rem;
 }

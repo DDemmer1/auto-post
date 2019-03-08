@@ -1,0 +1,32 @@
+<div th:fragment="image-picker" xmlns:th="http://www.thymeleaf.org">
+    <div style="margin-top: 1rem" class="row">
+        <div class="column">
+            <div class="col-md-12">
+                <a id="add-image" class="btn btn-secondary dropdown-toggle text-white"><i class="fa fa-picture-o" aria-hidden="true"></i> Picture</a>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron" style="display: none" id="div-image">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="image"><i class="fa fa-globe" aria-hidden="true"></i> Image URL</label>
+                    <input rows="4" id="image" type="text" name="image" class="form-control"
+                           placeholder="https://www.hoster.com/picture.jpg"/>
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="img-preview"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image preview</label>
+                    <a id="img-preview-lightbox"
+                       href="https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg"
+                       data-toggle="lightbox">
+                        <img id="img-preview" class="img-thumbnail img-fluid rounded"
+                             src="https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

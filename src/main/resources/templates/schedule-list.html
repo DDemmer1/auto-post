@@ -12,7 +12,7 @@
 <div class="bg-facebook text-white schedule-banner">
     <div>
         <div class="container">
-            <h2>Schedule posts for "<strong>[[${page.getName()}]]</strong>"</h2>
+            <h2><i class="fa fa-file-o" aria-hidden="true"></i> [[${page.getName()}]]</h2>
             <hr/>
         </div>
     </div>
@@ -29,7 +29,7 @@
 
 <div th:if="${postList != null}" class="container schedule-table">*/-->
 <div class="container schedule-table">
-    <table class="table table-hover">
+    <table class="table table-hover table-responsive-sm">
         <thead>
         <tr>
             <th scope="col">Date</th>

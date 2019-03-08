@@ -147,4 +147,26 @@ public class FacebookService {
         return url;
 
     }
+
+    public String getPageProfilePicture(String oAuthToken, String pageID) {
+
+        Facebook facebook = new FacebookTemplate(oAuthToken);
+        String accountData = facebook.fetchObject("me", String.class, "accounts");
+
+        JSONObject jsonAcountData = new JSONObject(accountData).getJSONObject("accounts");
+
+        JSONArray jsonArray = jsonAcountData.getJSONArray("data");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            String id = obj.get("id").toString();
+
+            if(id.equals(pageID)){
+                return obj.toString();
+            }
+
+        }
+
+        return "";
+    }
 }

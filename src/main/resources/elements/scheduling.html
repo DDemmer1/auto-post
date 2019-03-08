@@ -1,0 +1,21 @@
+<div th:fragment="scheduling" xmlns:th="http://www.thymeleaf.org">
+    <div style="margin-top: 1rem" class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
+                    <input id="time" type="time" name="time" class="form-control">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="date"><i class="fa fa-calendar" aria-hidden="true"></i> Date</label>
+                    <input id="date" type="date" name="date" class="form-control">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
