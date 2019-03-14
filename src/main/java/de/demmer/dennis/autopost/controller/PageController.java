@@ -20,7 +20,7 @@ import java.util.Map;
 @Transactional
 @Log4j2
 @Controller
-public class ScheduleController {
+public class PageController {
 
 
     @Autowired
@@ -34,7 +34,7 @@ public class ScheduleController {
 
 
     @GetMapping(value = "/schedule/{id}")
-    public String schedule(@PathVariable(value = "id") String id, Model model) {
+    public String postList(@PathVariable(value = "id") String id, Model model) {
 
         User user = sessionService.getActiveUser();
 

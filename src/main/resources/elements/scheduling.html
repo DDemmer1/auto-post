@@ -4,7 +4,9 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
-                    <input id="time" type="time" name="time" class="form-control">
+
+                        <input th:value="*{time}" th:field="*{time}" id="time" type="time" name="time" class="form-control">
+
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
@@ -12,7 +14,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="date"><i class="fa fa-calendar" aria-hidden="true"></i> Date</label>
-                    <input id="date" type="date" name="date" class="form-control">
+                    <input th:value="*{date}" th:field="*{date}" id="date" type="date" name="date" class="form-control">
                     <div class="help-block with-errors"></div>
                 </div>
             </div>

@@ -101,6 +101,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

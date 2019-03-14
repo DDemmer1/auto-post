@@ -31,6 +31,9 @@ public class Post implements Comparable<Post> {
     @Column(nullable = false)
     private String date;
 
+//    @Column(nullable = false)
+//    private String time;
+
     @Column(columnDefinition = "boolean default 0")
     private boolean scheduled;
 

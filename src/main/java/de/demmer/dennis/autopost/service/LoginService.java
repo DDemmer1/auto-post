@@ -35,6 +35,7 @@ public class LoginService {
     PageRepository pageRepository;
 
     public void login(String code) {
+        log.info(code);
         String accessToken = facebookService.createFacebookAccessToken(code);
         User user = userFactory.getUser(accessToken);
         updateUser(user);

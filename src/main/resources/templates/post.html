@@ -12,7 +12,11 @@
 <div class="bg-facebook text-white schedule-banner">
     <div>
         <div class="container">
-            <h2><i class="fa fa-file-o" aria-hidden="true"></i> [[${page.getName()}]]</h2>
+            <h2><span class="fa-stack" style=" font-size: 1rem; padding-bottom: 2.5rem">
+                  <i class="fa fa-facebook fa-stack-1x"></i>
+                  <i class="fa fa-file-o fa-stack-2x"></i>
+                </span> [[${page.getName()}]]
+            </h2>
             <hr/>
         </div>
     </div>
@@ -20,28 +24,42 @@
 
 
 <div class="container">
+
+
     <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <h2><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit post:</h2>
-            <form id="post-form" method="post" action="/post" role="form">
+        <div class="col-md-12 mx-auto">
+
+            <form id="post-form" method="post" th:object="${postDto}" th:action="${#httpServletRequest.requestURI}" role="form">
+
+                <div class="row">
+                    <div class="col-8 col-md-8">
+                        <h2><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit post:</h2>
+                    </div>
+                    <div class="col-4 col-md-4">
+                        <input id="enabled"  th:field="*{enabled}" type="checkbox"  data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Scheduling enabled" data-off="Scheduling disabled" />
+                    </div>
+                </div>
 
                 <div class="messages"></div>
                 <div class="controls">
-                   <div class="jumbotron" >
-                    <!--Content-->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="content"><i class="fa fa-pencil" aria-hidden="true"></i> Content</label>
-                                <p class="lead emoji-picker-container">
-                                <textarea data-emoji-input="unicode" data-emojiable="true" rows="4" id="content" type="text" name="content" class="form-control"
-                                          placeholder="Please enter your Content"></textarea>
-                                </p>
-                                <div class="help-block with-errors"></div>
+                    <div class="jumbotron">
+                        <!--Content-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="content"><i class="fa fa-pencil" aria-hidden="true"></i> Content</label>
+                                    <p class="lead emoji-picker-container">
+                                        <textarea th:value="*{content}" th:field="*{content}" data-emoji-input="unicode" data-emojiable="true" rows="4" id="content"
+                                                  type="text" name="content" class="form-control"
+                                                  placeholder="Please enter your Content">
+                                        </textarea>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                   </div>
+
                     <div th:replace="../elements/scheduling"></div>
 
                     <div th:replace="../elements/image-picker"></div>
@@ -49,9 +67,9 @@
                     <div th:replace="../elements/location-picker"></div>
 
 
-
-
-                    <button class="btn btn-facebook text-white submit-post" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                    <button class="btn btn-facebook text-white submit-post" type="submit">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                    </button>
 
                 </div>
             </form>

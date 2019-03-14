@@ -11,24 +11,31 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label for="latInput">Latitude</label>
-                <input id="latInput" type="text" name="latInput" class="form-control"
-                       placeholder="50.941357">
+                <input th:value="*{longitude}" th:field="*{longitude}" id="latInput" type="text" name="latInput" class="form-control"
+                       placeholder="Click on the map or enter value">
                 <div class="help-block with-errors"></div>
             </div>
         </div>
         <div class="col-md-5">
             <div class="form-group">
                 <label for="lngInput">Longitude</label>
-                <input id="lngInput" type="text" name="lngInput" class="form-control"
-                       placeholder="6.958307">
+                <input th:value="*{latitude}" th:field="*{latitude}" id="lngInput" type="text" name="lngInput" class="form-control"
+                       placeholder="Click on the map or enter value">
                 <div class="help-block with-errors"></div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div class="form-group">
                 <label for="find-geo">Tracking</label>
                 <a style="width: 100%" id="find-geo" class="btn btn-facebook text-white"><i
                         class="fa fa-map-marker"></i></a>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="find-geo">Delete</label>
+                <a style="width: 100%" id="reset-geo" class="btn btn-danger text-white"><i
+                        class="fa fa-trash-o"></i></a>
             </div>
         </div>
     </div>

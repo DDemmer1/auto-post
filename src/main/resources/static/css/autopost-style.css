@@ -83,13 +83,18 @@ img.post-picture{
 }
 
 i.check-enabled{
-    color: green;
-    font-size: 1.5rem;
+    color: black;
+    font-size: 1rem;
 }
 
 i.not-enabled{
     color: red;
-    font-size: 1.5rem;
+    font-size: 1rem;
+}
+
+i.is-posted{
+    color: green;
+    font-size: 1rem;
 }
 
 div.no-post-list{
@@ -102,7 +107,7 @@ h1.no-post-scheduled{
     padding-bottom: 2%
 }
 
-tr{
+td{
     cursor: pointer;
 }
 
@@ -111,10 +116,35 @@ tr{
 }
 
 img.idh-logo{
-    background-color: lightgray; height: 2rem
+    background-color: lightgray;
+    height: 2rem;
+    margin-bottom: 0.2rem;
 }
 
 button.submit-post{
     margin-top: 1rem;
     margin-bottom: 4rem;
 }
+
+.stroke-transparent {
+    -webkit-text-stroke: 1px #000;
+    -webkit-text-fill-color: transparent;
+}
+
+.stroke-black{
+    -webkit-text-stroke: 1px #000;
+}
+
+
+.toggle-off {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+.toggle.off {
+    border-color: rgba(0, 0, 0, .25);
+}
+
+.toggle-handle {
+    background-color: white;
+    border: thin rgba(0, 0, 0, .25) solid;
+}
+

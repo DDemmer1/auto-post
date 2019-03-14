@@ -1,11 +1,22 @@
 function addMapPicker() {
-    var mapCenter = [50.941357, 6.958307 ];
+    var mapCenter = [];
+    if($('#latInput').val()!= 0.0 && $('#lngInput').val() != 0.0){
+        mapCenter = [$('#latInput').val() , $('#lngInput').val()];
+    } else{
+        $('#latInput').val('');
+        $('#lngInput').val('')
+        mapCenter = [50.941357, 6.958307 ];
+    }
+
+    // var mapCenter = [50.941357, 6.958307 ];
     var map = L.map('map', {center : mapCenter, zoom : 9});
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map);
+
     var marker = L.marker(mapCenter).addTo(map);
+
     function updateMarker(lat, lng) {
         marker
             .setLatLng([lat, lng])
@@ -36,7 +47,14 @@ function addMapPicker() {
     });
 
 
-    var updateMarkerByInputs = function() {
+    $("#reset-geo").click(function () {
+        $("#lngInput").val('');
+        $("#latInput").val('');
+        updateMarker(50.941357,6.958307);
+    });
+
+
+        var updateMarkerByInputs = function() {
         return updateMarker( $('#latInput').val() , $('#lngInput').val());
     }
     $('#latInput').on('input', updateMarkerByInputs);

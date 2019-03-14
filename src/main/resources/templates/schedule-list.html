@@ -12,7 +12,11 @@
 <div class="bg-facebook text-white schedule-banner">
     <div>
         <div class="container">
-            <h2><i class="fa fa-file-o" aria-hidden="true"></i> [[${page.getName()}]]</h2>
+            <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
+                  <i class="fa fa-facebook fa-stack-1x"></i>
+                  <i class="fa fa-file-o fa-stack-2x"></i>
+                </span> [[${page.getName()}]]
+            </h2>
             <hr/>
         </div>
     </div>
@@ -32,27 +36,42 @@
     <table class="table table-hover table-responsive-sm">
         <thead>
         <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Content</th>
-            <th scope="col">Image</th>
-            <th scope="col">Enabled</th>
+            <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
+            <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
+            <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
+            <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
         </tr>
         </thead>
         <tbody>
         <tr class="clickable-row" th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}" th:each="post : ${postList}">
-        <!--/*<tr th:each="post : ${postList}">*/-->
-            <td th:text="${post.getDate()}"></td>
+            <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd''T''HH:mm')}">
+                <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy'' ''HH:mm')}"></td>
+            </th:block>
+
             <td th:text="${post.getContent()}">This is a test post</td>
             <td><img th:src="${post.getImg()}" class="post-picture"
                      src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
-            <td th:if="${post.isEnabled()}"><i class="check-enabled fa fa-check-circle"></i></td>
-            <td th:if="${!post.isEnabled()}"><i class="not-enabled fa fa-times"></i></td>
+
+
+            <td th:if="${post.isEnabled() && !post.isPosted()}">
+                <i class="check-enabled fa fa-hourglass-half"></i>
+            </td>
+
+            <td th:if="${!post.isEnabled() && !post.isPosted()}">
+                <i class="not-enabled fa fa-minus-circle"></i>
+            </td>
+
+            <td th:if="${post.isEnabled() && post.isPosted()}">
+                <i class="is-posted fa fa-check" aria-hidden="true" > </i>
+            </td>
+
+
 
         </tr>
         </tbody>
     </table>
 
-    <a class="btn text-white btn-facebook" href="/add"><i class="fa fa-plus"></i> Add new Post</a>
+    <a class="btn text-white btn-facebook" th:href="${page.getFbId()} +'/new'" ><i class="fa fa-plus"></i> Add new Post</a>
 
 </div>
 

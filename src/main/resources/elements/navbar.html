@@ -25,13 +25,13 @@
                 </li>
 
                 <!--/*If Session is active*/-->
+
                 <li th:if="${session.activeuser != null}" class="nav-item dropdown">
-                    <button class="btn btn-schedule dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    <button style="margin-bottom: 0.5rem" class="btn btn-schedule dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Schedule
+                        Facebook pages
                     </button>
-                    <div  class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <!--/*<a th:each="page : ${session.userPages.keySet()}" th:href="'/schedule/' + ${page}" th:classappend="dropdown-item"><i class="fa fa-facebook-square"></i> [[${session.userPages.get(page)}]]</a>*/-->
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <a th:each="page : ${pageList}" th:href="'/schedule/' + ${page.getFbId()}" th:classappend="dropdown-item"><i class="fa fa-facebook-square"></i> [[${page.getName()}]]</a>
                     </div>
                 </li>
@@ -42,7 +42,7 @@
                         <i class="fa fa-facebook-square"></i> [[${session.activeuser.name}]] <img class="profile-pic" th:src="${session.activeuser.profilePic}"/>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/settings"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
+                        <a class="dropdown-item" href="/settings"><i class="fa fa-sliders" aria-hidden="true"></i> Settings</a>
                         <a class="dropdown-item" href="/status"><i class="fa fa-user" aria-hidden="true"></i> Status</a>
                         <a href="/logout" class="btn btn-logout btn-danger"><i class="fa fa-facebook-square"></i> Logout</a>
                     </div>

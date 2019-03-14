@@ -11,7 +11,7 @@
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="image"><i class="fa fa-globe" aria-hidden="true"></i> Image URL</label>
-                    <input rows="4" id="image" type="text" name="image" class="form-control"
+                    <input th:value="*{img}" th:field="*{img}" rows="4" id="image" type="text" name="image" class="form-control"
                            placeholder="https://www.hoster.com/picture.jpg"/>
                     <div class="help-block with-errors"></div>
                 </div>
@@ -20,10 +20,10 @@
                 <div class="form-group">
                     <label for="img-preview"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image preview</label>
                     <a id="img-preview-lightbox"
-                       href="https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg"
+                       th:href="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
                        data-toggle="lightbox">
-                        <img id="img-preview" class="img-thumbnail img-fluid rounded"
-                             src="https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg">
+                        <img th:src="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'" id="img-preview" class="img-thumbnail img-fluid rounded"
+                             >
                     </a>
                 </div>
             </div>
