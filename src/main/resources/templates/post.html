@@ -29,13 +29,12 @@
     <div class="row">
         <div class="col-md-12 mx-auto">
 
-            <form id="post-form" method="post" th:object="${postDto}" th:action="${#httpServletRequest.requestURI}" role="form">
-
+            <form  id="post-form" method="post" th:object="${postDto}" th:action="${#httpServletRequest.requestURI}" role="form">
                 <div class="row">
                     <div class="col-8 col-md-8">
                         <h2><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit post:</h2>
                     </div>
-                    <div class="col-4 col-md-4">
+                    <div class="col-4 col-md-4" th:if="*{!posted}">
                         <input id="enabled"  th:field="*{enabled}" type="checkbox"  data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Scheduling enabled" data-off="Scheduling disabled" />
                     </div>
                 </div>
@@ -67,12 +66,15 @@
                     <div th:replace="../elements/location-picker"></div>
 
 
-                    <button class="btn btn-facebook text-white submit-post" type="submit">
+                    <button th:if="*{!posted}" class="btn btn-facebook text-white submit-post" type="submit">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                     </button>
 
                 </div>
+
             </form>
+
+
 
         </div>
     </div>

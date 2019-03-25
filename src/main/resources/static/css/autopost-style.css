@@ -107,7 +107,7 @@ h1.no-post-scheduled{
     padding-bottom: 2%
 }
 
-td{
+tr.clickable-row{
     cursor: pointer;
 }
 

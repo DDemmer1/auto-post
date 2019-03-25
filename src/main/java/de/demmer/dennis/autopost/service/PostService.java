@@ -1,6 +1,5 @@
 package de.demmer.dennis.autopost.service;
 
-
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.repositories.PageRepository;
@@ -35,8 +34,8 @@ public class PostService {
         post.setImg(postDto.getImg());
         post.setPageID(pageFbId);
         post.setUser(sessionService.getActiveUser());
-        post.setDate(postDto.getDate() + "T" + postDto.getTime());
-//        post.setTime(postDto.getTime());
+        post.setDate(postDto.getDate());
+        post.setTime(postDto.getTime());
 
         post.setPage(pageRepository.findByFbId(pageFbId));
 

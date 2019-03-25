@@ -2,13 +2,18 @@ package de.demmer.dennis.autopost.entities;
 
 import de.demmer.dennis.autopost.entities.user.User;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity(name = "posts")
+@Log4j2
 public class Post implements Comparable<Post> {
 
     @Id
@@ -31,8 +36,8 @@ public class Post implements Comparable<Post> {
     @Column(nullable = false)
     private String date;
 
-//    @Column(nullable = false)
-//    private String time;
+    @Column(nullable = false)
+    private String time;
 
     @Column(columnDefinition = "boolean default 0")
     private boolean scheduled;
@@ -62,7 +67,14 @@ public class Post implements Comparable<Post> {
 
 
     public int compareTo(Post post) {
-        return this.date.compareTo(post.date);
+        //TODO Time sorting
+        Long time1 = 2400-Long.valueOf(post.time.replace(":",""));
+        Long time2 = 2400-Long.valueOf(this.time.replace(":",""));
+
+        Long dateString1 = Long.valueOf((post.date + time1).replace("-",""));
+        Long dateString2 = Long.valueOf((this.date + time2).replace("-",""));
+
+        return dateString1.compareTo(dateString2);
     }
 
 
