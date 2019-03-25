@@ -67,14 +67,19 @@ public class Post implements Comparable<Post> {
 
 
     public int compareTo(Post post) {
-        //TODO Time sorting
-        Long time1 = 2400-Long.valueOf(post.time.replace(":",""));
-        Long time2 = 2400-Long.valueOf(this.time.replace(":",""));
 
-        Long dateString1 = Long.valueOf((post.date + time1).replace("-",""));
-        Long dateString2 = Long.valueOf((this.date + time2).replace("-",""));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
-        return dateString1.compareTo(dateString2);
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = dateFormat.parse(post.date + " " + post.time);
+            date2 = dateFormat.parse(this.date + " " + this.time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date1.compareTo(date2);
     }
 
 
