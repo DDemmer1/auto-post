@@ -111,6 +111,12 @@ tr.clickable-row{
     cursor: pointer;
 }
 
+tr.non-clickable{
+    background-color: #eeeeea;
+}
+
+
+
 .img-preview{
     height: 5%;
 }

@@ -21,18 +21,24 @@ public class ScheduleService {
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
-    public void scheduleGroup(Page group) {
+    public void schedulePage(Page page) {
 
-        int userId = group.getUser().getId();
+        int userId = page.getUser().getId();
 
-        for (Post post : group.getPosts()) {
-            TimerTask task =  new PostTaskService(post.getUser(), post);
+        for (Post post : page.getPosts()) {
+            TimerTask task = new PostTaskService(post.getUser(), post);
             scheduler.schedule(task, getDelay(post), TimeUnit.SECONDS);
         }
     }
 
 
-    private int getDelay(Post post){
+    public void schedulePost(Post post) {
+        TimerTask task = new PostTaskService(post.getUser(), post);
+        scheduler.schedule(task, getDelay(post), TimeUnit.SECONDS);
+    }
+
+
+    private int getDelay(Post post) {
         LocalDateTime now = LocalDateTime.now();
         String nowString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(now);
         String timeToPost = post.getDate();
@@ -41,7 +47,7 @@ public class ScheduleService {
         LocalDateTime d2 = LocalDateTime.parse(nowString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         Duration diff = Duration.between(d2, d1);
-        return (int)diff.getSeconds();
+        return (int) diff.getSeconds();
     }
 
 }

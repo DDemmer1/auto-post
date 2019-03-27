@@ -54,7 +54,7 @@ public class Post implements Comparable<Post> {
     @Column
     private float latitude;
 
-    @Column(columnDefinition="boolean default true")
+    @Column(columnDefinition = "boolean default true")
     private boolean enabled;
 
     public Post(String content, String date, Page page, String pageID) {
@@ -68,20 +68,47 @@ public class Post implements Comparable<Post> {
 
     public int compareTo(Post post) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-
-        Date date1 = null;
-        Date date2 = null;
-        try {
-            date1 = dateFormat.parse(post.date + " " + post.time);
-            date2 = dateFormat.parse(this.date + " " + this.time);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (this.posted) {
+            return 1;
+        } else if (post.isPosted()) {
+            return -1;
         }
 
-        return date1.compareTo(date2);
+        StringBuilder time1 = new StringBuilder(post.time.replace(":", ""));
+        StringBuilder time2 = new StringBuilder(this.time.replace(":", ""));
+
+        while (time1.length() < 4) {
+            time1.insert(0, "0");
+        }
+
+        while (time2.length() < 4) {
+            time2.insert(0, "0");
+        }
+
+        String dateTime1 = post.date.replace("-", "") + time1.toString();
+        String dateTime2 = this.date.replace("-", "") + time2.toString();
+
+        return dateTime2.compareTo(dateTime1);
+
     }
 
-
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", page=" + page.getFbId() +
+                ", user=" + user.getFbId() +
+                ", pageID='" + pageID + '\'' +
+                ", content='" + content + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", scheduled=" + scheduled +
+                ", posted=" + posted +
+                ", img='" + img + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", enabled=" + enabled +
+                '}';
+    }
 }
 

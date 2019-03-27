@@ -4,6 +4,7 @@ import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
+import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public abstract class TestContext {
     UserRepository userRepository;
 
     @Autowired
+    PageRepository pageRepository;
+
+    @Autowired
     TestProperties testProperties;
 
     public User testUser;
@@ -35,7 +39,6 @@ public abstract class TestContext {
     @PostConstruct
     public void init(){
         testUser = userFactory.getUser(testProperties.getAccessToken());
-//        testPage = new Page("TestPage","Page for JUnit tests", testUser);
         testPage = new Page();
 
         LocalDateTime now = LocalDateTime.now();
@@ -43,6 +46,11 @@ public abstract class TestContext {
         LocalDateTime plus5 = LocalDateTime.now().plusSeconds(10);
 
         testPost = new Post("autoPost Unit Test vom " + dtf.format(now), DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(plus5), testPage, testProperties.getPageID());
+        testPost.setUser(testUser);
+
+        testPage.getPosts().add(testPost);
+        testPage.setUser(testUser);
+
         userRepository.save(testUser);
     }
 

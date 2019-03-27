@@ -50,7 +50,7 @@ public class HomeController {
                 Post post = new Post("This is a test post for development","2018-12-11",page,"1");
                 post.setImg("https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png");
                 post.setEnabled(true);
-                post.setTime("11:10");
+                post.setTime("12:00");
 
 
                 Post post1 = new Post("This is a longer test post for development to test the scheduling table on autoPost","2018-12-11",page,"1");

@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,7 +32,7 @@ public class Page {
     private User user;
 
     @OneToMany(mappedBy="page", cascade = CascadeType.ALL)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     @Column(columnDefinition="boolean default 1")
     private boolean enabled = true;

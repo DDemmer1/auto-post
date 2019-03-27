@@ -32,9 +32,8 @@ public class PostSchedulingTests extends TestContext{
     @Test
     public void shouldPostIn10sec(){
 
-        testPage.getPosts().add(testPost);
-        testPage.setEnabled(true);
-        scheduleService.scheduleGroup(testPage);
+
+        scheduleService.schedulePost(testPost);
 
         Thread.sleep(15000);
 
