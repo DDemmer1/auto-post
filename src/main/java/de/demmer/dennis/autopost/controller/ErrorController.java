@@ -1,9 +1,9 @@
 package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.user.User;
-import de.demmer.dennis.autopost.service.BugReportService;
-import de.demmer.dennis.autopost.service.FacebookService;
-import de.demmer.dennis.autopost.service.SessionService;
+import de.demmer.dennis.autopost.services.BugReportService;
+import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

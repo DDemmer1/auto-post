@@ -42,14 +42,20 @@ public abstract class TestContext {
         testPage = new Page();
 
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime plus5 = LocalDateTime.now().plusSeconds(10);
+        DateTimeFormatter dtfContent = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        LocalDateTime plus1 = LocalDateTime.now().plusMinutes(1);
 
-        testPost = new Post("autoPost Unit Test vom " + dtf.format(now), DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(plus5), testPage, testProperties.getPageID());
+        testPost = new Post();
+        testPost.setContent("autoPost Unit Test vom " + dtfContent.format(now));
+        testPost.setDate(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(now));
+        testPost.setTime(DateTimeFormatter.ofPattern("HH:mm").format(plus1));
         testPost.setUser(testUser);
+        testPost.setEnabled(true);
 
         testPage.getPosts().add(testPost);
         testPage.setUser(testUser);
+        testPost.setPage(testPage);
+        testPost.setPageID(testProperties.getPageID());
 
         userRepository.save(testUser);
     }

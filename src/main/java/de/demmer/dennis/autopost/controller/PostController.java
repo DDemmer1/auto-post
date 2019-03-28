@@ -7,9 +7,10 @@ import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
-import de.demmer.dennis.autopost.service.FacebookService;
-import de.demmer.dennis.autopost.service.PostService;
-import de.demmer.dennis.autopost.service.SessionService;
+import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.PostService;
+import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
+import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class PostController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    ScheduleService scheduleService;
 
 
     @GetMapping(value = "/schedule/{pageFbId}/{postId}")
@@ -88,7 +92,8 @@ public class PostController {
     @PostMapping(value = "/schedule/{pageFbId}/new")
     public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto) {
 
-        postService.updatePost(new Post(), postDto, pageFbId);
+        Post post = postService.updatePost(new Post(), postDto, pageFbId);
+        scheduleService.schedulePost(post);
 
         return "redirect:/schedule/" + pageFbId;
     }
@@ -98,7 +103,9 @@ public class PostController {
     public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto) {
 
         Post post = postRepository.findByIdAndUserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
-        postService.updatePost(post,postDto,pageFbId);
+        Post updatedPost = postService.updatePost(post,postDto,pageFbId);
+        scheduleService.schedulePost(updatedPost);
+
         return "redirect:/schedule/" + pageFbId;
     }
 

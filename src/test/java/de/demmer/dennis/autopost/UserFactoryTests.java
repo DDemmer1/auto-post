@@ -4,7 +4,7 @@ package de.demmer.dennis.autopost;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.properties.TestProperties;
-import de.demmer.dennis.autopost.service.FacebookService;
+import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Test;

@@ -4,9 +4,8 @@ import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
-import de.demmer.dennis.autopost.service.FacebookService;
-import de.demmer.dennis.autopost.service.LoginService;
-import de.demmer.dennis.autopost.service.SessionService;
+import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,13 +46,13 @@ public class HomeController {
 
             for (Page page: activeUser.getPageList()) {
                 List<Post> devPosts = new ArrayList<>();
-                Post post = new Post("This is a test post for development","2018-12-11",page,"1");
+                Post post = new Post("This is a test post for development","2019-12-11",page,"1");
                 post.setImg("https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png");
                 post.setEnabled(true);
                 post.setTime("12:00");
 
 
-                Post post1 = new Post("This is a longer test post for development to test the scheduling table on autoPost","2018-12-11",page,"1");
+                Post post1 = new Post("This is a longer test post for development to test the scheduling table on autoPost","2019-12-11",page,"1");
                 post1.setImg("https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg");
                 post1.setEnabled(false);
                 post1.setPosted(false);

@@ -1,9 +1,8 @@
-package de.demmer.dennis.autopost.service;
+package de.demmer.dennis.autopost.services.userhandling;
 
-import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.user.User;
-import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.UserRepository;
+import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

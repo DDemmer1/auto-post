@@ -1,9 +1,10 @@
-package de.demmer.dennis.autopost.service;
+package de.demmer.dennis.autopost.services;
 
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

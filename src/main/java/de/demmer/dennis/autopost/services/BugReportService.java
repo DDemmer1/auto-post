@@ -1,19 +1,14 @@
-package de.demmer.dennis.autopost.service;
+package de.demmer.dennis.autopost.services;
 
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Address;
-import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 
 
 @Log4j2

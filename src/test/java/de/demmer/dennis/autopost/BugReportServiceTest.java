@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost;
 
 
-import de.demmer.dennis.autopost.service.BugReportService;
+import de.demmer.dennis.autopost.services.BugReportService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import org.junit.runner.RunWith;

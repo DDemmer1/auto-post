@@ -2,8 +2,8 @@ package de.demmer.dennis.autopost;
 
 import de.demmer.dennis.autopost.properties.TestContext;
 import de.demmer.dennis.autopost.properties.TestProperties;
-import de.demmer.dennis.autopost.service.FacebookService;
-import de.demmer.dennis.autopost.service.ScheduleService;
+import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
@@ -26,17 +26,28 @@ public class PostSchedulingTests extends TestContext{
     @Autowired
     FacebookService facebookService;
 
+    @SneakyThrows
+    @Test
+    public void shouldPostIn1min(){
+        scheduleService.schedulePost(testPost);
+        Thread.sleep(60000);
+    }
 
 
     @SneakyThrows
     @Test
-    public void shouldPostIn10sec(){
-
-
+    public void shouldNotPost(){
+        testPost.setContent("This should not be here!");
         scheduleService.schedulePost(testPost);
+        scheduleService.cancelScheduling(testPost);
+        Thread.sleep(70000);
+    }
 
-        Thread.sleep(15000);
 
+    @SneakyThrows
+    @Test
+    public void testDelay(){
+        log.info("Difference is: " + scheduleService.getDelay(testPost));
     }
 
 }
