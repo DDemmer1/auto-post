@@ -32,6 +32,8 @@ public abstract class TestContext {
     @Autowired
     TestProperties testProperties;
 
+
+
     public User testUser;
     public Page testPage;
     public Post testPost;

@@ -1,14 +1,12 @@
 package de.demmer.dennis.autopost.services.scheduling;
 
 import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -35,7 +33,6 @@ public class ScheduleService {
 
     Map<Integer,ScheduledFuture<?>> tasks = new HashMap<>();
 
-    @Transactional
     public Post schedulePost(Post post) {
         TimerTask task = new PostTask(post.getUser(), post, facebookService,postRepository);
         ScheduledFuture<?> scheduledFuture = scheduler.schedule(task, getDelay(post), TimeUnit.SECONDS);
@@ -61,18 +58,15 @@ public class ScheduleService {
 
 
     public int getDelay(Post post) {
-
-
         String dateNow = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
         String timeNow = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now());
 
-        log.info("DateNow: "+ dateNow);
-        log.info("TimeNow: "+ timeNow);
-
         String datePost = post.getDate();
         String timePost = post.getTime() + ":00";
-        log.info("****************");
 
+        log.info("DateNow: "+ dateNow);
+        log.info("TimeNow: "+ timeNow);
+        log.info("****************");
         log.info("DatePost: "+ datePost);
         log.info("TimePost: "+ timePost);
 

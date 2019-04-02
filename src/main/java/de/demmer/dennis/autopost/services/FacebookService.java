@@ -10,9 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.PageOperations;
-import org.springframework.social.facebook.api.PagePostData;
+import org.springframework.core.io.UrlResource;
+import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
@@ -21,6 +20,7 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 @Transactional
@@ -87,10 +87,20 @@ public class FacebookService {
 
     public void post(User user, Post post) {
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
+
+
+
         PageOperations pageOps = facebook.pageOperations();
-        PagePostData ppd = new PagePostData(post.getPageID());
-        ppd.message(post.getContent());
-        pageOps.post(ppd);
+        try {
+            pageOps.postPhoto(post.getPageID(),"613319732451885",new UrlResource("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1024px-The_Scream.jpg"),post.getContent());
+//            pageOps.postPhoto(post.getPageID(),"613319732451885",new UrlResource("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1024px-The_Scream.jpg"),post.getContent());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+//        PagePostData ppd = new PagePostData(post.getPageID());
+//        ppd.message(post.getContent());
+//        ppd.toRequestParameters().add("picture","https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1024px-The_Scream.jpg");
+//        pageOps.post(ppd);
 
 
     }

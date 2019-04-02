@@ -8,12 +8,15 @@ import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.TimerTask;
+
 
 @Log4j2
 @ToString
@@ -29,7 +32,6 @@ public class PostTask extends TimerTask {
     private Post post;
 
     PostRepository postRepository;
-
     FacebookService facebookService;
 
     public PostTask(User user, Post post, FacebookService facebookService, PostRepository postRepository) {
@@ -39,7 +41,6 @@ public class PostTask extends TimerTask {
         this.postRepository = postRepository;
     }
 
-    @Scheduled
     @Override
     public void run() {
 
@@ -48,9 +49,7 @@ public class PostTask extends TimerTask {
             log.info("Post mit Inhalt: " + post.getContent() + " , wurde von User: " + user.getFbId() + " gepostet");
 
             Post posted = postRepository.findByIdAndUserId(post.getId(), user.getId());
-            System.out.println("Post is posted: " + posted.isPosted());
             posted.setPosted(true);
-            log.info(posted);
             postRepository.save(posted);
 
         } else {

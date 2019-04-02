@@ -15,15 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootApplication
 public class AutoPostApplication implements CommandLineRunner{
 
-    @Autowired
-    UserRepository repository;
-
-    @Autowired
-    UserFactory userFactory;
-
-
-    @Autowired
-    SessionService sessionService;
 
     public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}
 
@@ -31,9 +22,6 @@ public class AutoPostApplication implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
 
-//
-//        repository.save(user);
-//        log.info("All users  -> {}", repository.findAll());
     }
 }
 
