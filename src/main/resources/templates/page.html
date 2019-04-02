@@ -33,6 +33,7 @@
 
 <div class="container schedule-table">
     <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'" ><i class="fa fa-plus"></i> Add new Post</a>
+    <a class="btn btn-warning text-white" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/addTSV'" ><i class="fa fa-plus"></i> Import TSV-File</a>
 
     <table class="table table-hover table-responsive-sm">
         <thead>
@@ -67,14 +68,12 @@
             <td th:if="${post.isEnabled() && post.isPosted()}">
                 <i class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check" aria-hidden="true"></i>
             </td>
-
-
         </tr>
+
         </tbody>
     </table>
 
-    <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'"><i
-            class="fa fa-plus"></i> Add new Post</a>
+
 
 </div>
 

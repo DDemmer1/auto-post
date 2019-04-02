@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpRequest;
 import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
@@ -19,8 +20,14 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.*;
 
 @Transactional
@@ -89,38 +96,23 @@ public class FacebookService {
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
 
 
-
         PageOperations pageOps = facebook.pageOperations();
+        String logString="Post not successfull";
         try {
-            pageOps.postPhoto(post.getPageID(),"613319732451885",new UrlResource("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1024px-The_Scream.jpg"),post.getContent());
-//            pageOps.postPhoto(post.getPageID(),"613319732451885",new UrlResource("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1024px-The_Scream.jpg"),post.getContent());
+            if(!post.getImg().equals("") && post.getImg() != null){
+                logString = pageOps.postPhoto(post.getPageID(),"613319732451885",new UrlResource(post.getImg()),post.getContent());
+            } else {
+                PagePostData ppd = new PagePostData(post.getPageID());
+                ppd.message(post.getContent());
+                logString = pageOps.post(ppd);
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }
-//        PagePostData ppd = new PagePostData(post.getPageID());
-//        ppd.message(post.getContent());
-//        ppd.toRequestParameters().add("picture","https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1024px-The_Scream.jpg");
-//        pageOps.post(ppd);
-
-
-    }
-
-    public Map<String,String> getPageIds(String oAuthToken) {
-
-        Facebook facebook = new FacebookTemplate(oAuthToken);
-        String accountData = facebook.fetchObject("me", String.class, "accounts");
-        JSONObject jsonAcountData = new JSONObject(accountData).getJSONObject("accounts");
-        JSONArray jsonArray = jsonAcountData.getJSONArray("data");
-
-        SortedMap<String, String> pages = new TreeMap<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject obj = jsonArray.getJSONObject(i);
-            String id = obj.get("id").toString();
-            String name = obj.get("name").toString();
-            pages.put(id,name);
+        } finally {
+            log.info(logString);
         }
 
-        return pages;
+
     }
 
 
@@ -146,6 +138,10 @@ public class FacebookService {
 
         return pageList;
 
+    }
+
+    public String getAlbumID(){
+        return "";
     }
 
 
