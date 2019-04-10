@@ -140,11 +140,6 @@ public class FacebookService {
 
     }
 
-    public String getAlbumID(){
-        return "";
-    }
-
-
 
 
     public String getProfilePicture(String oAuthToken) {
