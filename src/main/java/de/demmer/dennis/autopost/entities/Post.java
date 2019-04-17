@@ -45,7 +45,7 @@ public class Post implements Comparable<Post> {
     @Column(columnDefinition = "boolean default 0")
     private boolean posted;
 
-    @Column
+    @Column (length= 10485760)
     private String img;
 
     @Column
