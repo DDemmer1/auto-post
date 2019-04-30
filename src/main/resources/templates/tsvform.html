@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="../elements/header (title='TSV-Upload')"></head>
+
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav th:replace="../elements/navbar"></nav>
+
+
+<div class="bg-facebook text-white schedule-banner">
+    <div>
+        <div class="container">
+            <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
+                  <i class="fa fa-facebook fa-stack-1x"></i>
+                  <i class="fa fa-file-o fa-stack-2x"></i>
+                </span> [[${page.getName()}]]
+            </h2>
+            <hr/>
+        </div>
+    </div>
+</div>
+
+
+<form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="file" id="file">
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+
+
+<!-- Footer -->
+<footer th:replace="../elements/footer" ></footer>
+
+</body>
+
+</html>
