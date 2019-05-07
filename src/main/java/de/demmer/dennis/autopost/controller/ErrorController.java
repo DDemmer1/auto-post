@@ -1,5 +1,6 @@
 package de.demmer.dennis.autopost.controller;
 
+import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.services.BugReportService;
 import de.demmer.dennis.autopost.services.FacebookService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -55,6 +58,7 @@ public class ErrorController {
         User activeUser = sessionService.getActiveUser();
         if (activeUser!=null) model.addAttribute("pageList", activeUser.getPageList());
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
 
 
         return "mailsent";

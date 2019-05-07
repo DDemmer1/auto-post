@@ -46,7 +46,6 @@ public class TsvService {
 
         int i = 1;
         for (String[] row : allRows) {
-            i++;
             Post post = arrayToPost(row);
             if(post!=null){
                 Page page = pageRepository.findByFbId(id);
@@ -54,7 +53,8 @@ public class TsvService {
                 post.setEnabled(true);
                 post.setUser(sessionService.getActiveUser());
                 parsedPosts.add(post);
-            } else throw new MalformedTsvException("Formatting Error in line: "+ i, i);
+                i++;
+            } else throw new MalformedTsvException("Formatting Error in line: "+ i, i, Arrays.asList(row).toString());
         }
 
 

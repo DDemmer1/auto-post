@@ -71,6 +71,20 @@ public class PageController {
     @PostMapping(value="/schedule/{id}/tsvform/upload")
     public String uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, Model model){
 
+        User user = sessionService.getActiveUser();
+
+        model.addAttribute("page", pageRepository.findByFbId(id));
+
+        if (user != null) {
+            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            Collections.sort(posts);
+            model.addAttribute("pageList", user.getPageList());
+            model.addAttribute("postList", posts);
+        } else {
+            model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+            return "no-login";
+        }
+
         File file = null;
         try {
             file = new File(multiFile.getOriginalFilename());
@@ -92,7 +106,9 @@ public class PageController {
         } catch (MalformedTsvException e) {
             e.printStackTrace();
             model.addAttribute("line",e.getRow());
-            return "tsverror";
+            model.addAttribute("linecontent",e.getContent());
+            model.addAttribute("error",true);
+            return "tsvform";
         }
 
 
@@ -120,6 +136,9 @@ public class PageController {
 
         return "tsvform";
     }
+
+
+
 
 
 

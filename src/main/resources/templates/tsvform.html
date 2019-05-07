@@ -24,16 +24,34 @@
 </div>
 
 
-<form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="file" id="file">
-    <input type="submit" value="Submit" name="submit">
-</form>
+<div class="container">
+    <h2>Choose .tsv file</h2>
+    <form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <input class="btn btn-facebook text-white" type="file" name="file" id="file">
+        </div>
+
+        <div class="row" style="padding-top: 1rem">
+            <button class="btn btn-facebook text-white" type="submit" value="Submit" name="submit">Submit</button>
+        </div>
+    </form>
+</div>
 
 
+
+<div style="padding-top: 50px" th:if="${error}">
+    <header class="bg-facebook text-white">
+        <div class="container text-center">
+            <h1>TSV Parsing Error - Document Malformed</h1>
+            <p class="lead">Parsing error in line <b> [[${line}]] </b>. <u>Date in the Past</u> or other <u>formatting problems</u>. Please check the file and try again!</p>
+            <hr>
+            <p th:text="${linecontent}"></p>
+        </div>
+    </header>
+</div>
 
 <!-- Footer -->
-<footer th:replace="../elements/footer" ></footer>
+<footer th:replace="../elements/footer"></footer>
 
 </body>
 
