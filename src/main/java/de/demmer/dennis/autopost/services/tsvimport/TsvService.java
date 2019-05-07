@@ -5,6 +5,7 @@ import com.univocity.parsers.tsv.TsvParserSettings;
 import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.repositories.PageRepository;
+import de.demmer.dennis.autopost.services.scheduling.DateParser;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +44,17 @@ public class TsvService {
 
         List<Post> parsedPosts = new ArrayList<>();
 
+        int i = 1;
         for (String[] row : allRows) {
+            i++;
             Post post = arrayToPost(row);
-            Page page = pageRepository.findByFbId(id);
-            post.setPage(page);
-            post.setEnabled(true);
-            post.setUser(sessionService.getActiveUser());
-            parsedPosts.add(post);
+            if(post!=null){
+                Page page = pageRepository.findByFbId(id);
+                post.setPage(page);
+                post.setEnabled(true);
+                post.setUser(sessionService.getActiveUser());
+                parsedPosts.add(post);
+            } else throw new MalformedTsvException("Formatting Error in line: "+ i, i);
         }
 
 
@@ -63,7 +68,10 @@ public class TsvService {
             String value = array[i];
             switch (i) {
                 case 0:
-                    post.setDate(value);
+                    String date = DateParser.parse(value);
+                    if(date==null) return null;
+                    post.setDate(date);
+
                     break;
                 case 1:
                     post.setTime(value);
@@ -73,6 +81,8 @@ public class TsvService {
                     break;
                 case 3:
                     post.setImg(value);
+                    break;
+                default:
                     break;
 
             }

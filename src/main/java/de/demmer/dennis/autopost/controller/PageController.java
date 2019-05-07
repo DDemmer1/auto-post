@@ -69,7 +69,7 @@ public class PageController {
     }
 
     @PostMapping(value="/schedule/{id}/tsvform/upload")
-    public String uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile){
+    public String uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, Model model){
 
         File file = null;
         try {
@@ -89,9 +89,10 @@ public class PageController {
                 postRepository.save(post);
             }
 
-
         } catch (MalformedTsvException e) {
             e.printStackTrace();
+            model.addAttribute("line",e.getRow());
+            return "tsverror";
         }
 
 
