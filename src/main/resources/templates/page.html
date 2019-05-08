@@ -22,6 +22,8 @@
     </div>
 </div>
 
+
+<!--If no posts in DB-->
 <!--/*<div class="container jumbotron" th:if="${postList == null}">
 
     <h1 class="no-post-scheduled">No posts scheduled</h1>
@@ -29,6 +31,14 @@
 </div>
 
 <div th:if="${postList != null}" class="container schedule-table">*/-->
+
+
+<!--If TSVimport successfull-->
+
+<div th:if="${tsvSuccess == true}">
+    <p>Hallo Welt</p>
+    <div class="tsvToast" style='display:none'>[[${numAddedPosts}]] Posts added to scheudule list</div>
+</div>
 
 
 <div class="container schedule-table">
@@ -80,6 +90,7 @@
 
 <!-- Footer -->
 <footer th:replace="../elements/footer"></footer>
+<script>$('.tsvToast').stop().fadeIn(400).delay(3000).fadeOut(400)</script>
 
 </body>
 
