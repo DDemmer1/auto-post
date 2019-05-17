@@ -10,8 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpRequest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
@@ -20,14 +19,12 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
+import java.io.*;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Transactional
@@ -39,17 +36,22 @@ public class FacebookService {
     private String facebookAppId;
     @Value("${spring.social.facebook.appSecret}")
     private String facebookSecret;
+    @Value("${facebook.redirect.url}")
+    private String redirectURL;
 
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    ApplicationContext ctx;
 
 
     public String createFacebookAuthorizationURL() {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
         OAuth2Parameters params = new OAuth2Parameters();
-        params.setRedirectUri("http://localhost:8080/facebook");
+        params.setRedirectUri(redirectURL);
         params.setScope("email," +
                 "manage_pages," +
                 "user_photos," +
@@ -61,7 +63,7 @@ public class FacebookService {
 
     public String createFacebookAccessToken(String code) {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
-        AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, "http://localhost:8080/facebook", null);
+        AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, redirectURL, null);
         return accessGrant.getAccessToken();
     }
 
@@ -93,25 +95,50 @@ public class FacebookService {
 
 
     public void post(User user, Post post) {
+
+        int random = new Random().nextInt(9999);
+        try {
+            URL url = new URL(post.getImg());
+            InputStream is = url.openStream();
+            OutputStream os = new FileOutputStream(random +".jpg");
+
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+
+            is.close();
+            os.close();
+        }  catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
-
-
         PageOperations pageOps = facebook.pageOperations();
-        String logString="Post not successfull";
         try {
             if(!post.getImg().equals("") && post.getImg() != null){
-                logString = pageOps.postPhoto(post.getPageID(),"613319732451885",new UrlResource(post.getImg()),post.getContent());
+                pageOps.postPhoto(post.getPageID(),post.getPageID(),ctx.getResource("file:"+random+".jpg"),post.getContent());
             } else {
                 PagePostData ppd = new PagePostData(post.getPageID());
                 ppd.message(post.getContent());
-                logString = pageOps.post(ppd);
+                pageOps.post(ppd);
             }
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            log.info(logString);
         }
 
+//        delete tmp file
+        try {
+            Files.delete(Paths.get(random+".jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -24,69 +24,73 @@
 
 
 <!--If no posts in DB-->
-<!--/*<div class="container jumbotron" th:if="${postList == null}">
+<div class="container jumbotron" th:if="${postList == null}">
 
     <h1 class="no-post-scheduled">No posts scheduled</h1>
-    <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'" ><i class="fa fa-plus"></i> Add new Post</a>
+    <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'"><i
+            class="fa fa-plus"></i> Add new Post</a>
 </div>
 
-<div th:if="${postList != null}" class="container schedule-table">*/-->
+<div th:if="${postList != null}" class="container schedule-table">
 
 
-<!--If TSVimport successfull-->
+    <!--If TSVimport successfull-->
 
-<div th:if="${tsvSuccess == true}">
-    <p>Hallo Welt</p>
-    <div class="tsvToast" style='display:none'>[[${numAddedPosts}]] Posts added to scheudule list</div>
+    <div th:if="${tsvSuccess == true}">
+        <p>Hallo Welt</p>
+        <div class="tsvToast" style='display:none'>[[${numAddedPosts}]] Posts added to scheudule list</div>
+    </div>
+
+
+    <div class="container schedule-table">
+        <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'"><i
+                class="fa fa-plus"></i> Add new Post</a>
+        <a class="btn btn-warning text-white" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/tsvform'"><i
+                class="fa fa-plus"></i> Import TSV-File</a>
+
+        <table class="table table-hover table-responsive-sm">
+            <thead>
+            <tr>
+                <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
+                <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
+                <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
+                <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
+                th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}"
+                th:each="post : ${postList}">
+
+                <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
+                    <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
+                </th:block>
+
+                <td th:text="${post.getContent()}">This is a test post</td>
+                <td><img th:src="${post.getImg()}" class="post-picture"
+                         src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
+
+
+                <td th:if="${post.isEnabled() && !post.isPosted()}">
+                    <i class="check-enabled fa fa-hourglass-half"></i>
+                </td>
+
+                <td th:if="${!post.isEnabled() && !post.isPosted()}">
+                    <i class="not-enabled fa fa-minus-circle"></i>
+                </td>
+
+                <td th:if="${post.isEnabled() && post.isPosted()}">
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check"
+                                                                          aria-hidden="true"></i>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
 </div>
-
-
-<div class="container schedule-table">
-    <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'" ><i class="fa fa-plus"></i> Add new Post</a>
-    <a class="btn btn-warning text-white" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/tsvform'" ><i class="fa fa-plus"></i> Import TSV-File</a>
-
-    <table class="table table-hover table-responsive-sm">
-        <thead>
-        <tr>
-            <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
-            <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
-            <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
-            <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"  th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}"
-            th:each="post : ${postList}">
-
-            <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
-                <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
-            </th:block>
-
-            <td th:text="${post.getContent()}">This is a test post</td>
-            <td><img th:src="${post.getImg()}" class="post-picture"
-                     src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
-
-
-            <td th:if="${post.isEnabled() && !post.isPosted()}">
-                <i class="check-enabled fa fa-hourglass-half"></i>
-            </td>
-
-            <td th:if="${!post.isEnabled() && !post.isPosted()}">
-                <i class="not-enabled fa fa-minus-circle"></i>
-            </td>
-
-            <td th:if="${post.isEnabled() && post.isPosted()}">
-                <i class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check" aria-hidden="true"></i>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
-
-
-
-</div>
-
 
 <!-- Footer -->
 <footer th:replace="../elements/footer"></footer>

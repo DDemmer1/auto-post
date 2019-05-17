@@ -25,8 +25,8 @@ public class PostService {
 
 
     public Post updatePost(Post post, PostDto postDto, String pageFbId){
-        if(!postDto.getLongitude().isEmpty()) post.setLongitude(Float.parseFloat(postDto.getLongitude()));
-        if(!postDto.getLatitude().isEmpty()) post.setLatitude(Float.parseFloat(postDto.getLatitude()));
+        if(postDto.getLongitude()!= null && !postDto.getLongitude().isEmpty()) post.setLongitude(Float.parseFloat(postDto.getLongitude()));
+        if(postDto.getLongitude()!= null && !postDto.getLatitude().isEmpty()) post.setLatitude(Float.parseFloat(postDto.getLatitude()));
 
         post.setEnabled(postDto.isEnabled());
         post.setPosted(false);
