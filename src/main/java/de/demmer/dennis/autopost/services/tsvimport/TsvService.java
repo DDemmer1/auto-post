@@ -6,6 +6,7 @@ import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.services.scheduling.DateParser;
+import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,14 @@ public class TsvService {
             if(post!=null){
                 Page page = pageRepository.findByFbId(id);
                 post.setPage(page);
+                post.setPageID(page.getFbId());
                 post.setEnabled(true);
                 post.setUser(sessionService.getActiveUser());
                 parsedPosts.add(post);
                 i++;
             } else throw new MalformedTsvException("Formatting Error in line: "+ i, i, Arrays.asList(row).toString());
         }
+
 
 
         return parsedPosts;
@@ -74,6 +77,7 @@ public class TsvService {
 
                     break;
                 case 1:
+                    //TODO time parser to check if time is before now
                     post.setTime(value);
                     break;
                 case 2:

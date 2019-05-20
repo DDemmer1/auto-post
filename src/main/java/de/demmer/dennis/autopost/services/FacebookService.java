@@ -100,7 +100,8 @@ public class FacebookService {
         try {
             URL url = new URL(post.getImg());
             InputStream is = url.openStream();
-            OutputStream os = new FileOutputStream(random +".jpg");
+            Thread.sleep(4000);
+            OutputStream os = new FileOutputStream(random +".png");
 
             byte[] b = new byte[2048];
             int length;
@@ -117,13 +118,15 @@ public class FacebookService {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
         PageOperations pageOps = facebook.pageOperations();
         try {
             if(!post.getImg().equals("") && post.getImg() != null){
-                pageOps.postPhoto(post.getPageID(),post.getPageID(),ctx.getResource("file:"+random+".jpg"),post.getContent());
+                pageOps.postPhoto(post.getPageID(),post.getPageID(),ctx.getResource("file:"+random+".png"),post.getContent());
             } else {
                 PagePostData ppd = new PagePostData(post.getPageID());
                 ppd.message(post.getContent());
@@ -133,12 +136,16 @@ public class FacebookService {
             e.printStackTrace();
         }
 
+
 //        delete tmp file
-        try {
-            Files.delete(Paths.get(random+".jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(1000);
+//            Files.delete(Paths.get(random+".jpg"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
     }
 

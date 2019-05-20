@@ -5,6 +5,7 @@ import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.tsvimport.MalformedTsvException;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -46,6 +47,9 @@ public class PageController {
 
     @Autowired
     TsvService tsvService;
+
+    @Autowired
+    ScheduleService scheduleService;
 
 
 
@@ -103,6 +107,7 @@ public class PageController {
             List<Post> tsvPosts = tsvService.parseTSV(file, id);
             for (Post post : tsvPosts) {
                 postRepository.save(post);
+                scheduleService.schedulePost(post);
             }
 
             modelMap.addAttribute("tsvSuccess" , true);

@@ -7,17 +7,17 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
-@Log4j2
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//
+//@Log4j2
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class DateParserTests {
 
 
     @Test
     public void parseTest(){
 
-        String date = DateParser.parse("04.02.0018");
+        String date = DateParser.parse("18.05.2019");
         System.out.println(date);
         System.out.println("*******************");
 

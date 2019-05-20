@@ -26,9 +26,15 @@ public class DateParser {
             if(isParsable(input, pattern)){
                 try {
                     Date date1 = new SimpleDateFormat(pattern).parse(input);
-                    if(date1.after(new Date())){
+                    date1.setHours(1);
+                    Date current = new Date();
+                    current.setHours(0);
+
+                    if(date1.after(current)){
+                        System.out.println(current.toString());
                         return new SimpleDateFormat("yyyy-MM-dd").format(date1);
                     } else return null;
+
 
                 } catch (ParseException e) {
                     e.printStackTrace();
