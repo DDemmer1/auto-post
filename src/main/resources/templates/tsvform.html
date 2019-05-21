@@ -39,13 +39,13 @@
 
 
 
-<div style="padding-top: 50px" th:if="${error}">
+<div style="padding-top: 50px" th:if="${param.error}">
     <header class="bg-facebook text-white">
         <div class="container text-center">
             <h1>TSV Parsing Error - Document Malformed</h1>
-            <p class="lead">Parsing error in line <b> [[${line}]] </b>. <u>Date in the Past</u> or other <u>formatting problems</u>. Please check the file and try again!</p>
+            <p class="lead">Parsing error in line <b> [[${param.line}]] </b>. <u>Date in the Past</u> or other <u>formatting problems</u>. Please check the file and try again!</p>
             <hr>
-            <p th:text="${linecontent}"></p>
+            <p th:text="${param.linecontent}"></p>
         </div>
     </header>
 </div>

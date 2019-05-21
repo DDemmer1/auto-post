@@ -110,6 +110,8 @@ public class PageController {
                 scheduleService.schedulePost(post);
             }
 
+            file.delete();
+
             modelMap.addAttribute("tsvSuccess" , true);
             modelMap.addAttribute("numAddedPosts" , tsvPosts.size());
 
@@ -118,6 +120,7 @@ public class PageController {
             modelMap.addAttribute("line",e.getRow());
             modelMap.addAttribute("linecontent",e.getContent());
             modelMap.addAttribute("error",true);
+            file.delete();
             return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
         }
 

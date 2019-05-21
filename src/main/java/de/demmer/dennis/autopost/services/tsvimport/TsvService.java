@@ -5,6 +5,7 @@ import com.univocity.parsers.tsv.TsvParserSettings;
 import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.repositories.PageRepository;
+import de.demmer.dennis.autopost.services.PostService;
 import de.demmer.dennis.autopost.services.scheduling.DateParser;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -27,6 +28,9 @@ public class TsvService {
 
     @Autowired
     SessionService sessionService;
+
+    @Autowired
+    ScheduleService scheduleService;
 
 
     public List<Post> parseTSV(File tsvFile, String id) throws MalformedTsvException {
@@ -64,7 +68,7 @@ public class TsvService {
         return parsedPosts;
     }
 
-    private Post arrayToPost(String[] array) {
+    private Post arrayToPost(String[] array) throws MalformedTsvException {
 
         Post post = new Post();
         for (int i = 0; i < array.length; i++) {
@@ -79,6 +83,10 @@ public class TsvService {
                 case 1:
                     //TODO time parser to check if time is before now
                     post.setTime(value);
+                    int delay = scheduleService.getDelay(post);
+                    if(delay< 0){
+                        throw new MalformedTsvException("Time Error in line: "+ i, i, value);
+                    }
                     break;
                 case 2:
                     post.setContent(value);

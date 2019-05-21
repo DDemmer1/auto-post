@@ -157,13 +157,14 @@ button.submit-post{
 
 
 .tsvToast {
+    color: blue;
     width:200px;
     height:20px;
     height:auto;
     position:absolute;
     left:50%;
     margin-left:-100px;
-    bottom:10px;
+    /*bottom:10px;*/
     background-color: #383838;
     color: #F0F0F0;
     font-family: Calibri;

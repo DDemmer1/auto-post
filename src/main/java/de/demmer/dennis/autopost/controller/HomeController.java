@@ -44,14 +44,17 @@ public class HomeController {
 
         if (activeUser!=null){
             model.addAttribute("pageList", activeUser.getPageList());
-        } else {
-            //----------DEV----------//
-            User dev = userFactory.getUser(devAccessToken);
-            sessionService.addActiveUser(dev);
-            loginService.updateUser(dev);
-            model.addAttribute("pageList", activeUser.getPageList());
-            //----------DEV----------//
         }
+
+        //----------DEV----------//
+        else {
+            activeUser = userFactory.getUser(devAccessToken);
+            sessionService.addActiveUser(activeUser);
+            loginService.updateUser(activeUser);
+            model.addAttribute("pageList", activeUser.getPageList());
+        }
+        //----------DEV----------//
+
 
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 
