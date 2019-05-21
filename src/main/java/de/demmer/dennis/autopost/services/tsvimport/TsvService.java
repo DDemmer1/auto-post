@@ -85,7 +85,7 @@ public class TsvService {
                     post.setTime(value);
                     int delay = scheduleService.getDelay(post);
                     if(delay< 0){
-                        throw new MalformedTsvException("Time Error in line: "+ i, i, value);
+                        throw new MalformedTsvException("Time Error in line: "+ i, i, "Time Error: " + value);
                     }
                     break;
                 case 2:
