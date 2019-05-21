@@ -36,14 +36,14 @@ public class LoginService {
     PageRepository pageRepository;
 
     public void login(String code) {
-        log.info(code);
         String accessToken = facebookService.createFacebookAccessToken(code);
+        log.info(code);
         User user = userFactory.getUser(accessToken);
         updateUser(user);
     }
 
 
-    private void updateUser(User user) {
+    public void updateUser(User user) {
 
         if (userRepository.findUserByFbId(user.getFbId()) == null) {
             //New User
