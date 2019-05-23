@@ -89,9 +89,10 @@ public class TsvController {
             modelMap.addAttribute("numAddedPosts" , tsvPosts.size());
 
         } catch (MalformedTsvException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             modelMap.addAttribute("line",e.getRow());
             modelMap.addAttribute("linecontent",e.getContent());
+            modelMap.addAttribute("message",e.getMessage());
             modelMap.addAttribute("error",true);
             file.delete();
             return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);

@@ -153,10 +153,9 @@ public class FacebookService {
                     }
                 }
             }).start();
-
-
-
         }
+
+
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
         PageOperations pageOps = facebook.pageOperations();
         try {

@@ -26,6 +26,7 @@
 
 <div class="container">
     <h2>Choose .tsv file</h2>
+    <p>Every image url will be tested for reachability this can take a while.</p>
     <form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data">
         <div class="row">
             <input class="btn btn-facebook text-white" type="file" name="file" id="file">
@@ -43,9 +44,9 @@
     <header class="bg-facebook text-white">
         <div class="container text-center">
             <h1>TSV Parsing Error - Document Malformed</h1>
-            <p class="lead">Parsing error in line <b> [[${param.line}]] </b>. <u>Date in the Past</u> or other <u>formatting problems</u>. Please check the file and try again!</p>
+            <p class="lead">Malformed TSV-File. <u>[[${param.message}]]</u> in line [[${param.line}]]. Please check your file and try again!</p>
             <hr>
-            <p th:text="${param.linecontent}"></p>
+            <p>Line [[${param.line}]]. Unvalid value: "[[${param.linecontent}]]"</p>
         </div>
     </header>
 </div>
