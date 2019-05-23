@@ -1,8 +1,5 @@
 package de.demmer.dennis.autopost.services.scheduling;
 
-import de.demmer.dennis.autopost.services.tsvimport.MalformedTsvException;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +28,6 @@ public class DateParser {
                     current.setHours(0);
 
                     if(date1.after(current)){
-                        System.out.println(current.toString());
                         return new SimpleDateFormat("yyyy-MM-dd").format(date1);
                     } else return null;
 

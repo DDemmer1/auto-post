@@ -44,8 +44,7 @@ public class TsvService {
 
         List<String[]> allRows = parser.parseAll(tsvFile);
 
-        allRows.forEach(row -> System.out.println(Arrays.asList(row).toString()));
-
+//        allRows.forEach(row -> System.out.println(Arrays.asList(row).toString()));
 
         List<Post> parsedPosts = new ArrayList<>();
 
