@@ -37,59 +37,90 @@
     <!--If TSVimport successfull-->
 
     <div th:if="${param.tsvSuccess}">
-        <div class="tsvToast" style="display: none">[[${param.numAddedPosts}]] Posts added <i style="color: green;" class="fa fa-check" aria-hidden="true"></i></div>
+        <div class="tsvToast" style="display: none">[[${param.numAddedPosts}]] Posts added <i style="color: green;"
+                                                                                              class="fa fa-check"
+                                                                                              aria-hidden="true"></i>
+        </div>
     </div>
 
+    <form th:action="${page.getFbId()} + '/selected'" method="GET">
+
+        <div class="container schedule-table">
+            <a class="btn text-white btn-facebook" style="margin-bottom: 1rem; margin-top: 1rem"
+               th:href="${page.getFbId()} +'/new'"><i
+                    class="fa fa-plus"></i> Add new Post</a>
+            <a class="btn btn-secondary text-white" style="margin-bottom: 1rem; margin-top: 1rem"
+               th:href="${page.getFbId()} +'/tsvform'"><i
+                    class="fa fa-plus"></i> Import TSV-File</a>
+            <li class="nav-item dropdown action-dropdown">
+                <button class="btn btn-secondary dropdown-toggle select-button" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Selected
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-item"><i class="fa fa-trash-o" aria-hidden="true"></i><input class="dropdown-item input-submit" value="delete" name="action" type="submit"></input></div>
+                    <div class="dropdown-item"><i class="fa fa-minus-circle" aria-hidden="true"></i><input class="dropdown-item input-submit" value="disable" name="action" type="submit"></input></div>
+                    <div class="dropdown-item"><i class="fa fa-hourglass-half" aria-hidden="true"></i><input class="dropdown-item input-submit" value="enable" name="action" type="submit"></input></div>
+
+                </div>
+            </li>
 
 
-    <div class="container schedule-table">
-        <a class="btn text-white btn-facebook" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/new'"><i
-                class="fa fa-plus"></i> Add new Post</a>
-        <a class="btn btn-warning text-white" style="margin-bottom: 1rem" th:href="${page.getFbId()} +'/tsvform'"><i
-                class="fa fa-plus"></i> Import TSV-File</a>
+            <table class="table table-hover table-responsive-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
+                    <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
+                    <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
+                    <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="all-btn">
+                    <td class="all-btn">
+                        <input id="select-all" class="all-btn" type="checkbox"></input>
+                    </td>
+                </tr>
 
-        <table class="table table-hover table-responsive-sm">
-            <thead>
-            <tr>
-                <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
-                <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
-                <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
-                <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
-                th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}"
-                th:each="post : ${postList}">
-
-                <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
-                    <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
-                </th:block>
-
-                <td th:text="${post.getContent()}">This is a test post</td>
-                <td><img th:src="${post.getImg()}" class="post-picture"
-                         src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
+                <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
+                    th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}"
+                    th:each="post : ${postList}">
 
 
-                <td th:if="${post.isEnabled() && !post.isPosted()}">
-                    <i class="check-enabled fa fa-hourglass-half"></i>
-                </td>
-
-                <td th:if="${!post.isEnabled() && !post.isPosted()}">
-                    <i class="not-enabled fa fa-minus-circle"></i>
-                </td>
-
-                <td th:if="${post.isEnabled() && post.isPosted()}">
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check"
-                                                                          aria-hidden="true"></i>
-                </td>
-            </tr>
-
-            </tbody>
-        </table>
+                    <td class="checkbox"><input th:name="${post.getId()}" class="checkbox" type="checkbox"></td>
 
 
-    </div>
+                    <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
+                        <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
+                    </th:block>
+                    <td>
+                        <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
+                    </td>
+                    <td><img th:src="${post.getImg()}" class="post-picture"
+                             src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
+
+
+                    <td th:if="${post.isEnabled() && !post.isPosted()}">
+                        <i class="check-enabled fa fa-hourglass-half"></i>
+                    </td>
+
+                    <td th:if="${!post.isEnabled() && !post.isPosted()}">
+                        <i class="not-enabled fa fa-minus-circle"></i>
+                    </td>
+
+                    <td th:if="${post.isPosted()}">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check"
+                                                                              aria-hidden="true"></i>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </form>
 </div>
 
 <!-- Footer -->

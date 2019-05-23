@@ -24,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 @Log4j2
@@ -51,9 +53,6 @@ public class PageController {
     @Autowired
     ScheduleService scheduleService;
 
-
-
-
     @GetMapping(value = "/schedule/{id}")
     public String postList(@PathVariable(value = "id") String id, Model model) {
 
@@ -74,94 +73,53 @@ public class PageController {
         return "page";
     }
 
-    @PostMapping(value="/schedule/{id}/tsvform/upload")
-    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap){
+
+    @GetMapping(value = "/schedule/{id}/selected")
+    public ModelAndView changeSelected(@PathVariable(value = "id") String id, ModelMap modelMap, @RequestParam Map<String, String> params) {
 
         User user = sessionService.getActiveUser();
-
-        modelMap.addAttribute("page", pageRepository.findByFbId(id));
-
-        //Add user data from session
-        if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
-            Collections.sort(posts);
-            modelMap.addAttribute("pageList", user.getPageList());
-            modelMap.addAttribute("postList", posts);
-        } else {
+        if (user == null) {
             modelMap.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
-            return new ModelAndView("redirect:/error", modelMap);
+            return new ModelAndView("no-login", modelMap);
         }
 
-        File file = null;
-        try {
-            file = new File(multiFile.getOriginalFilename());
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(multiFile.getBytes());
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String action = params.get("action");
+        List<Integer> postIds = new ArrayList<>();
 
-        try {
-            List<Post> tsvPosts = tsvService.parseTSV(file, id);
-            for (Post post : tsvPosts) {
-                postRepository.save(post);
-                scheduleService.schedulePost(post);
+        params.entrySet().forEach((entry) -> {
+            if (entry.getValue().equals("on")) {
+                postIds.add(Integer.parseInt(entry.getKey()));
             }
+        });
 
-            file.delete();
+        if (action.equals("delete"))
+            postIds.forEach((postId) ->{
+                Post post = postRepository.findByIdAndPageFbId(postId, id);
+                scheduleService.cancelScheduling(post);
 
-            modelMap.addAttribute("tsvSuccess" , true);
-            modelMap.addAttribute("numAddedPosts" , tsvPosts.size());
+                postRepository.deleteByIdAndPageFbId(postId, id);
+            });
 
-        } catch (MalformedTsvException e) {
-            e.printStackTrace();
-            modelMap.addAttribute("line",e.getRow());
-            modelMap.addAttribute("linecontent",e.getContent());
-            modelMap.addAttribute("error",true);
-            file.delete();
-            return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
-        }
+        if (action.equals("disable"))
+            postIds.forEach((postId) -> {
+                Post post = postRepository.findByIdAndPageFbId(postId, id);
+                scheduleService.cancelScheduling(post);
+
+                post.setEnabled(false);
+                postRepository.save(post);
+            });
 
 
-        return new ModelAndView("redirect:/schedule/"+ id, modelMap);
+        if (action.equals("enable"))
+            postIds.forEach((postId) -> {
+                Post post = postRepository.findByIdAndPageFbId(postId, id);
+                post.setEnabled(true);
+                scheduleService.schedulePost(post);
+                postRepository.save(post);
+            });
+
+        return new ModelAndView("redirect:/schedule/" + id, modelMap);
     }
-
-
-
-    @GetMapping(value="/schedule/{id}/tsvform")
-    public String tsvForm(@PathVariable(value = "id") String id, Model model,@RequestParam(value = "tsvSuccess", required = false) Boolean tsvSuccess, @RequestParam(value = "numAddedPosts", required = false) Integer numAddedPosts){
-
-        User user = sessionService.getActiveUser();
-
-        model.addAttribute("page", pageRepository.findByFbId(id));
-
-        if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
-            Collections.sort(posts);
-            model.addAttribute("pageList", user.getPageList());
-            model.addAttribute("postList", posts);
-        } else {
-            model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
-            return "no-login";
-        }
-
-
-        model.addAttribute("numAddedPosts",numAddedPosts);
-        model.addAttribute("tsvSuccess",tsvSuccess);
-
-
-        return "tsvform";
-    }
-
-
-
-
-
-
-
-
 
 
 }

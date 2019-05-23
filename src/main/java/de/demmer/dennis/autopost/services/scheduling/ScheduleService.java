@@ -31,16 +31,23 @@ public class ScheduleService {
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
-    Map<Integer,ScheduledFuture<?>> tasks = new HashMap<>();
+    private Map<Integer,ScheduledFuture<?>> tasks = new HashMap<>();
 
     public Post schedulePost(Post post) {
-        TimerTask task = new PostTask(post.getUser(), post, facebookService,postRepository);
-        ScheduledFuture<?> scheduledFuture = scheduler.schedule(task, getDelay(post), TimeUnit.SECONDS);
 
-        if(post.isScheduled() && post.isEnabled()){
-            cancelScheduling(post);
-            post.setScheduled(false);
-        } else if(post.isEnabled()){
+        int delay = getDelay(post);
+
+        if(delay<0){
+            log.info("Delay " + delay + " post not scheduled" );
+            return post;
+        }
+
+        TimerTask task = new PostTask(post.getUser(), post, facebookService,postRepository);
+        ScheduledFuture<?> scheduledFuture = scheduler.schedule(task, delay, TimeUnit.SECONDS);
+        log.info("Post " + post.getId() + " scheduled");
+        if(post.isScheduled()){
+            return post;
+        } else if(post.isEnabled() && !post.isScheduled()){
             post.setScheduled(true);
             tasks.put(post.getId(),scheduledFuture);
         }
@@ -50,9 +57,15 @@ public class ScheduleService {
 
 
     public Post cancelScheduling(Post post){
-        tasks.get(post.getId()).cancel(true);
-        post.setScheduled(false);
-        tasks.remove(post);
+        try{
+            tasks.get(post.getId()).cancel(true);
+            tasks.remove(post.getId());
+            post.setScheduled(false);
+            log.info("Scheduling of post " + post.getId() + " stopped");
+        } catch (NullPointerException ne){
+            log.info("Post " + post.getId() + " already canceled");
+        }
+
         return post;
     }
 
@@ -64,19 +77,16 @@ public class ScheduleService {
         String datePost = post.getDate();
         String timePost = post.getTime() + ":00";
 
-        log.info("DateNow: "+ dateNow);
-        log.info("TimeNow: "+ timeNow);
-        log.info("****************");
-        log.info("DatePost: "+ datePost);
-        log.info("TimePost: "+ timePost);
-
 
         LocalDateTime d1 = LocalDateTime.parse(datePost + " " + timePost, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime d2 = LocalDateTime.parse(dateNow + " " + timeNow, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         Duration diff = Duration.between(d2, d1);
-        log.info("Delay: "+ (int) diff.getSeconds());
+        log.info("Delay: "+ (int) diff.getSeconds()+ "s");
         return (int) diff.getSeconds();
     }
 
+    public Map<Integer, ScheduledFuture<?>> getTasks() {
+        return tasks;
+    }
 }

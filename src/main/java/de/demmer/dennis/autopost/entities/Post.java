@@ -30,7 +30,7 @@ public class Post implements Comparable<Post> {
 
     private String pageID;
 
-    @Column(nullable = false)
+    @Column (length= 10485760, nullable = false)
     private String content;
 
     @Column(nullable = false)

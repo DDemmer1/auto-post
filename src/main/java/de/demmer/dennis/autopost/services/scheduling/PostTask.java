@@ -46,7 +46,6 @@ public class PostTask extends TimerTask {
 
         if (post != null && user != null && !post.isPosted() && post.isScheduled() && post.isEnabled()) {
             facebookService.post(user, post);
-            log.info("Post mit Inhalt: " + post.getContent() + " , wurde von User: " + user.getFbId() + " gepostet");
 
             Post posted = postRepository.findByIdAndUserId(post.getId(), user.getId());
             posted.setPosted(true);

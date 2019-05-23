@@ -13,7 +13,11 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 
     void deleteAllByUserIdAndPageId(int userId, int pageId);
 
+    void deleteByIdAndPageFbId(int postId, String pageFbId);
+
     Post findByIdAndUserId(int postId, int userId);
+
+    Post findByIdAndPageFbId(int postId, String pageFbId);
 
     List<Post> findByUserIdOrderByDateAsc(int userID);
 

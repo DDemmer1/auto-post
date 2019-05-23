@@ -93,6 +93,7 @@ public class PostController {
     public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto) {
 
         Post post = postService.updatePost(new Post(), postDto, pageFbId);
+        if(post.isEnabled())
         scheduleService.schedulePost(post);
 
         return "redirect:/schedule/" + pageFbId;
@@ -103,8 +104,25 @@ public class PostController {
     public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto) {
 
         Post post = postRepository.findByIdAndUserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
+        if(!postDto.isEnabled() && post.isEnabled()){
+            scheduleService.cancelScheduling(post);
+        }
         Post updatedPost = postService.updatePost(post,postDto,pageFbId);
+        if(updatedPost.isEnabled() && !updatedPost.isPosted())
         scheduleService.schedulePost(updatedPost);
+
+        return "redirect:/schedule/" + pageFbId;
+    }
+
+
+
+    @GetMapping(value = "/schedule/{pageFbId}/{postId}/delete")
+    public String deletePost(@PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") Integer postId) {
+
+        Post post = postRepository.findByIdAndPageFbId(postId, pageFbId);
+        scheduleService.cancelScheduling(post);
+
+        postRepository.deleteByIdAndPageFbId(postId, pageFbId);
 
         return "redirect:/schedule/" + pageFbId;
     }
