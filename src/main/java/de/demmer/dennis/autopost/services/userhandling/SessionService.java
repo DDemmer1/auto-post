@@ -27,32 +27,22 @@ public class SessionService{
     @Autowired
     UserRepository userRepository;
 
-//    @Autowired
-//    PageRepository pageRepository;
 
     public void addActiveUser(User user){
 
         Map<String ,String> activeuser = new HashMap<>();
-//        Map<String ,String> userPages = new HashMap<>();
 
         activeuser.put("id",user.getId()+"");
         activeuser.put("name",user.getName());
-//        activeuser.put("email",user.getEmail());
-//        activeuser.put("fbid",user.getFbId());
-//        activeuser.put("oAuthToken",user.getOauthToken());
         activeuser.put("profilePic",facebookService.getProfilePicture(user.getOauthToken()));
 
         session.setAttribute("activeuser",activeuser);
-//
-//        pageRepository.findByUserId(user.getId()).forEach(page -> userPages.put(page.getFbId(),page.getName()));
-//        session.setAttribute("userPages",userPages);
 
     }
 
 
     public void removeActiveUser(){
         session.removeAttribute("activeuser");
-//        session.removeAttribute("userPages");
     }
 
     public User getActiveUser(){

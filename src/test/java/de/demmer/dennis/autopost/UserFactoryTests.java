@@ -2,6 +2,7 @@ package de.demmer.dennis.autopost;
 
 
 import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.properties.TestProperties;
 import de.demmer.dennis.autopost.services.FacebookService;
@@ -29,7 +30,7 @@ public class UserFactoryTests {
 
 
     @Test
-    public void getUserTest(){
+    public void getUserTest() throws UserException {
         User user = userFactory.getUser(testProperties.getAccessToken());
         Assert.assertTrue("FBid of created User not valid",user.getFbId().equals(testProperties.getFbID()));
         log.info(user);

@@ -1,5 +1,6 @@
 package de.demmer.dennis.autopost;
 
+import de.demmer.dennis.autopost.entities.user.UserException;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Please change the redirect URL in application.properties to your development domain
  */
 
-@Transactional
+@Transactional (rollbackFor = UserException.class)
 @SpringBootApplication
 public class AutoPostApplication implements CommandLineRunner{
     public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}

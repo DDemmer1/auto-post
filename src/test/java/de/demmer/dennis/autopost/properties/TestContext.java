@@ -3,6 +3,7 @@ package de.demmer.dennis.autopost.properties;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.UserRepository;
@@ -39,7 +40,7 @@ public abstract class TestContext {
     public Post testPost;
 
     @PostConstruct
-    public void init(){
+    public void init() throws UserException {
         testUser = userFactory.getUser(testProperties.getAccessToken());
         testPage = new Page();
 

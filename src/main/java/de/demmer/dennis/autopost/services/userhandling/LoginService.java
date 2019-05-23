@@ -2,6 +2,7 @@ package de.demmer.dennis.autopost.services.userhandling;
 
 import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.UserRepository;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Log4j2
 @Service
-@Transactional
+@Transactional (rollbackFor = UserException.class)
 public class LoginService {
 
     @Autowired
@@ -35,7 +36,7 @@ public class LoginService {
     @Autowired
     PageRepository pageRepository;
 
-    public void login(String code) {
+    public void login(String code) throws UserException {
         String accessToken = facebookService.createFacebookAccessToken(code);
         log.info(code);
         User user = userFactory.getUser(accessToken);

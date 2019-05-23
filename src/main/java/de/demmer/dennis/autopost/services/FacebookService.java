@@ -4,6 +4,7 @@ package de.demmer.dennis.autopost.services;
 import de.demmer.dennis.autopost.entities.Page;
 import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import lombok.extern.log4j.Log4j2;
@@ -30,7 +31,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@Transactional
+@Transactional (rollbackFor = UserException.class)
 @Log4j2
 @Service
 public class FacebookService {
@@ -113,7 +114,6 @@ public class FacebookService {
                 con.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 
                 InputStream is = con.getInputStream();
-                Thread.sleep(4000);
                 OutputStream os = new FileOutputStream(random + ".png");
 
                 byte[] b = new byte[2048];
@@ -131,17 +131,14 @@ public class FacebookService {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String picture = random + ".png";
                     try {
-                        TimeUnit.MINUTES.sleep(10);
+                        TimeUnit.MINUTES.sleep(1);
                         try {
                             Files.delete(Paths.get(picture));
                             ctx.getResource("file:" + picture).getFile().delete();
@@ -180,20 +177,25 @@ public class FacebookService {
         List<Page> pageList = new ArrayList<>();
 
         Facebook facebook = new FacebookTemplate(oAuthToken);
-        String accountData = facebook.fetchObject("me", String.class, "accounts");
-        JSONObject jsonAcountData = new JSONObject(accountData).getJSONObject("accounts");
-        JSONArray jsonArray = jsonAcountData.getJSONArray("data");
+        try {
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject obj = jsonArray.getJSONObject(i);
-            String id = obj.get("id").toString();
-            String name = obj.get("name").toString();
-            Page page = new Page();
-            page.setFbId(id);
-            page.setName(name);
-            pageList.add(page);
+
+            String accountData = facebook.fetchObject("me", String.class, "accounts");
+            JSONObject jsonAcountData = new JSONObject(accountData).getJSONObject("accounts");
+            JSONArray jsonArray = jsonAcountData.getJSONArray("data");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                String id = obj.get("id").toString();
+                String name = obj.get("name").toString();
+                Page page = new Page();
+                page.setFbId(id);
+                page.setName(name);
+                pageList.add(page);
+            }
+        } catch (Exception e){
+            return null;
         }
-
         return pageList;
 
     }

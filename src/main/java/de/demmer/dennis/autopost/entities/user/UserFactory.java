@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
+@Transactional(rollbackFor = UserException.class)
 @Log4j2
 @Component
 public class UserFactory {
@@ -21,15 +21,22 @@ public class UserFactory {
     @Autowired
     PageRepository pageRepository;
 
-    public User getUser(String oAuthToken){
-        String id = facebookService.getID(oAuthToken);
-        String name = facebookService.getName(oAuthToken);
-        String email = facebookService.getEmail(oAuthToken);
-        List<Page> pageList = facebookService.getPages(oAuthToken);
+    public User getUser(String oAuthToken) throws UserException {
+        try{
+            String id = facebookService.getID(oAuthToken);
+            String name = facebookService.getName(oAuthToken);
+            String email = facebookService.getEmail(oAuthToken);
+            List<Page> pageList = facebookService.getPages(oAuthToken);
+            if(pageList == null){
+                throw new UserException("No page or insufficient rights to page.");
+            }
 
-        User user = new User(id,oAuthToken,name,email,pageList);
-        user.getPageList().forEach(page -> page.setUser(user));
+            User user = new User(id,oAuthToken,name,email,pageList);
+            user.getPageList().forEach(page -> page.setUser(user));
+            return user;
+        } catch (Exception e){
+            throw new UserException("Insufficient rights given.");
+        }
 
-        return user;
     }
 }

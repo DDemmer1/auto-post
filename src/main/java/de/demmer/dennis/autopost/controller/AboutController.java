@@ -30,4 +30,16 @@ public class AboutController {
         return "about";
     }
 
+    @GetMapping(value = "/services")
+    public String getServices(Model model) {
+
+        User activeUser = sessionService.getActiveUser();
+
+        if (activeUser != null)model.addAttribute("pageList", activeUser.getPageList());
+
+        model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
+        return "services";
+    }
+
 }

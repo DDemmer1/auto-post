@@ -52,12 +52,12 @@ public class HomeController {
         }
 
         //----------DEV----------//
-        else {
-            activeUser = userFactory.getUser(devAccessToken);
-            sessionService.addActiveUser(activeUser);
-            loginService.updateUser(activeUser);
-            model.addAttribute("pageList", activeUser.getPageList());
-        }
+//        else {
+//            activeUser = userFactory.getUser(devAccessToken);
+//            sessionService.addActiveUser(activeUser);
+//            loginService.updateUser(activeUser);
+//            model.addAttribute("pageList", activeUser.getPageList());
+//        }
         //----------DEV----------//
 
 
