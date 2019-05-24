@@ -21,4 +21,15 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 
     List<Post> findByUserIdOrderByDateAsc(int userID);
 
+    List<Post> findByScheduledAndUserId(boolean scheduled, int userId);
+
+    List<Post> findByPostedAndUserId(boolean posted, int userId);
+
+
+    List<Post> findByEnabledAndUserId(boolean enabled, int userId);
+
+    List<Post> findByErrorAndUserId(boolean error, int userId);
+
+    List<Post> findByEnabledAndPostedAndUserId (boolean enabled, boolean posted, int userId);
+
 }

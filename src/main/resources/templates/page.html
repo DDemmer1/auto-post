@@ -69,7 +69,7 @@
             <table class="table table-hover table-responsive-sm">
                 <thead>
                 <tr>
-                    <th scope="col">Select</th>
+                    <th scope="col"><input id="select-all" class="all-btn" type="checkbox"></input></th>
                     <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
                     <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
                     <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
@@ -77,11 +77,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="all-btn">
-                    <td class="all-btn">
-                        <input id="select-all" class="all-btn" type="checkbox"></input>
-                    </td>
-                </tr>
 
                 <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
                     th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}"
@@ -101,12 +96,16 @@
                              src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
 
 
-                    <td th:if="${post.isEnabled() && !post.isPosted()}">
+                    <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
                         <i class="check-enabled fa fa-hourglass-half"></i>
                     </td>
 
                     <td th:if="${!post.isEnabled() && !post.isPosted()}">
                         <i class="not-enabled fa fa-minus-circle"></i>
+                    </td>
+
+                    <td th:if="${post.isError()}" style="color:black">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></i>
                     </td>
 
                     <td th:if="${post.isPosted()}">

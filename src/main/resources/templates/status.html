@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="../elements/header (title='Status')"></head>
+
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav th:replace="../elements/navbar"></nav>
+
+
+<header class="bg-facebook text-white">
+
+    <div class="container">
+        <h2><i class="fa fa-bar-chart" aria-hidden="true"></i> Hello [[${user.getName()}]]!</h2>
+        <div class="row status-tables">
+            <div class="col-6">
+                <h2><i class="fa fa-facebook-square" aria-hidden="true"></i> Posts</h2>
+                <hr>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Scheduled:</td>
+                        <td>[[${scheduled}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Posted:</td>
+                        <td>[[${posted}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Disabled:</td>
+                        <td>[[${disabled}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Error:</td>
+                        <td>[[${error}]]</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h2><i class="fa fa-user" aria-hidden="true"></i> Facebook information</h2>
+                <hr>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Name:</td>
+                        <td>[[${user.getName()}]]</td>
+                    </tr>
+                    <tr>
+                        <td>E-Mail:</td>
+                        <td>[[${user.getEmail()}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Facebook ID:</td>
+                        <td>[[${user.getFbId()}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Access to sites:</td>
+                        <td>[[${user.getPageList().toString()}]]</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section>
+    <div class="text-center ">
+
+    </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer th:replace="../elements/footer"></footer>
+
+</body>
+
+</html>

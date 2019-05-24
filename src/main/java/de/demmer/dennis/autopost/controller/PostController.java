@@ -104,11 +104,9 @@ public class PostController {
     public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto) {
 
         Post post = postRepository.findByIdAndUserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
-        if(!postDto.isEnabled() && post.isEnabled()){
-            scheduleService.cancelScheduling(post);
-        }
+        scheduleService.cancelScheduling(post);
         Post updatedPost = postService.updatePost(post,postDto,pageFbId);
-        if(updatedPost.isEnabled() && !updatedPost.isPosted())
+        if(updatedPost.isEnabled())
         scheduleService.schedulePost(updatedPost);
 
         return "redirect:/schedule/" + pageFbId;

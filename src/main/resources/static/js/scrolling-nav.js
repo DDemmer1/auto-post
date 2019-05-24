@@ -11,6 +11,15 @@ jQuery(document).ready(function ($) {
     });
 
 
+    //stops bubbeling of clickable row in checkbox
+    $(".btn-delete-account").click(function (event) {
+        let answer = confirm("Do you realy want to delete your account? This will remove all of your autoPost-data irreversible ")
+        if(answer === true){
+            window.location.href="/deleteaccount";
+        }
+    });
+
+
     $('#select-all').on('click',function(){
         if(this.checked){
             $('.checkbox').each(function(){
@@ -38,7 +47,8 @@ jQuery(document).ready(function ($) {
             popupButtonClasses: 'fa fa-smile-o'
         });
         window.emojiPicker.discover();
+        //set preserve formatting on wysiwyg editor
+        $(".emoji-wysiwyg-editor").addClass("text-input");
     });
-
 
 });

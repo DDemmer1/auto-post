@@ -49,6 +49,8 @@ public class PostTask extends TimerTask {
 
             Post posted = postRepository.findByIdAndUserId(post.getId(), user.getId());
             posted.setPosted(true);
+            posted.setEnabled(false);
+            posted.setScheduled(false);
             postRepository.save(posted);
 
         } else {

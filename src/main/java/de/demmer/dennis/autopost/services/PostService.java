@@ -30,6 +30,7 @@ public class PostService {
 
         post.setEnabled(postDto.isEnabled());
         post.setPosted(false);
+        post.setError(false);
 
         post.setContent(postDto.getContent());
         post.setImg(postDto.getImg());

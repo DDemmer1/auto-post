@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Entity(name="pages")
 public class Page {
 
@@ -48,4 +47,9 @@ public class Page {
         return fbId.equals(page.fbId);
     }
 
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

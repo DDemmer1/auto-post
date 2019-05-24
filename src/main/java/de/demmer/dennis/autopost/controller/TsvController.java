@@ -65,6 +65,11 @@ public class TsvController {
             return new ModelAndView("redirect:/error", modelMap);
         }
 
+        //No Input
+        if(multiFile ==null || multiFile.isEmpty() || multiFile.getName().equals("")){
+            return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
+        }
+
         File file = null;
         try {
             file = new File(multiFile.getOriginalFilename());
@@ -97,8 +102,6 @@ public class TsvController {
             file.delete();
             return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
         }
-
-
         return new ModelAndView("redirect:/schedule/"+ id, modelMap);
     }
 

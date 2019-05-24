@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="../elements/header (title='Tsv Parsing Error')"></head>
+<head th:replace="../elements/header (title='User Error')"></head>
 
 <body>
 
@@ -14,8 +14,8 @@
 
 <header class="bg-facebook text-white">
     <div class="container text-center">
-        <h1>TSV Parsing Error - Document Malformed</h1>
-        <p class="lead">Parsing error in line [[${line}]]. Date in the Past or other formatting problems. Please check the file and try again!</p>
+        <h1>Insufficient rights</h1>
+        <p class="lead">You did not give sufficient rights or do not have facebook pages to manage.</p>
     </div>
 </header>
 

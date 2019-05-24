@@ -56,8 +56,20 @@ public class TsvService {
 
         int i = 1;
         for (String[] row : allRows) {
-            Post post = arrayToPost(row,i);
+            if(row[0].startsWith("//")){
+                log.info("Comment in line " + i);
+                continue;
+            }
+
+            Post post = arrayToPost(row, i);
             if (post != null) {
+                try {
+                    if (post.getContent().equals("") && post.getImg().equals("")) {
+                        throw new MalformedTsvException("Content Error", i, "no content or image detected");
+                    }
+                } catch (NullPointerException ne) {
+                    throw new MalformedTsvException("Content Error", i, "no content or image detected");
+                }
                 Page page = pageRepository.findByFbId(id);
                 post.setPage(page);
                 post.setPageID(page.getFbId());
@@ -77,29 +89,36 @@ public class TsvService {
         Post post = new Post();
         for (int col = 0; col < posts.length; col++) {
             String value = posts[col];
-            String originalDate ="";
+            String originalDate = "";
             switch (col) {
                 case 0:
                     //Date
-                    originalDate = value;
-                    String date = DateParser.parse(value);
-                    if (date == null) {
+                    try {
+                        originalDate = value;
+                        String date = DateParser.parse(value);
+                        post.setDate(date);
+                        if(date==null){
+                            throw new MalformedTsvException("Date Error", row, value);
+                        }
+                    } catch (Exception e) {
                         throw new MalformedTsvException("Date Error", row, value);
                     }
-                    post.setDate(date);
-
                     break;
                 case 1:
                     //Time
-                    post.setTime(value);
-                    int delay = scheduleService.getDelay(post);
-                    if (delay < 0) {
-                        throw new MalformedTsvException("Time Error", row, originalDate + " " +value);
+                    try {
+                        post.setTime(value);
+                        int delay = scheduleService.getDelay(post);
+                        if (delay < 0) {
+                            throw new MalformedTsvException("Time Error", row, originalDate + " " + value);
+                        }
+                    } catch (Exception e) {
+                        throw new MalformedTsvException("Time Error", row, originalDate + " " + value);
                     }
                     break;
                 case 2:
                     //Content
-                    post.setContent(value);
+                    post.setContent(value != null ? value : "");
                     break;
                 case 3:
                     //Image
@@ -125,7 +144,7 @@ public class TsvService {
             con.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
             int status = con.getResponseCode();
 
-            if(status!= 200){
+            if (status != 200) {
                 return false;
             }
         } catch (Exception e) {

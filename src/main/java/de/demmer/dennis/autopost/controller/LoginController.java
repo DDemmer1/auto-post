@@ -2,6 +2,9 @@ package de.demmer.dennis.autopost.controller;
 
 
 import de.demmer.dennis.autopost.entities.user.UserException;
+import de.demmer.dennis.autopost.repositories.PageRepository;
+import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.UserRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.LoginService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -28,6 +31,15 @@ public class LoginController {
     @Autowired
     FacebookService facebookService;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PostRepository postRepository;
+
+    @Autowired
+    PageRepository pageRepository;
+
 
     @GetMapping(value = "/facebook")
     public String login(@RequestParam(value = "code") String code, Model model) {
@@ -35,9 +47,9 @@ public class LoginController {
             try {
                 loginService.login(code);
             } catch (Exception e) {
-                log.info("Catched");
-//                model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
-                return "redirect:/home";
+                model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+                e.printStackTrace();
+                return "no-rights";
             }
         }
         return "redirect:/home";
@@ -49,6 +61,15 @@ public class LoginController {
         sessionService.removeActiveUser();
         return "redirect:/home";
     }
+
+    @GetMapping(value = "/deleteaccount")
+    public String deleteAccount(){
+        int id = sessionService.getActiveUser().getId();
+        sessionService.removeActiveUser();
+        userRepository.deleteById(id);
+        return "redirect:/home";
+    }
+
 
 
 }

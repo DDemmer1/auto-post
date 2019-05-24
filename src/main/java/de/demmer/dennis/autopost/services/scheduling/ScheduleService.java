@@ -38,6 +38,7 @@ public class ScheduleService {
         int delay = getDelay(post);
 
         if(delay<0){
+            post.setError(true);
             log.info("Delay " + delay + " post not scheduled" );
             return post;
         }
