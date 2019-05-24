@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Log4j2
-@NoArgsConstructor
+//@NoArgsConstructor
 @Service
 public class ScheduleService {
 
@@ -31,7 +31,11 @@ public class ScheduleService {
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
-    private Map<Integer,ScheduledFuture<?>> tasks = new HashMap<>();
+    private Map<Integer,ScheduledFuture<?>> tasks;
+
+    public ScheduleService(){
+        tasks = new HashMap<>();
+    }
 
     public Post schedulePost(Post post) {
 
@@ -89,5 +93,11 @@ public class ScheduleService {
 
     public Map<Integer, ScheduledFuture<?>> getTasks() {
         return tasks;
+    }
+
+
+    public void scheduleAll(){
+        List<Post> toSchedule = postRepository.findByEnabledAndPostedAndError(true,false,false);
+        if(toSchedule != null) toSchedule.forEach(post -> schedulePost(post));
     }
 }

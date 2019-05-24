@@ -32,4 +32,6 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 
     List<Post> findByEnabledAndPostedAndUserId (boolean enabled, boolean posted, int userId);
 
+    List<Post> findByEnabledAndPostedAndError(boolean enabled, boolean posted, boolean error);
+
 }
