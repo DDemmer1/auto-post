@@ -1,7 +1,5 @@
 package de.demmer.dennis.autopost.controller;
 
-import de.demmer.dennis.autopost.entities.Page;
-import de.demmer.dennis.autopost.entities.Post;
 import de.demmer.dennis.autopost.entities.user.User;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class HomeController {

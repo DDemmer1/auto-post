@@ -23,14 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootApplication
 public class AutoPostApplication implements CommandLineRunner{
 
-    @Autowired
-    ScheduleService scheduleService;
-
     public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}
 
     @Override
-    public void run(String... args) throws Exception {
-//        scheduleService.scheduleAll();
+    public void run(String... args) {
 
     }
 
