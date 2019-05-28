@@ -30,7 +30,8 @@ public class Page {
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy="page", cascade = CascadeType.ALL)
+    @OneToMany (mappedBy="page", cascade = CascadeType.ALL)
+    @Column(name="fbposts")
     private List<Post> posts = new ArrayList<>();
 
     @Column(columnDefinition="boolean default 1")

@@ -5,9 +5,7 @@ import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 @Getter
 @Setter
@@ -28,6 +26,7 @@ public class Post implements Comparable<Post> {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name ="page_id")
     private String pageID;
 
     @Column (length= 10485760, nullable = false)
