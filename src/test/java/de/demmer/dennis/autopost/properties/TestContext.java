@@ -55,7 +55,7 @@ public abstract class TestContext {
         testPost.setUser(testUser);
         testPost.setEnabled(true);
 
-        testPage.getFbposts().add(testPost);
+        testPage.getPosts().add(testPost);
         testPage.setUser(testUser);
         testPost.setPage(testPage);
         testPost.setPageID(testProperties.getPageID());

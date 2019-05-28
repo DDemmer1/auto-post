@@ -56,7 +56,7 @@ public class PageController {
         model.addAttribute("page", pageRepository.findByFbId(id));
 
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getFbposts();
+            List<Post> posts = pageRepository.findByFbId(id).getPosts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
             model.addAttribute("postList", posts);
