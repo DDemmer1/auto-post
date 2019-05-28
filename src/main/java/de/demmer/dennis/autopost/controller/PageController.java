@@ -6,7 +6,6 @@ import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
-import de.demmer.dennis.autopost.services.tsvimport.MalformedTsvException;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
@@ -17,13 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,7 +56,7 @@ public class PageController {
         model.addAttribute("page", pageRepository.findByFbId(id));
 
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            List<Post> posts = pageRepository.findByFbId(id).getFbposts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
             model.addAttribute("postList", posts);

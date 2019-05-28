@@ -14,7 +14,7 @@ public class ApplicationConfiguration {
 //    ScheduleService scheduleService;
 //
 //
-//    //Schedule posts on application startup
+//    //Schedule fbposts on application startup
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void handleContextRefresh() {
 //        scheduleService.scheduleAll();

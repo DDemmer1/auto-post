@@ -56,7 +56,7 @@ public class TsvController {
 
         //Add user data from session
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            List<Post> posts = pageRepository.findByFbId(id).getFbposts();
             Collections.sort(posts);
             modelMap.addAttribute("pageList", user.getPageList());
             modelMap.addAttribute("postList", posts);
@@ -115,7 +115,7 @@ public class TsvController {
         model.addAttribute("page", pageRepository.findByFbId(id));
 
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            List<Post> posts = pageRepository.findByFbId(id).getFbposts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
             model.addAttribute("postList", posts);
