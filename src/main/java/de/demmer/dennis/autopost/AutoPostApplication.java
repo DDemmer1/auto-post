@@ -36,7 +36,7 @@ public class AutoPostApplication implements CommandLineRunner{
  * Uncomment following lines for production deployment with Jetty 9
  * Please change the redirect URL in application.properties to your deployment domain
  */
-
+//
 //@Transactional
 //@SpringBootApplication
 //

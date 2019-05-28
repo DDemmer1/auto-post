@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
 @Controller
-@Transactional(rollbackFor = UserException.class)
+//@Transactional(rollbackFor = UserException.class)
+@Transactional
 public class LoginController {
 
     @Autowired

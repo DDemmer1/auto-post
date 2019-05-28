@@ -18,7 +18,8 @@ import java.util.List;
 
 @Log4j2
 @Service
-@Transactional (rollbackFor = UserException.class)
+@Transactional
+//@Transactional (rollbackFor = UserException.class)
 public class LoginService {
 
     @Autowired
