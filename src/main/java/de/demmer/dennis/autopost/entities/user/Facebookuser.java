@@ -1,19 +1,18 @@
 package de.demmer.dennis.autopost.entities.user;
 
-import de.demmer.dennis.autopost.entities.Page;
+import de.demmer.dennis.autopost.entities.Facebookpage;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 
 
 @ToString
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "users")
-public class User {
+@Entity(name = "facebookuser")
+public class Facebookuser {
 
     @Id
     @GeneratedValue
@@ -31,12 +30,12 @@ public class User {
     @Column
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "facebookuser", cascade = CascadeType.REMOVE)
     @ElementCollection
-    private List<Page> pageList;
+    private List<Facebookpage> pageList;
 
 
-    public User(String fbId, String oauthToken, String name, String email, List<Page> pageList) {
+    public Facebookuser(String fbId, String oauthToken, String name, String email, List<Facebookpage> pageList) {
         this.fbId = fbId;
         this.oauthToken = oauthToken;
         this.name = name;

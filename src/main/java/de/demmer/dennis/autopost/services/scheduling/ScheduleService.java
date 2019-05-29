@@ -1,9 +1,8 @@
 package de.demmer.dennis.autopost.services.scheduling;
 
-import de.demmer.dennis.autopost.entities.Post;
+import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
-import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class ScheduleService {
         tasks = new HashMap<>();
     }
 
-    public Post schedulePost(Post post) {
+    public Facebookpost schedulePost(Facebookpost post) {
 
         int delay = getDelay(post);
 
@@ -47,7 +46,7 @@ public class ScheduleService {
             return post;
         }
 
-        TimerTask task = new PostTask(post.getUser(), post, facebookService,postRepository);
+        TimerTask task = new PostTask(post.getFacebookuser(), post, facebookService,postRepository);
         ScheduledFuture<?> scheduledFuture = scheduler.schedule(task, delay, TimeUnit.SECONDS);
         log.info("Post " + post.getId() + " scheduled");
         if(post.isScheduled()){
@@ -61,7 +60,7 @@ public class ScheduleService {
     }
 
 
-    public Post cancelScheduling(Post post){
+    public Facebookpost cancelScheduling(Facebookpost post){
         try{
             tasks.get(post.getId()).cancel(true);
             tasks.remove(post.getId());
@@ -75,7 +74,7 @@ public class ScheduleService {
     }
 
 
-    public int getDelay(Post post) {
+    public int getDelay(Facebookpost post) {
         String dateNow = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
         String timeNow = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now());
 
@@ -97,7 +96,7 @@ public class ScheduleService {
 
 
     public void scheduleAll(){
-        List<Post> toSchedule = postRepository.findByEnabledAndPostedAndError(true,false,false);
+        List<Facebookpost> toSchedule = postRepository.findByEnabledAndPostedAndError(true,false,false);
         if(toSchedule != null) toSchedule.forEach(post -> schedulePost(post));
     }
 }

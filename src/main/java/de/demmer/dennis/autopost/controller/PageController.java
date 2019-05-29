@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost.controller;
 
-import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.Facebookpost;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
@@ -51,12 +51,12 @@ public class PageController {
     @GetMapping(value = "/schedule/{id}")
     public String postList(@PathVariable(value = "id") String id, Model model) {
 
-        User user = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
 
         model.addAttribute("page", pageRepository.findByFbId(id));
 
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
             model.addAttribute("postList", posts);
@@ -72,7 +72,7 @@ public class PageController {
     @GetMapping(value = "/schedule/{id}/selected")
     public ModelAndView changeSelected(@PathVariable(value = "id") String id, ModelMap modelMap, @RequestParam Map<String, String> params) {
 
-        User user = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
             modelMap.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return new ModelAndView("no-login", modelMap);
@@ -89,7 +89,7 @@ public class PageController {
 
         if (action.equals("delete"))
             postIds.forEach((postId) ->{
-                Post post = postRepository.findByIdAndPageFbId(postId, id);
+                Facebookpost post = postRepository.findByIdAndPageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
 
                 postRepository.deleteByIdAndPageFbId(postId, id);
@@ -97,7 +97,7 @@ public class PageController {
 
         if (action.equals("disable"))
             postIds.forEach((postId) -> {
-                Post post = postRepository.findByIdAndPageFbId(postId, id);
+                Facebookpost post = postRepository.findByIdAndPageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
 
                 post.setEnabled(false);
@@ -107,7 +107,7 @@ public class PageController {
 
         if (action.equals("enable"))
             postIds.forEach((postId) -> {
-                Post post = postRepository.findByIdAndPageFbId(postId, id);
+                Facebookpost post = postRepository.findByIdAndPageFbId(postId, id);
                 post.setEnabled(true);
                 scheduleService.schedulePost(post);
                 postRepository.save(post);

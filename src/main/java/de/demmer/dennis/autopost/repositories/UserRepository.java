@@ -1,13 +1,13 @@
 package de.demmer.dennis.autopost.repositories;
 
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<Facebookuser, Integer> {
 
     int findIdByFbId(String fbId);
-    User findUserById(int Id);
-    User findUserByFbId(String id);
+    Facebookuser findUserById(int Id);
+    Facebookuser findUserByFbId(String id);
 
 
 }

@@ -1,7 +1,6 @@
 package de.demmer.dennis.autopost.controller;
 
-import de.demmer.dennis.autopost.entities.user.User;
-import de.demmer.dennis.autopost.entities.user.UserException;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.LoginService;
@@ -42,7 +41,7 @@ public class HomeController {
     @GetMapping(value = "/home")
     public String home(Model model) {
 
-        User activeUser = sessionService.getActiveUser();
+        Facebookuser activeUser = sessionService.getActiveUser();
 
         if (activeUser != null) {
             model.addAttribute("pageList", activeUser.getPageList());
@@ -51,7 +50,7 @@ public class HomeController {
         //----------DEV----------//
 //        else {
 //            try {
-//                activeUser = userFactory.getUser(devAccessToken);
+//                activeUser = userFactory.getFbuser(devAccessToken);
 //            } catch (UserException e) {
 //                e.printStackTrace();
 //            }

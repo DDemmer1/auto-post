@@ -1,9 +1,9 @@
 package de.demmer.dennis.autopost.services;
 
 
-import de.demmer.dennis.autopost.entities.Page;
-import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.Facebookpage;
+import de.demmer.dennis.autopost.entities.Facebookpost;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
@@ -100,7 +100,7 @@ public class FacebookService {
     }
 
 
-    public void post(User user, Post post) {
+    public void post(Facebookuser user, Facebookpost post) {
 
         scheduleService.cancelScheduling(post);
 
@@ -157,9 +157,9 @@ public class FacebookService {
         PageOperations pageOps = facebook.pageOperations();
         try {
             if (!post.getImg().equals("") && post.getImg() != null) {
-                pageOps.postPhoto(post.getPageID(), post.getPageID(), ctx.getResource("file:" + random + ".png"), post.getContent());
+                pageOps.postPhoto(post.getFacebookpageID(), post.getFacebookpageID(), ctx.getResource("file:" + random + ".png"), post.getContent());
             } else {
-                PagePostData ppd = new PagePostData(post.getPageID());
+                PagePostData ppd = new PagePostData(post.getFacebookpageID());
                 ppd.message(post.getContent());
                 pageOps.post(ppd);
             }
@@ -167,14 +167,14 @@ public class FacebookService {
             e.printStackTrace();
         }
 
-        log.info("post successful: [user: '" + user.getName() + "', page: '" + post.getPage().getName() + "', content: '" + post.getContent() + "']");
+        log.info("post successful: [fbuser: '" + user.getName() + "', facebookpage: '" + post.getFacebookpage().getName() + "', content: '" + post.getContent() + "']");
 
     }
 
 
-    public List<Page> getPages(String oAuthToken) {
+    public List<Facebookpage> getPages(String oAuthToken) {
 
-        List<Page> pageList = new ArrayList<>();
+        List<Facebookpage> pageList = new ArrayList<>();
 
         Facebook facebook = new FacebookTemplate(oAuthToken);
         try {
@@ -188,7 +188,7 @@ public class FacebookService {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 String id = obj.get("id").toString();
                 String name = obj.get("name").toString();
-                Page page = new Page();
+                Facebookpage page = new Facebookpage();
                 page.setFbId(id);
                 page.setName(name);
                 pageList.add(page);

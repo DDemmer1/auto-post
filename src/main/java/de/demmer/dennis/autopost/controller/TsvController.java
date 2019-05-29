@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost.controller;
 
-import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.Facebookpost;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
@@ -50,13 +50,13 @@ public class TsvController {
     @PostMapping(value="/schedule/{id}/tsvform/upload")
     public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap){
 
-        User user = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
 
         modelMap.addAttribute("page", pageRepository.findByFbId(id));
 
-        //Add user data from session
+        //Add fbuser data from session
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
             Collections.sort(posts);
             modelMap.addAttribute("pageList", user.getPageList());
             modelMap.addAttribute("postList", posts);
@@ -82,8 +82,8 @@ public class TsvController {
         }
 
         try {
-            List<Post> tsvPosts = tsvService.parseTSV(file, id);
-            for (Post post : tsvPosts) {
+            List<Facebookpost> tsvPosts = tsvService.parseTSV(file, id);
+            for (Facebookpost post : tsvPosts) {
                 postRepository.save(post);
                 scheduleService.schedulePost(post);
             }
@@ -110,12 +110,12 @@ public class TsvController {
     @GetMapping(value="/schedule/{id}/tsvform")
     public String tsvForm(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "tsvSuccess", required = false) Boolean tsvSuccess, @RequestParam(value = "numAddedPosts", required = false) Integer numAddedPosts){
 
-        User user = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
 
         model.addAttribute("page", pageRepository.findByFbId(id));
 
         if (user != null) {
-            List<Post> posts = pageRepository.findByFbId(id).getPosts();
+            List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
             model.addAttribute("postList", posts);

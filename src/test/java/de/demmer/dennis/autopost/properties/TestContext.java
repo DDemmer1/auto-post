@@ -1,8 +1,8 @@
 package de.demmer.dennis.autopost.properties;
 
-import de.demmer.dennis.autopost.entities.Post;
-import de.demmer.dennis.autopost.entities.Page;
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.Facebookpost;
+import de.demmer.dennis.autopost.entities.Facebookpage;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.PageRepository;
@@ -35,30 +35,30 @@ public abstract class TestContext {
 
 
 
-    public User testUser;
-    public Page testPage;
-    public Post testPost;
+    public Facebookuser testUser;
+    public Facebookpage testPage;
+    public Facebookpost testPost;
 
     @PostConstruct
     public void init() throws UserException {
         testUser = userFactory.getUser(testProperties.getAccessToken());
-        testPage = new Page();
+        testPage = new Facebookpage();
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dtfContent = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         LocalDateTime plus1 = LocalDateTime.now().plusMinutes(1);
 
-        testPost = new Post();
+        testPost = new Facebookpost();
         testPost.setContent("autoPost Unit Test vom " + dtfContent.format(now));
         testPost.setDate(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(now));
         testPost.setTime(DateTimeFormatter.ofPattern("HH:mm").format(plus1));
-        testPost.setUser(testUser);
+        testPost.setFacebookuser(testUser);
         testPost.setEnabled(true);
 
-        testPage.getPosts().add(testPost);
-        testPage.setUser(testUser);
-        testPost.setPage(testPage);
-        testPost.setPageID(testProperties.getPageID());
+        testPage.getFacebookposts().add(testPost);
+        testPage.setFbuser(testUser);
+        testPost.setFacebookpage(testPage);
+        testPost.setFacebookpageID(testProperties.getPageID());
 
         userRepository.save(testUser);
     }

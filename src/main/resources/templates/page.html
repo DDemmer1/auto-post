@@ -79,7 +79,7 @@
                 <tbody>
 
                 <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
-                    th:data-href="${post.getPage().getFbId()} + '/' + ${post.getId()}"
+                    th:data-href="${post.getFacebookpage().getFbId()} + '/' + ${post.getId()}"
                     th:each="post : ${postList}">
 
 

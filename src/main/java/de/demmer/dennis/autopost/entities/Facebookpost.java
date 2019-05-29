@@ -1,6 +1,6 @@
 package de.demmer.dennis.autopost.entities;
 
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,24 +10,24 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "posts")
+@Entity(name = "facebookposts")
 @Log4j2
-public class Post implements Comparable<Post> {
+public class Facebookpost implements Comparable<Facebookpost> {
 
     @Id
     @GeneratedValue
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "page_id", nullable = false)
-    protected Page page;
+    @JoinColumn(name = "facebookpage", nullable = false)
+    protected Facebookpage facebookpage;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "facebookuser_id", nullable = false)
+    private Facebookuser facebookuser;
 
-    @Column(name ="page_id")
-    private String pageID;
+    @Column(name ="facebookpage_id")
+    private String facebookpageID;
 
     @Column (length= 10485760, nullable = false)
     private String content;
@@ -38,13 +38,13 @@ public class Post implements Comparable<Post> {
     @Column(nullable = false)
     private String time;
 
-    @Column(columnDefinition = "boolean default 0")
+    @Column(columnDefinition = "boolean default false")
     private boolean scheduled;
 
-    @Column(columnDefinition = "boolean default 0")
+    @Column(columnDefinition = "boolean default false")
     private boolean posted;
 
-    @Column(columnDefinition = "boolean default 0")
+    @Column(columnDefinition = "boolean default false")
     private boolean error;
 
     @Column (length= 10485760)
@@ -59,16 +59,16 @@ public class Post implements Comparable<Post> {
     @Column(columnDefinition = "boolean default true")
     private boolean enabled;
 
-    public Post(String content, String date, Page page, String pageID) {
+    public Facebookpost(String content, String date, Facebookpage page, String facebookpageID) {
         this.content = content;
-        this.pageID = pageID;
+        this.facebookpageID = facebookpageID;
         this.date = date;
-        this.page = page;
-        this.user = page.getUser();
+        this.facebookpage = page;
+        this.facebookuser = page.getFbuser();
     }
 
 
-    public int compareTo(Post post) {
+    public int compareTo(Facebookpost post) {
 
         if (this.posted) {
             return 1;
@@ -98,9 +98,9 @@ public class Post implements Comparable<Post> {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", page=" + page.getFbId() +
-                ", user=" + user.getFbId() +
-                ", pageID='" + pageID + '\'' +
+                ", facebookpage=" + facebookpage.getFbId() +
+                ", fbuser=" + facebookuser.getFbId() +
+                ", facebookpageID='" + facebookpageID + '\'' +
                 ", content='" + content + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +

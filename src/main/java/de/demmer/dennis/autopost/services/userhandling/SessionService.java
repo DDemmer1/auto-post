@@ -1,6 +1,6 @@
 package de.demmer.dennis.autopost.services.userhandling;
 
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.UserRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +28,7 @@ public class SessionService{
     UserRepository userRepository;
 
 
-    public void addActiveUser(User user){
+    public void addActiveUser(Facebookuser user){
 
         Map<String ,String> activeuser = new HashMap<>();
 
@@ -45,7 +45,7 @@ public class SessionService{
         session.removeAttribute("activeuser");
     }
 
-    public User getActiveUser(){
+    public Facebookuser getActiveUser(){
         Map<String,String> userMap = (Map<String, String>) session.getAttribute("activeuser");
         if(userMap!=null){
             Integer userId = Integer.valueOf(userMap.get("id"));

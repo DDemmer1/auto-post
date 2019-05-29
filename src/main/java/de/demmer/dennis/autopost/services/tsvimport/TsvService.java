@@ -2,10 +2,9 @@ package de.demmer.dennis.autopost.services.tsvimport;
 
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
-import de.demmer.dennis.autopost.entities.Page;
-import de.demmer.dennis.autopost.entities.Post;
+import de.demmer.dennis.autopost.entities.Facebookpage;
+import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.services.PostService;
 import de.demmer.dennis.autopost.services.scheduling.DateParser;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -13,12 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +34,7 @@ public class TsvService {
     ScheduleService scheduleService;
 
 
-    public List<Post> parseTSV(File tsvFile, String id) throws MalformedTsvException {
+    public List<Facebookpost> parseTSV(File tsvFile, String id) throws MalformedTsvException {
 
 
         TsvParserSettings settings = new TsvParserSettings();
@@ -52,7 +47,7 @@ public class TsvService {
 
 //        allRows.forEach(row -> System.out.println(Arrays.asList(row).toString()));
 
-        List<Post> parsedPosts = new ArrayList<>();
+        List<Facebookpost> parsedPosts = new ArrayList<>();
 
         int i = 1;
         for (String[] row : allRows) {
@@ -61,7 +56,7 @@ public class TsvService {
                 continue;
             }
 
-            Post post = arrayToPost(row, i);
+            Facebookpost post = arrayToPost(row, i);
             if (post != null) {
                 try {
                     if (post.getContent().equals("") && post.getImg().equals("")) {
@@ -70,11 +65,11 @@ public class TsvService {
                 } catch (NullPointerException ne) {
                     throw new MalformedTsvException("Content Error", i, "no content or image detected");
                 }
-                Page page = pageRepository.findByFbId(id);
-                post.setPage(page);
-                post.setPageID(page.getFbId());
+                Facebookpage page = pageRepository.findByFbId(id);
+                post.setFacebookpage(page);
+                post.setFacebookpageID(page.getFbId());
                 post.setEnabled(true);
-                post.setUser(sessionService.getActiveUser());
+                post.setFacebookuser(sessionService.getActiveUser());
                 parsedPosts.add(post);
                 i++;
             } else throw new MalformedTsvException("Unspecific Formatting Error", i, Arrays.asList(row).toString());
@@ -84,9 +79,9 @@ public class TsvService {
         return parsedPosts;
     }
 
-    private Post arrayToPost(String[] posts, int row) throws MalformedTsvException {
+    private Facebookpost arrayToPost(String[] posts, int row) throws MalformedTsvException {
 
-        Post post = new Post();
+        Facebookpost post = new Facebookpost();
         for (int col = 0; col < posts.length; col++) {
             String value = posts[col];
             String originalDate = "";

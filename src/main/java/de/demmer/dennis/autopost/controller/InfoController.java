@@ -1,8 +1,7 @@
 package de.demmer.dennis.autopost.controller;
 
 
-import de.demmer.dennis.autopost.entities.user.User;
-import de.demmer.dennis.autopost.repositories.PageRepository;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.PostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class InfoController {
@@ -27,7 +25,7 @@ public class InfoController {
     @GetMapping(value = "/about")
     public String getAbout(Model model) {
 
-        User activeUser = sessionService.getActiveUser();
+        Facebookuser activeUser = sessionService.getActiveUser();
 
         if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
@@ -38,7 +36,7 @@ public class InfoController {
     @GetMapping(value = "/services")
     public String getServices(Model model) {
 
-        User activeUser = sessionService.getActiveUser();
+        Facebookuser activeUser = sessionService.getActiveUser();
 
         if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
 
@@ -51,7 +49,7 @@ public class InfoController {
     @GetMapping(value = "/status")
     public String getStatus(Model model) {
 
-        User user = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
             model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return "no-login";
@@ -71,7 +69,7 @@ public class InfoController {
 
     @GetMapping(value = "/settings")
     public String getSettings(Model model) {
-        User user = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
             model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return "no-login";

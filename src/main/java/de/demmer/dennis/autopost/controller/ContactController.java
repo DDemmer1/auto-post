@@ -1,6 +1,6 @@
 package de.demmer.dennis.autopost.controller;
 
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +23,7 @@ public class ContactController {
     @GetMapping(value = "/contact")
     public String contact(Model model){
 
-        User activeUser = sessionService.getActiveUser();
+        Facebookuser activeUser = sessionService.getActiveUser();
 
         if (activeUser!=null) model.addAttribute("pageList", activeUser.getPageList());
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());

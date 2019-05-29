@@ -1,6 +1,6 @@
 package de.demmer.dennis.autopost.services;
 
-import de.demmer.dennis.autopost.entities.Post;
+import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.repositories.PageRepository;
 import de.demmer.dennis.autopost.repositories.PostRepository;
@@ -24,7 +24,7 @@ public class PostService {
     PostRepository postRepository;
 
 
-    public Post updatePost(Post post, PostDto postDto, String pageFbId){
+    public Facebookpost updatePost(Facebookpost post, PostDto postDto, String pageFbId){
         if(postDto.getLongitude()!= null && !postDto.getLongitude().isEmpty()) post.setLongitude(Float.parseFloat(postDto.getLongitude()));
         if(postDto.getLongitude()!= null && !postDto.getLatitude().isEmpty()) post.setLatitude(Float.parseFloat(postDto.getLatitude()));
 
@@ -34,12 +34,12 @@ public class PostService {
 
         post.setContent(postDto.getContent());
         post.setImg(postDto.getImg());
-        post.setPageID(pageFbId);
-        post.setUser(sessionService.getActiveUser());
+        post.setFacebookpageID(pageFbId);
+        post.setFacebookuser(sessionService.getActiveUser());
         post.setDate(postDto.getDate());
         post.setTime(postDto.getTime());
 
-        post.setPage(pageRepository.findByFbId(pageFbId));
+        post.setFacebookpage(pageRepository.findByFbId(pageFbId));
 
         postRepository.save(post);
 

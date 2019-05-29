@@ -1,10 +1,9 @@
 package de.demmer.dennis.autopost.entities;
 
-import de.demmer.dennis.autopost.entities.user.User;
+import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name="pages")
-public class Page {
+@Entity(name="facebookpage")
+public class Facebookpage {
 
     @Id
     @GeneratedValue
@@ -27,14 +26,13 @@ public class Page {
     private String fbId;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    @JoinColumn(name="facebookuser_id", nullable = false)
+    private Facebookuser fbuser;
 
-    @OneToMany (mappedBy="page", cascade = CascadeType.ALL)
-    @Column(name="fbposts")
-    private List<Post> posts = new ArrayList<>();
+    @OneToMany (mappedBy="facebookpage", cascade = CascadeType.ALL)
+    private List<Facebookpost> facebookposts = new ArrayList<>();
 
-    @Column(columnDefinition="boolean default 1")
+    @Column(columnDefinition="boolean default true")
     private boolean enabled = true;
 
 
@@ -43,7 +41,7 @@ public class Page {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Page page = (Page) o;
+        Facebookpage page = (Facebookpage) o;
 
         return fbId.equals(page.fbId);
     }
