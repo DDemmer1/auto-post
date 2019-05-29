@@ -5,8 +5,8 @@ import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
-import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.repositories.UserRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +25,10 @@ public abstract class TestContext {
     UserFactory userFactory;
 
     @Autowired
-    UserRepository userRepository;
+    FacebookuserRepository userRepository;
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
     @Autowired
     TestProperties testProperties;
@@ -56,9 +56,9 @@ public abstract class TestContext {
         testPost.setEnabled(true);
 
         testPage.getFacebookposts().add(testPost);
-        testPage.setFbuser(testUser);
+        testPage.setFacebookuser(testUser);
         testPost.setFacebookpage(testPage);
-        testPost.setFacebookpageID(testProperties.getPageID());
+        testPost.setPageID(testProperties.getPageID());
 
         userRepository.save(testUser);
     }

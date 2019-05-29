@@ -4,7 +4,7 @@ import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
-import de.demmer.dennis.autopost.repositories.PageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.services.scheduling.DateParser;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -25,7 +25,7 @@ import java.util.List;
 public class TsvService {
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
     @Autowired
     SessionService sessionService;
@@ -67,7 +67,7 @@ public class TsvService {
                 }
                 Facebookpage page = pageRepository.findByFbId(id);
                 post.setFacebookpage(page);
-                post.setFacebookpageID(page.getFbId());
+                post.setPageID(page.getFbId());
                 post.setEnabled(true);
                 post.setFacebookuser(sessionService.getActiveUser());
                 parsedPosts.add(post);

@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost;
 
 import de.demmer.dennis.autopost.properties.TestContext;
-import de.demmer.dennis.autopost.repositories.UserRepository;
+import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ public class UserRepositoryTests extends TestContext{
 
 
     @Autowired
-    UserRepository userRepository;
+    FacebookuserRepository userRepository;
 
     @Test
     public void findAllTest(){

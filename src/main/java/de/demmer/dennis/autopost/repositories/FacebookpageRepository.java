@@ -7,15 +7,11 @@ import java.util.List;
 
 
 
-public interface PageRepository extends CrudRepository<Facebookpage, Integer> {
+public interface FacebookpageRepository extends CrudRepository<Facebookpage, Integer> {
 
-    List<Facebookpage> findByUserId(int userID);
-
-    Facebookpage findByIdAndUserId(int pageId, int userId);
+    List<Facebookpage> findByFacebookuserId(int userID);
 
     Facebookpage findByFbId(String fbId);
-
-    void deleteByUserId(int userId);
 
     void deleteByFbId(String fbId);
 

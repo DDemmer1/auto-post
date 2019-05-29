@@ -5,7 +5,7 @@ import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
-import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
@@ -45,7 +45,7 @@ public class FacebookService {
 
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
     @Autowired
     ApplicationContext ctx;
@@ -157,9 +157,9 @@ public class FacebookService {
         PageOperations pageOps = facebook.pageOperations();
         try {
             if (!post.getImg().equals("") && post.getImg() != null) {
-                pageOps.postPhoto(post.getFacebookpageID(), post.getFacebookpageID(), ctx.getResource("file:" + random + ".png"), post.getContent());
+                pageOps.postPhoto(post.getPageID(), post.getPageID(), ctx.getResource("file:" + random + ".png"), post.getContent());
             } else {
-                PagePostData ppd = new PagePostData(post.getFacebookpageID());
+                PagePostData ppd = new PagePostData(post.getPageID());
                 ppd.message(post.getContent());
                 pageOps.post(ppd);
             }

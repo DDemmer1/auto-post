@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost.services.userhandling;
 
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
-import de.demmer.dennis.autopost.repositories.UserRepository;
+import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class SessionService{
     FacebookService facebookService;
 
     @Autowired
-    UserRepository userRepository;
+    FacebookuserRepository userRepository;
 
 
     public void addActiveUser(Facebookuser user){
@@ -49,7 +49,7 @@ public class SessionService{
         Map<String,String> userMap = (Map<String, String>) session.getAttribute("activeuser");
         if(userMap!=null){
             Integer userId = Integer.valueOf(userMap.get("id"));
-            return userRepository.findUserById(userId);
+            return userRepository.findFacebookuserById(userId);
         }  else return null;
 
 

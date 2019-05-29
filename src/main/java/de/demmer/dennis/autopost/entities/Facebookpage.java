@@ -9,10 +9,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@Entity(name="facebookpage")
+@Entity(name = "facebookpage")
 public class Facebookpage {
 
     @Id
@@ -27,9 +27,9 @@ public class Facebookpage {
 
     @ManyToOne
     @JoinColumn(name="facebookuser_id", nullable = false)
-    private Facebookuser fbuser;
+    private Facebookuser facebookuser;
 
-    @OneToMany (mappedBy="facebookpage", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="facebookpage", cascade = CascadeType.ALL)
     private List<Facebookpost> facebookposts = new ArrayList<>();
 
     @Column(columnDefinition="boolean default true")

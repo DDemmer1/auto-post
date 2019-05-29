@@ -2,8 +2,8 @@ package de.demmer.dennis.autopost.services;
 
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.PostDto;
-import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ public class PostService {
     SessionService sessionService;
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
 
     public Facebookpost updatePost(Facebookpost post, PostDto postDto, String pageFbId){
@@ -34,7 +34,7 @@ public class PostService {
 
         post.setContent(postDto.getContent());
         post.setImg(postDto.getImg());
-        post.setFacebookpageID(pageFbId);
+        post.setPageID(pageFbId);
         post.setFacebookuser(sessionService.getActiveUser());
         post.setDate(postDto.getDate());
         post.setTime(postDto.getTime());

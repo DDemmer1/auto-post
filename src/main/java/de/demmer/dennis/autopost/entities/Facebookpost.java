@@ -7,27 +7,27 @@ import lombok.extern.log4j.Log4j2;
 import javax.persistence.*;
 
 
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@Entity(name = "facebookposts")
-@Log4j2
-public class Facebookpost implements Comparable<Facebookpost> {
+@Entity(name = "facebookpost")
+public class Facebookpost implements Comparable<Facebookpost>{
+
+
 
     @Id
     @GeneratedValue
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "facebookpage", nullable = false)
+    @JoinColumn(name = "facebookpage_id", nullable = false)
     protected Facebookpage facebookpage;
 
     @ManyToOne
     @JoinColumn(name = "facebookuser_id", nullable = false)
     private Facebookuser facebookuser;
 
-    @Column(name ="facebookpage_id")
-    private String facebookpageID;
+    private String pageID;
 
     @Column (length= 10485760, nullable = false)
     private String content;
@@ -61,10 +61,10 @@ public class Facebookpost implements Comparable<Facebookpost> {
 
     public Facebookpost(String content, String date, Facebookpage page, String facebookpageID) {
         this.content = content;
-        this.facebookpageID = facebookpageID;
+        this.pageID = facebookpageID;
         this.date = date;
         this.facebookpage = page;
-        this.facebookuser = page.getFbuser();
+        this.facebookuser = page.getFacebookuser();
     }
 
 
@@ -100,7 +100,7 @@ public class Facebookpost implements Comparable<Facebookpost> {
                 "id=" + id +
                 ", facebookpage=" + facebookpage.getFbId() +
                 ", fbuser=" + facebookuser.getFbId() +
-                ", facebookpageID='" + facebookpageID + '\'' +
+                ", facebookpageID='" + pageID + '\'' +
                 ", content='" + content + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +

@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost.services.scheduling;
 
 import de.demmer.dennis.autopost.entities.Facebookpost;
-import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ScheduleService {
     FacebookService facebookService;
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 

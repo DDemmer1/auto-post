@@ -5,8 +5,8 @@ import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
-import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.PostService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
     @Autowired
     SessionService sessionService;
@@ -50,7 +50,7 @@ public class PostController {
 
             if (user != null) {
                 Facebookpage page = pageRepository.findByFbId(pageFbId);
-                Facebookpost post = postRepository.findByIdAndUserId(Integer.valueOf(postId), user.getId());
+                Facebookpost post = postRepository.findByIdAndFacebookuserId(Integer.valueOf(postId), user.getId());
                 model.addAttribute("pageList", user.getPageList());
                 model.addAttribute("post", post);
                 model.addAttribute("page", page);
@@ -103,7 +103,7 @@ public class PostController {
     @PostMapping(value = "/schedule/{pageFbId}/{postId}")
     public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto) {
 
-        Facebookpost post = postRepository.findByIdAndUserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
+        Facebookpost post = postRepository.findByIdAndFacebookuserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
         scheduleService.cancelScheduling(post);
         Facebookpost updatedPost = postService.updatePost(post,postDto,pageFbId);
         if(updatedPost.isEnabled())
@@ -117,10 +117,10 @@ public class PostController {
     @GetMapping(value = "/schedule/{pageFbId}/{postId}/delete")
     public String deletePost(@PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") Integer postId) {
 
-        Facebookpost post = postRepository.findByIdAndPageFbId(postId, pageFbId);
+        Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, pageFbId);
         scheduleService.cancelScheduling(post);
 
-        postRepository.deleteByIdAndPageFbId(postId, pageFbId);
+        postRepository.deleteByIdAndFacebookpageFbId(postId, pageFbId);
 
         return "redirect:/schedule/" + pageFbId;
     }

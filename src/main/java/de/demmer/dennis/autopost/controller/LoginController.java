@@ -1,10 +1,9 @@
 package de.demmer.dennis.autopost.controller;
 
 
-import de.demmer.dennis.autopost.entities.user.UserException;
-import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.repositories.PostRepository;
-import de.demmer.dennis.autopost.repositories.UserRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.LoginService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -33,13 +32,13 @@ public class LoginController {
     FacebookService facebookService;
 
     @Autowired
-    UserRepository userRepository;
+    FacebookuserRepository userRepository;
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
 
     @GetMapping(value = "/facebook")

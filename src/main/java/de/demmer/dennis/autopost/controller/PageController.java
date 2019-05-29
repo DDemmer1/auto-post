@@ -2,8 +2,8 @@ package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
-import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
@@ -34,10 +34,10 @@ public class PageController {
     SessionService sessionService;
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
     @Autowired
     FacebookService facebookService;
@@ -89,15 +89,15 @@ public class PageController {
 
         if (action.equals("delete"))
             postIds.forEach((postId) ->{
-                Facebookpost post = postRepository.findByIdAndPageFbId(postId, id);
+                Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
 
-                postRepository.deleteByIdAndPageFbId(postId, id);
+                postRepository.deleteByIdAndFacebookpageFbId(postId, id);
             });
 
         if (action.equals("disable"))
             postIds.forEach((postId) -> {
-                Facebookpost post = postRepository.findByIdAndPageFbId(postId, id);
+                Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
 
                 post.setEnabled(false);
@@ -107,7 +107,7 @@ public class PageController {
 
         if (action.equals("enable"))
             postIds.forEach((postId) -> {
-                Facebookpost post = postRepository.findByIdAndPageFbId(postId, id);
+                Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 post.setEnabled(true);
                 scheduleService.schedulePost(post);
                 postRepository.save(post);

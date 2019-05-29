@@ -4,8 +4,8 @@ import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
-import de.demmer.dennis.autopost.repositories.PageRepository;
-import de.demmer.dennis.autopost.repositories.UserRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
+import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +23,7 @@ import java.util.List;
 public class LoginService {
 
     @Autowired
-    UserRepository userRepository;
+    FacebookuserRepository userRepository;
 
     @Autowired
     UserFactory userFactory;
@@ -35,7 +35,7 @@ public class LoginService {
     SessionService sessionService;
 
     @Autowired
-    PageRepository pageRepository;
+    FacebookpageRepository pageRepository;
 
     public void login(String code) throws UserException {
         String accessToken = facebookService.createFacebookAccessToken(code);
@@ -47,7 +47,7 @@ public class LoginService {
 
     public void updateUser(Facebookuser user) {
 
-        if (userRepository.findUserByFbId(user.getFbId()) == null) {
+        if (userRepository.findFacebookuserByFbId(user.getFbId()) == null) {
             //New User
             sessionService.addActiveUser(newUserLogin(user));
 
@@ -71,7 +71,7 @@ public class LoginService {
     private Facebookuser returningUserLogin(Facebookuser user){
         log.info("Returning fbuser: " + user.getName());
 
-        Facebookuser userInDB = userRepository.findUserByFbId(user.getFbId());
+        Facebookuser userInDB = userRepository.findFacebookuserByFbId(user.getFbId());
         int tmpUserId = userInDB.getId();
 
         //check for new pages
@@ -95,7 +95,7 @@ public class LoginService {
     }
 
     private List<Facebookpage> getPagesToDelete(Facebookuser user, Facebookuser userInDB) {
-        List<Facebookpage> pageListInDB = pageRepository.findByUserId(userInDB.getId());
+        List<Facebookpage> pageListInDB = pageRepository.findByFacebookuserId(userInDB.getId());
         List<Facebookpage> pageListReturningUser  = user.getPageList();
         List<Facebookpage> pagesToDelete = new ArrayList<>();
 
@@ -121,7 +121,7 @@ public class LoginService {
 
     private List<Facebookpage> getNewPages(Facebookuser user, Facebookuser userInDB){
 
-        List<Facebookpage> pageListInDB = pageRepository.findByUserId(userInDB.getId());
+        List<Facebookpage> pageListInDB = pageRepository.findByFacebookuserId(userInDB.getId());
         List<Facebookpage> pageListReturningUser  = user.getPageList();
         List<Facebookpage> newPages = new ArrayList<>();
 
@@ -133,7 +133,7 @@ public class LoginService {
             }
 
             if(isNewPage){
-                returningUserPage.setFbuser(userInDB);
+                returningUserPage.setFacebookuser(userInDB);
                 newPages.add(returningUserPage);
             }
             isNewPage =true;

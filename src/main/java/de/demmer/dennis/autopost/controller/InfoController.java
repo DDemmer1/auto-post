@@ -2,7 +2,7 @@ package de.demmer.dennis.autopost.controller;
 
 
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
-import de.demmer.dennis.autopost.repositories.PostRepository;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class InfoController {
     FacebookService facebookService;
 
     @Autowired
-    PostRepository postRepository;
+    FacebookpostRepository postRepository;
 
     @GetMapping(value = "/about")
     public String getAbout(Model model) {
@@ -57,11 +57,11 @@ public class InfoController {
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 
         model.addAttribute("user",user);
-        model.addAttribute("scheduled",postRepository.findByScheduledAndUserId(true,user.getId()).size());
-        model.addAttribute("enabled",postRepository.findByEnabledAndUserId(true,user.getId()).size());
-        model.addAttribute("error",postRepository.findByErrorAndUserId(true,user.getId()).size());
-        model.addAttribute("disabled",postRepository.findByEnabledAndPostedAndUserId(false,false,user.getId()).size());
-        model.addAttribute("posted",postRepository.findByPostedAndUserId(true,user.getId()).size());
+        model.addAttribute("scheduled",postRepository.findByScheduledAndFacebookuserId(true,user.getId()).size());
+        model.addAttribute("enabled",postRepository.findByEnabledAndFacebookuserId(true,user.getId()).size());
+        model.addAttribute("error",postRepository.findByErrorAndFacebookuserId(true,user.getId()).size());
+        model.addAttribute("disabled",postRepository.findByEnabledAndPostedAndFacebookuserId(false,false,user.getId()).size());
+        model.addAttribute("posted",postRepository.findByPostedAndFacebookuserId(true,user.getId()).size());
 
         return "status";
     }
