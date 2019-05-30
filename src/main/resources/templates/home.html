@@ -13,6 +13,10 @@
     <div class="container text-center">
         <h1>Welcome to <strong>autoPost</strong> <i class="fa fa-facebook-square"></i></h1>
         <p class="lead">Your Facebook scheduling Service</p>
+        <div th:unless="${session.activeuser != null}" class="d-sm-none nav-item">
+            <a class="mobile-login btn btn-login btn-facebook border-white" th:href="${loginlink}"><i class="fa fa-facebook-square"></i>
+                Login with Facebook</a>
+        </div>
     </div>
 </header>
 

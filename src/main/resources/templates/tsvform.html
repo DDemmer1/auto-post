@@ -41,8 +41,8 @@
             </form>
 
 
-            <div style="padding-top: 2rem" th:if="${param.error}">
-                <div class="bg-facebook text-white tsv-text">
+            <div class="tsv-error" th:if="${param.error}">
+                <div class="tsv-text">
                     <div class="container text-center">
                         <h2>TSV Error <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h2>
                         <p class="lead">Malformed TSV-File. <u>[[${param.message}]]</u> in line [[${param.line}]].</p>

@@ -37,7 +37,7 @@
     <!--If TSVimport successfull-->
 
     <div th:if="${param.tsvSuccess}">
-        <div class="tsvToast" style="display: none">[[${param.numAddedPosts}]] Posts added <i style="color: green;"
+        <div class="tsvToast" style="display: none">[[${param.numAddedPosts}]] Post(s) added <i style="color: green;"
                                                                                               class="fa fa-check"
                                                                                               aria-hidden="true"></i>
         </div>
@@ -49,18 +49,23 @@
             <a class="btn text-white btn-facebook" style="margin-bottom: 1rem; margin-top: 1rem"
                th:href="${page.getFbId()} +'/new'"><i
                     class="fa fa-plus"></i> Add new Post</a>
-            <a class="btn btn-secondary text-white" style="margin-bottom: 1rem; margin-top: 1rem"
-               th:href="${page.getFbId()} +'/tsvform'"><i
-                    class="fa fa-plus"></i> Import TSV-File</a>
+            <a class="d-none d-sm-inline-block btn btn-facebook text-white" style="margin-bottom: 1rem; margin-top: 1rem"
+               th:href="${page.getFbId()} +'/tsvform'"><i class="fa fa-upload" aria-hidden="true"></i> Import
+                TSV-File</a>
             <li class="nav-item dropdown action-dropdown">
-                <button class="btn btn-secondary dropdown-toggle select-button" type="button" id="dropdownMenuButton"
+                <button class="btn text-white btn-facebook dropdown-toggle select-button" type="button"
+                        id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Selected
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <div class="dropdown-item"><i class="fa fa-trash-o" aria-hidden="true"></i><input class="dropdown-item input-submit" value="delete" name="action" type="submit"></input></div>
-                    <div class="dropdown-item"><i class="fa fa-minus-circle" aria-hidden="true"></i><input class="dropdown-item input-submit" value="disable" name="action" type="submit"></input></div>
-                    <div class="dropdown-item"><i class="fa fa-hourglass-half" aria-hidden="true"></i><input class="dropdown-item input-submit" value="enable" name="action" type="submit"></input></div>
+                    <div class="dropdown-item"><i class="fa fa-trash-o" aria-hidden="true"></i><input
+                            class="dropdown-item input-submit" value="delete" name="action" type="submit"></input></div>
+                    <div class="dropdown-item"><i class="fa fa-minus-circle" aria-hidden="true"></i><input
+                            class="dropdown-item input-submit" value="disable" name="action" type="submit"></input>
+                    </div>
+                    <div class="dropdown-item"><i class="fa fa-hourglass-half" aria-hidden="true"></i><input
+                            class="dropdown-item input-submit" value="enable" name="action" type="submit"></input></div>
 
                 </div>
             </li>

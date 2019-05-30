@@ -1,5 +1,5 @@
 header {
-    padding: 156px 0 100px;
+    padding: 9rem 0 6rem;
 }
 
 section {
@@ -165,7 +165,7 @@ button.submit-post {
     /*bottom:10px;*/
     background-color: #383838;
     color: #F0F0F0;
-    font-family: Calibri;
+    font-family: Helvetica;
     font-size: 20px;
     padding: 10px;
     text-align: center;
@@ -249,8 +249,27 @@ input.input-submit{
     margin-top: 4.5rem;
     padding-top: 4rem;
     border-radius: 2%;
+    border: solid red 5pt;
+}
+
+.tsv-error{
+    padding-top: 2rem;
+
+}
+
+.about{
+    padding: 5rem 0 6rem;
 }
 
 
+.border-white{
+    border: solid white;
+}
+
+.mobile-login{
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}
 
 
