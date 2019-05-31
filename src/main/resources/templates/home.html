@@ -11,12 +11,10 @@
 
 <header class="bg-facebook text-white">
     <div class="container text-center">
-        <!--<h1>Welcome to <strong>autoPost</strong> <i class="fa fa-facebook-square"></i></h1>-->
-        <!--<h1>Welcome to <strong>autoPost</strong> <img class="autopost_logo" src="img/autopost_assets/autopost_face/autopost_face.png"></h1>-->
-        <h1>Welcome to <strong>autoPost</strong> <img class="autopost_logo"
-                                                      src="img/autopost_assets/autopost_circle/autopost_circle.png">
+        <h1>Welcome to <div class="rounded pr-2 pl-2 pb-1 pt-0 bg-dark d-inline"><strong>autoPost</strong> <img class="autopost-logo"
+                                                      src="img/autopost_assets/autopost_circle/autopost_circle.png"></div>
         </h1>
-        <p class="lead">Your Facebook scheduling Service</p>
+        <p class="lead">Your free Facebook scheduling Service</p>
         <div th:unless="${session.activeuser != null}" class="d-lg-none nav-item">
             <a class="mobile-login btn btn-login btn-facebook border-white" th:href="${loginlink}"><i
                     class="fa fa-facebook-square"></i>
@@ -28,7 +26,7 @@
 <section id="about">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-12 col-lg-8 mx-auto">
                 <h2>About autoPost </h2>
                 <p class="lead"><strong>autoPost</strong> is a small and easy-to-use webapplication to ease the
                     scheduled publication of posts on Facebook pages</p>

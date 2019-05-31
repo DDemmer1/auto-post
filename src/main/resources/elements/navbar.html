@@ -4,7 +4,7 @@
 
         <!--<a class="navbar-brand js-scroll-trigger" href="/home"><i class="fa fa-facebook-square"></i> autoPost</a>-->
         <a class="navbar-brand js-scroll-trigger" href="/home"><img class="autopost-logo-sm" src="/img/autopost_assets/autopost_circle/autopost_circle.svg"> autoPost</a>
-        <p class="d-lg-none nav-text text-white mb-0" th:if="${session.activeuser != null}" >Hi, [[${session.activeuser.name}]] </p>
+        <p class="d-lg-none nav-text text-white mb-0" th:if="${session.activeuser != null}" >Hi, [[${session.activeuser.name.substring(0,6)}]]... </p>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

@@ -123,7 +123,6 @@ tr.non-clickable {
 }
 
 img.idh-logo {
-    background-color: lightgray;
     height: 2rem;
     margin-bottom: 0.2rem;
 }
@@ -323,9 +322,12 @@ input.input-submit{
 }
 
 
-.autopost_logo{
-    height: 5rem;
-    padding-bottom: 1rem;
+.autopost-logo{
+    height: 4.5rem;
+    /*padding-bottom: 1rem;*/
+    overflow: visible;
+    margin-bottom: 0.4rem;
+    margin-right: -0.3rem;
 }
 
 .autopost-logo-sm{
@@ -336,4 +338,6 @@ input.input-submit{
 .autopost-logo-xxs{
     height: 2.5rem;
 }
+
+
 
