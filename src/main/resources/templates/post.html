@@ -31,7 +31,7 @@
             <form id="post-form" method="post" th:object="${postDto}" th:action="${#httpServletRequest.requestURI}"
                   role="form">
                 <div class="row">
-                    <div class="col-3 col-md-3">
+                    <div class="col-8 col-md-7 col-lg-3">
                         <h2><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit post:</h2>
                     </div>
                     <div th:if="*{time}" class="col-1 col-md-1">
@@ -69,13 +69,13 @@
 
                     <div class="row">
 
-                        <div class="col-1 col-md-1">
-                            <button th:if="*{!posted}" class="btn btn-facebook text-white submit-post" type="submit">
+                        <div class="col-5 col-sm-5 col-md-3 col-lg-2 col-xl-1">
+                            <button class="btn btn-facebook text-white submit-post" type="submit">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                             </button>
                         </div>
 
-                        <div style="margin-top: 1rem" class="col-4 col-md-4" th:if="*{!posted}">
+                        <div style="margin-top: 1rem" class="col-4 col-sm-4" th:if="*{!posted}">
                             <input id="enabled" th:field="*{enabled}" type="checkbox" data-toggle="toggle"
                                    data-onstyle="success" data-offstyle="danger" data-on="Scheduling enabled"
                                    data-off="Scheduling disabled"/>

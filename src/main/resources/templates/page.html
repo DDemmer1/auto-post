@@ -56,7 +56,8 @@
                 <button class="btn text-white btn-facebook dropdown-toggle select-button" type="button"
                         id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Selected
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                     Selected
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <div class="dropdown-item"><i class="fa fa-trash-o" aria-hidden="true"></i><input
@@ -94,27 +95,29 @@
                     <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
                         <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
                     </th:block>
+
                     <td>
                         <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
                     </td>
+
                     <td><img th:src="${post.getImg()}" class="post-picture"
                              src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
 
 
                     <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
-                        <i class="check-enabled fa fa-hourglass-half"></i>
+                        <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>
                     </td>
 
                     <td th:if="${!post.isEnabled() && !post.isPosted()}">
-                        <i class="not-enabled fa fa-minus-circle"></i>
+                        <i data-toggle="tooltip" title="Not scheduled" class="not-enabled fa fa-minus-circle"></i>
                     </td>
 
                     <td th:if="${post.isError()}" style="color:black">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></i>
+                        <i data-toggle="tooltip" title="Error" class="fa fa-exclamation-triangle" aria-hidden="true"></i></i>
                     </td>
 
-                    <td th:if="${post.isPosted()}">
-                        <i class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check"
+                    <td th:if="${post.isPosted()}"  >
+                        <i data-toggle="tooltip" title="Posted" class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check"
                                                                               aria-hidden="true"></i>
                     </td>
                 </tr>

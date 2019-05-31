@@ -28,15 +28,25 @@
     <div class="row">
         <div class="col">
             <h2>Choose TSV file</h2>
-            <p>Every image url will be tested for reachability this might take a while.</p>
             <form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data">
                 <div class="row">
-                    <input class="btn btn-facebook text-white" type="file" name="file" id="file">
+                    <div class="col">
+                        <input class="btn btn-facebook text-white" type="file" name="file" id="file">
+                    </div>
                 </div>
 
                 <div class="row" style="padding-top: 1rem">
-                    <button class="btn btn-facebook text-white" type="submit" value="Submit" name="submit">Submit
-                    </button>
+                    <div class="col-2">
+                        <button class="btn btn-facebook text-white" type="submit" value="Submit" name="submit">Submit
+                        </button>
+                    </div>
+
+                    <div class="col-5 pt-2 pr-5 " data-toggle="tooltip" data-placement="bottom"
+                         title="Not recommended for files larger then 50 posts. Every image URL will be checked for reachability. This could take a while. ">
+                        <label for="imgcheck">Image URL check</label>
+                        <input type="checkbox" name="imgcheck" id="imgcheck">
+                    </div>
+
                 </div>
             </form>
 
@@ -57,26 +67,34 @@
 
         <div class="col">
             <h2>TSV Rules</h2>
-            <p>A Tab-Seperated-Value file can be exported from an Microsoft Exel/Open Office/Google Docs table. It is an easy and fast way to deploy multiple Posts at once into autoPost. Every column and therefore every value is separated by a tab. But you need to follow some guidelines in order to upload your TSV file successfully. The list below contains all the rules you need to follow. If you want to see an example TSV file, click on the link below. </p>
-            <a href="/tsvexample" target="_blank" style="margin-top: 1rem; margin-bottom: 2rem" class="btn text-white btn-secondary">Example TSV</a>
+            <p>A Tab-Seperated-Value file can be exported from an Microsoft Exel/Open Office/Google Docs table. It is an
+                easy and fast way to deploy multiple Posts at once into autoPost. Every column and therefore every value
+                is separated by a tab. But you need to follow some guidelines in order to upload your TSV file
+                successfully. The list below contains all the rules you need to follow. If you want to see an example
+                TSV file, click on the link below. </p>
+            <a href="/tsvexample" target="_blank" style="margin-top: 1rem; margin-bottom: 2rem"
+               class="btn text-white btn-secondary" >Example TSV</a>
             <ul class="list-group scroll-group">
                 <li class="list-group-item">Order of columns: Date, Time, Content, Image URL</li>
                 <li class="list-group-item">The time has to be in format HH:MM (Example: 12:08)</li>
                 <li class="list-group-item">Your date and time must NOT be in the past</li>
                 <li class="list-group-item">Following date-formats are allowed:
                     <ul class="list-group">
-                        <li class="list-group-item" >dd.MM.yyyy (Example: 30.05.2019)</li>
-                        <li class="list-group-item" >dd-MM-yyyy (Example: 30-05-2019)</li>
-                        <li class="list-group-item" >dd/MM/yyyy (Example: 30/05/2019)</li>
-                        <li class="list-group-item" >yyyy-MM-dd (Example: 2019-05-31)</li>
-                        <li class="list-group-item" >yyyy/MM/dd (Example: 2019/05/31)</li>
-                        <li class="list-group-item" >yyyy.MM.dd (Example: 2019.05.31)</li>
+                        <li class="list-group-item">dd.MM.yyyy (Example: 30.05.2019)</li>
+                        <li class="list-group-item">dd-MM-yyyy (Example: 30-05-2019)</li>
+                        <li class="list-group-item">dd/MM/yyyy (Example: 30/05/2019)</li>
+                        <li class="list-group-item">yyyy-MM-dd (Example: 2019-05-31)</li>
+                        <li class="list-group-item">yyyy/MM/dd (Example: 2019/05/31)</li>
+                        <li class="list-group-item">yyyy.MM.dd (Example: 2019.05.31)</li>
                     </ul>
                 </li>
                 <li class="list-group-item">Content OR Image url has to be filled</li>
-                <li class="list-group-item">If you just want to post an image without text, separate the image url from the time with two tabs</li>
+                <li class="list-group-item">If you just want to post an image without text, separate the image url from
+                    the time with two tabs
+                </li>
                 <li class="list-group-item">Time AND date must not be empty</li>
-                <li class="list-group-item">If you want linebreaks in your text write \n where you would press ENTER</li>
+                <li class="list-group-item">If you want linebreaks in your text write \n where you would press ENTER
+                </li>
                 <li class="list-group-item">If you want tabs in your text write \t where you would press TAB</li>
                 <li class="list-group-item">Rows which start with // will be ignored</li>
             </ul>
@@ -85,8 +103,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 <!-- Footer -->

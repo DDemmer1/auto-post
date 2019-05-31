@@ -22,7 +22,7 @@ public class TSVParserTests {
     public void testTSVParse(){
 
         try {
-            new TsvService().parseTSV(new File("C:\\Users\\IDH\\IdeaProjects\\auto-post\\src\\test\\java\\de\\demmer\\dennis\\autopost\\tsvTest"), "55");
+            new TsvService().parseTSV(new File("C:\\Users\\IDH\\IdeaProjects\\auto-post\\src\\test\\java\\de\\demmer\\dennis\\autopost\\tsvTest"), "55", true);
         } catch (MalformedTsvException e) {
             e.printStackTrace();
         }

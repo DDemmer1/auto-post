@@ -3,10 +3,10 @@ package de.demmer.dennis.autopost.repositories;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import org.springframework.data.repository.CrudRepository;
 
+import java.security.KeyStore;
 import java.util.List;
 
 public interface FacebookpostRepository extends CrudRepository<Facebookpost, Integer> {
-
 
     void deleteByIdAndFacebookpageFbId(int postId, String pageFbId);
 
@@ -25,5 +25,8 @@ public interface FacebookpostRepository extends CrudRepository<Facebookpost, Int
     List<Facebookpost> findByEnabledAndPostedAndFacebookuserId(boolean enabled, boolean posted, int userId);
 
     List<Facebookpost> findByEnabledAndPostedAndError(boolean enabled, boolean posted, boolean error);
-
+    List<Facebookpost> findByEnabled(boolean enabled);
+    List<Facebookpost> findByPosted(boolean enabled);
+    List<Facebookpost> findByScheduled(boolean enabled);
+    List<Facebookpost> findByError(boolean error);
 }

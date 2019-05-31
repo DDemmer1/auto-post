@@ -11,10 +11,15 @@
 
 <header class="bg-facebook text-white">
     <div class="container text-center">
-        <h1>Welcome to <strong>autoPost</strong> <i class="fa fa-facebook-square"></i></h1>
+        <!--<h1>Welcome to <strong>autoPost</strong> <i class="fa fa-facebook-square"></i></h1>-->
+        <!--<h1>Welcome to <strong>autoPost</strong> <img class="autopost_logo" src="img/autopost_assets/autopost_face/autopost_face.png"></h1>-->
+        <h1>Welcome to <strong>autoPost</strong> <img class="autopost_logo"
+                                                      src="img/autopost_assets/autopost_circle/autopost_circle.png">
+        </h1>
         <p class="lead">Your Facebook scheduling Service</p>
-        <div th:unless="${session.activeuser != null}" class="d-sm-none nav-item">
-            <a class="mobile-login btn btn-login btn-facebook border-white" th:href="${loginlink}"><i class="fa fa-facebook-square"></i>
+        <div th:unless="${session.activeuser != null}" class="d-lg-none nav-item">
+            <a class="mobile-login btn btn-login btn-facebook border-white" th:href="${loginlink}"><i
+                    class="fa fa-facebook-square"></i>
                 Login with Facebook</a>
         </div>
     </div>
@@ -25,11 +30,15 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <h2>About autoPost </h2>
-                <p class="lead"><strong>autoPost</strong> is a small and easy-to-use webapplication to ease the scheduled publication of posts on Facebook pages</p>
+                <p class="lead"><strong>autoPost</strong> is a small and easy-to-use webapplication to ease the
+                    scheduled publication of posts on Facebook pages</p>
                 <ul>
-                    <li><i class="fa fa-facebook-square"></i> Free to use and Open Source</li>
-                    <li><i class="fa fa-facebook-square"></i> Schedule your posts on Facebook pages</li>
-                    <li><i class="fa fa-facebook-square"></i> Import TSV files for fast and easy post scheduling</li>
+                    <li><i class="fa fa-users" aria-hidden="true"></i> Free to use and Open Source</li>
+                    <li><i class="fa fa-calendar" aria-hidden="true"></i> Schedule your posts on Facebook pages</li>
+                    <li><i class="fa fa-upload" aria-hidden="true"></i> Import TSV files for fast and easy post
+                        scheduling
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -37,9 +46,8 @@
 </section>
 
 
-
 <!-- Footer -->
-<footer th:replace="../elements/footer" ></footer>
+<footer th:replace="../elements/footer"></footer>
 
 </body>
 

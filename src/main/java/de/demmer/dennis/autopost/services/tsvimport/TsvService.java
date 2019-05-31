@@ -34,7 +34,7 @@ public class TsvService {
     ScheduleService scheduleService;
 
 
-    public List<Facebookpost> parseTSV(File tsvFile, String id) throws MalformedTsvException {
+    public List<Facebookpost> parseTSV(File tsvFile, String id, boolean imgcheck) throws MalformedTsvException {
 
 
         TsvParserSettings settings = new TsvParserSettings();
@@ -56,7 +56,7 @@ public class TsvService {
                 continue;
             }
 
-            Facebookpost post = arrayToPost(row, i);
+            Facebookpost post = arrayToPost(row, i, imgcheck);
             if (post != null) {
                 try {
                     if (post.getContent().equals("") && post.getImg().equals("")) {
@@ -79,7 +79,7 @@ public class TsvService {
         return parsedPosts;
     }
 
-    private Facebookpost arrayToPost(String[] posts, int row) throws MalformedTsvException {
+    private Facebookpost arrayToPost(String[] posts, int row, boolean imgcheck) throws MalformedTsvException {
 
         Facebookpost post = new Facebookpost();
         for (int col = 0; col < posts.length; col++) {
@@ -117,7 +117,9 @@ public class TsvService {
                     break;
                 case 3:
                     //Image
-                    if (!isImage(value)) throw new MalformedTsvException("Image Error", row, value);
+                    if(imgcheck){
+                        if (!isImage(value)) throw new MalformedTsvException("Image Error", row, value);
+                    }
                     post.setImg(value);
                     break;
                 default:

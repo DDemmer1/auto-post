@@ -28,45 +28,51 @@ public class ScheduleService {
     @Autowired
     FacebookpostRepository postRepository;
 
+    @Autowired
+    FacebookpostRepository facebookpostRepository;
+
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
-    private Map<Integer,ScheduledFuture<?>> tasks;
+    private Map<Integer, ScheduledFuture<?>> tasks = new HashMap<>();
 
-    public ScheduleService(){
-        tasks = new HashMap<>();
-    }
+//    public ScheduleService(){
+//        tasks = new HashMap<>();
+//    }
 
     public Facebookpost schedulePost(Facebookpost post) {
 
         int delay = getDelay(post);
 
-        if(delay<0){
+        if (delay < 0) {
             post.setError(true);
-            log.info("Delay " + delay + " post not scheduled" );
+            log.info("Delay " + delay + " post not scheduled");
             return post;
         }
 
-        TimerTask task = new PostTask(post.getFacebookuser(), post, facebookService,postRepository);
+        TimerTask task = new PostTask(post.getFacebookuser(), post, facebookService, postRepository);
         ScheduledFuture<?> scheduledFuture = scheduler.schedule(task, delay, TimeUnit.SECONDS);
         log.info("Post " + post.getId() + " scheduled");
-        if(post.isScheduled()){
-            return post;
-        } else if(post.isEnabled() && !post.isScheduled()){
+        if (post.isScheduled()) {
+            cancelScheduling(post);
             post.setScheduled(true);
-            tasks.put(post.getId(),scheduledFuture);
+            tasks.put(post.getId(), scheduledFuture);
+            return post;
+        } else if (post.isEnabled() && !post.isScheduled()) {
+            post.setScheduled(true);
+            tasks.put(post.getId(), scheduledFuture);
         }
 
         return post;
     }
 
 
-    public Facebookpost cancelScheduling(Facebookpost post){
-        try{
+    public Facebookpost cancelScheduling(Facebookpost post) {
+        try {
             tasks.get(post.getId()).cancel(true);
             tasks.remove(post.getId());
             post.setScheduled(false);
             log.info("Scheduling of post " + post.getId() + " stopped");
-        } catch (NullPointerException ne){
+        } catch (NullPointerException ne) {
             log.info("Post " + post.getId() + " already canceled");
         }
 
@@ -86,7 +92,7 @@ public class ScheduleService {
         LocalDateTime d2 = LocalDateTime.parse(dateNow + " " + timeNow, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         Duration diff = Duration.between(d2, d1);
-        log.info("Delay: "+ (int) diff.getSeconds()+ "s");
+        log.info("Delay: " + (int) diff.getSeconds() + "s");
         return (int) diff.getSeconds();
     }
 
@@ -95,8 +101,23 @@ public class ScheduleService {
     }
 
 
-    public void scheduleAll(){
-        List<Facebookpost> toSchedule = postRepository.findByEnabledAndPostedAndError(true,false,false);
-        if(toSchedule != null) toSchedule.forEach(post -> schedulePost(post));
+    public void scheduleAll() {
+        List<Facebookpost> toSchedule = postRepository.findByEnabledAndPostedAndError(true, false, false);
+        if (toSchedule != null) toSchedule.forEach(post -> schedulePost(post));
+    }
+
+    public void killAllTasks() {
+
+        List<Integer> toRemove = new ArrayList<>();
+
+        for (Map.Entry<Integer, ScheduledFuture<?>> entry : tasks.entrySet()) {
+            Optional<Facebookpost> postOptional = facebookpostRepository.findById(entry.getKey());
+            Facebookpost post = postOptional.get();
+            tasks.get(post.getId()).cancel(true);
+            toRemove.add(post.getId());
+        }
+
+
+        toRemove.forEach(id -> tasks.remove(id));
     }
 }

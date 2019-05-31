@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="../elements/header (title='Admin')"></head>
+
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav th:replace="../elements/navbar"></nav>
+
+
+<div class="mt-5 pt-5 container">
+
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <h2>Database Statistics:</h2>
+            <table class="table table-responsive-sm">
+                <tr>
+                    <td>Database entries:</td>
+                    <td>[[${dbsize}]]</td>
+                </tr>
+                <tr>
+                    <td>User:</td>
+                    <td>[[${users}]]</td>
+                </tr>
+                <tr>
+                    <td>Pages</td>
+                    <td>[[${pages}]]</td>
+                </tr>
+                <tr>
+                    <td>Posts:</td>
+                    <td>[[${posts}]]</td>
+                </tr>
+
+            </table>
+
+
+        </div>
+
+        <div class="col-12 col-sm-6">
+
+            <h2>Application Settings:</h2>
+            <table class="table table-responsive-sm">
+                <tr>
+                    <td>Admin:</td>
+                    <td>[[${admin}]]</td>
+                </tr>
+                <tr>
+                    <td>Bug Mail receiver:</td>
+                    <td>[[${adminmail}]]</td>
+                </tr>
+                <tr>
+                    <td>Facebook redirect URL:</td>
+                    <td>[[${facebooklogin}]]</td>
+                </tr>
+                <tr>
+                    <td>Database URL:</td>
+                    <td>[[${dburl}]]</td>
+                </tr>
+                <tr>
+                    <td>Database dialect:</td>
+                    <td>[[${dbtype}]]</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <h2 class="mt-5">Post Statistics</h2>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+
+            <table class="table table-responsive-sm">
+                <tr>
+                    <td>Posted:</td>
+                    <td>[[${posted}]]</td>
+                </tr>
+                <tr>
+                    <td>Scheduled:</td>
+                    <td>[[${scheduled}]]</td>
+                </tr>
+                <tr>
+                    <td>Enabled:</td>
+                    <td>[[${enabled}]]</td>
+                </tr>
+                <tr>
+                    <td>Error:</td>
+                    <td>[[${error}]]</td>
+                </tr>
+                <tr>
+                    <td>Scheduler Tasks</td>
+                    <td>[[${tasks}]]</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--<hr class="mt-3" >-->
+    <h2 class="mt-5">Actions</h2>
+    <div class="row">
+        <!--Reschedule-->
+        <div class="col-4 col-sm-1 col-md-2">
+            <form action="/reschedule" method="post">
+                <button type="submit" class="btn btn-facebook text-white">Reschedule</button>
+            </form>
+        </div>
+        <div class="col col-sm-1">
+            <form action="/killall" method="post">
+                <button type="submit" class="btn btn-danger text-white">Kill all Tasks in scheduler</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    <h2 class="mt-5">Posts in Scheduler</h2>
+    <table class="table table-responsive-sm">
+        <thead>
+        <tr>
+            <th scope="col">Post ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">User</th>
+            <th scope="col">Page</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="post : ${postList}">
+
+            <td th:text="${post.getId()}"></td>
+
+            <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
+                <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
+            </th:block>
+
+            <td th:text="${post.getFacebookuser().getName()}"></td>
+            <td th:text="${post.getFacebookpage().getName()}"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<!-- Footer -->
+<footer th:replace="../elements/footer"></footer>
+
+</body>
+
+</html>

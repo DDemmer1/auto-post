@@ -7,14 +7,14 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 
-//@Component
+@Component
 public class ApplicationConfiguration {
 
-//    @Autowired
-//    ScheduleService scheduleService;
-//
-//
-//    //Schedule fbposts on application startup
+    @Autowired
+    ScheduleService scheduleService;
+
+
+    //Schedule fbposts on application startup
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void handleContextRefresh() {
 //        scheduleService.scheduleAll();

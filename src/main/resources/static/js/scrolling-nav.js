@@ -5,6 +5,18 @@ jQuery(document).ready(function ($) {
         window.location = $(this).data("href");
     });
 
+
+    //Makes table row clickable
+    $(".non-clickable").click(function () {
+        window.location = $(this).data("href");
+    });
+
+
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+
     //stops bubbeling of clickable row in checkbox
     $(".checkbox").click(function (event) {
         event.stopImmediatePropagation();
