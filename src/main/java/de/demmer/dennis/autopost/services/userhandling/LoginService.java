@@ -16,10 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles everything user related at login.
+ * Checks for changed user informations if a user returns and creates new user if it is the first login.
+ *
+ */
 @Log4j2
 @Service
 @Transactional
-//@Transactional (rollbackFor = UserException.class)
 public class LoginService {
 
     @Autowired
@@ -37,9 +41,14 @@ public class LoginService {
     @Autowired
     FacebookpageRepository pageRepository;
 
+
+    /**
+     *
+     * @param code
+     * @throws UserException
+     */
     public void login(String code) throws UserException {
         String accessToken = facebookService.createFacebookAccessToken(code);
-        log.info(code);
         Facebookuser user = userFactory.getUser(accessToken);
         updateUser(user);
     }

@@ -11,7 +11,11 @@ import lombok.extern.log4j.Log4j2;
 import javax.validation.constraints.NotNull;
 import java.util.TimerTask;
 
-
+/**
+ * The task that is put into the @{@link ScheduleService}
+ *
+ *
+ */
 @Log4j2
 @ToString
 @Getter
@@ -25,8 +29,8 @@ public class PostTask extends TimerTask {
     @NotNull
     private Facebookpost post;
 
-    FacebookpostRepository postRepository;
-    FacebookService facebookService;
+    private FacebookpostRepository postRepository;
+    private FacebookService facebookService;
 
     public PostTask(Facebookuser user, Facebookpost post, FacebookService facebookService, FacebookpostRepository postRepository) {
         this.user = user;
@@ -35,6 +39,9 @@ public class PostTask extends TimerTask {
         this.postRepository = postRepository;
     }
 
+    /**
+     * Publishes @{@link Facebookpost} and update database
+     */
     @Override
     public void run() {
 

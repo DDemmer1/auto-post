@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * The TsvService parses a tsv-file(tab-seperated-value) to a list of @{@link Facebookpost}.
+ *
+ */
 @Log4j2
 @Service
 public class TsvService {
@@ -34,6 +37,15 @@ public class TsvService {
     ScheduleService scheduleService;
 
 
+    /**
+     * Parses a tsv-file. Availability check for image url's can be turned on and off.
+     * Makes use of the univocity tsv parser
+     * @param tsvFile
+     * @param id
+     * @param imgcheck
+     * @return
+     * @throws MalformedTsvException
+     */
     public List<Facebookpost> parseTSV(File tsvFile, String id, boolean imgcheck) throws MalformedTsvException {
 
 
@@ -45,13 +57,12 @@ public class TsvService {
 
         List<String[]> allRows = parser.parseAll(tsvFile);
 
-//        allRows.forEach(row -> System.out.println(Arrays.asList(row).toString()));
-
         List<Facebookpost> parsedPosts = new ArrayList<>();
 
         int i = 1;
         for (String[] row : allRows) {
-            if(row[0].startsWith("//")){
+            //Ignore lines with '//'
+            if (row[0].startsWith("//")) {
                 log.info("Comment in line " + i);
                 continue;
             }
@@ -79,6 +90,11 @@ public class TsvService {
         return parsedPosts;
     }
 
+
+    /**
+     *       Iterates over each value in a row and creates a @{@link Facebookpost}
+     *       Tsv Error handling is done here.
+     */
     private Facebookpost arrayToPost(String[] posts, int row, boolean imgcheck) throws MalformedTsvException {
 
         Facebookpost post = new Facebookpost();
@@ -92,7 +108,7 @@ public class TsvService {
                         originalDate = value;
                         String date = DateParser.parse(value);
                         post.setDate(date);
-                        if(date==null){
+                        if (date == null) {
                             throw new MalformedTsvException("Date Error", row, value);
                         }
                     } catch (Exception e) {
@@ -117,7 +133,7 @@ public class TsvService {
                     break;
                 case 3:
                     //Image
-                    if(imgcheck){
+                    if (imgcheck) {
                         if (!isImage(value)) throw new MalformedTsvException("Image Error", row, value);
                     }
                     post.setImg(value);
@@ -132,6 +148,11 @@ public class TsvService {
     }
 
 
+    /**
+     * Checks if the image URL is reachable. Can be turned on and off in @parseTSV
+     * @param imagePath
+     * @return
+     */
     private boolean isImage(String imagePath) {
         try {
             URL url = new URL(imagePath);

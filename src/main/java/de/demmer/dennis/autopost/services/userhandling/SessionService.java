@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handles a user session
+ */
 
 @Transactional
 @Log4j2

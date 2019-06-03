@@ -8,7 +8,12 @@ import java.util.List;
 
 public class DateParser {
 
-
+    /**
+     * Parses a date String to the database date pattern yyyy-MM-dd
+     *
+     * @param input
+     * @return
+     */
     public static String parse(String input){
 
         List<String> patternList = new ArrayList<>();
@@ -42,6 +47,7 @@ public class DateParser {
     }
 
 
+    //checks if String is parsable to date pattern
     private static boolean isParsable(String input, String pattern){
 
         SimpleDateFormat format = new SimpleDateFormat(pattern);

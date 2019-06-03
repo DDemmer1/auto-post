@@ -124,7 +124,15 @@ public class TsvController {
     }
 
 
-
+    /**
+     * Mappgin for the template 'tsvform'
+     *
+     * @param id
+     * @param model
+     * @param tsvSuccess
+     * @param numAddedPosts
+     * @return
+     */
     @GetMapping(value="/schedule/{id}/tsvform")
     public String tsvForm(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "tsvSuccess", required = false) Boolean tsvSuccess, @RequestParam(value = "numAddedPosts", required = false) Integer numAddedPosts){
 

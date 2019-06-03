@@ -35,10 +35,6 @@ public class ScheduleService {
 
     private Map<Integer, ScheduledFuture<?>> tasks = new HashMap<>();
 
-//    public ScheduleService(){
-//        tasks = new HashMap<>();
-//    }
-
     public Facebookpost schedulePost(Facebookpost post) {
 
         int delay = getDelay(post);

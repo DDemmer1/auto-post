@@ -1,5 +1,8 @@
 package de.demmer.dennis.autopost.services.tsvimport;
 
+/**
+ * This Exception is thrown if the @{@link TsvService} encounters a parsing error
+ */
 public class MalformedTsvException extends Exception {
 
     private int row;
