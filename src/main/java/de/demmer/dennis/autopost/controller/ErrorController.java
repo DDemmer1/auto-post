@@ -28,6 +28,13 @@ public class ErrorController {
     @Autowired
     FacebookService facebookService;
 
+
+    /**
+     * Is called when an unspecific error is thrown
+     *
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/error")
     public String error(Model model){
 
@@ -39,6 +46,18 @@ public class ErrorController {
         return "error";
     }
 
+
+    /**
+     * Mapped by the "Send message" button on the bug report form
+     *
+     * @param firstName
+     * @param lastName
+     * @param replyAdress
+     * @param bugType
+     * @param message
+     * @param model
+     * @return
+     */
     @PostMapping(value = "/bugreport")
     public String bugreport(@RequestParam(value = "firstName") String firstName,
                             @RequestParam(value = "lastName") String lastName,

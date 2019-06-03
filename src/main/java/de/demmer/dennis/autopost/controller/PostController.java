@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
+
 @Transactional
 @Controller
 @Log4j2
@@ -43,6 +45,14 @@ public class PostController {
     ScheduleService scheduleService;
 
 
+    /**
+     * Called when clicked on a post in the 'page' template. Triggers an editing template
+     *
+     * @param pageFbId
+     * @param postId
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/schedule/{pageFbId}/{postId}")
     public String editExistingPost(@PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, Model model) {
 
@@ -69,7 +79,13 @@ public class PostController {
         return "post";
     }
 
-
+    /**
+     * Mapped by the "Add new Post" button on the 'page' template
+     *
+     * @param model
+     * @param pageFbId
+     * @return
+     */
     @GetMapping(value = "/schedule/{pageFbId}/new")
     public String editNewPost(Model model, @PathVariable(value = "pageFbId") String pageFbId) {
         Facebookuser user = sessionService.getActiveUser();
@@ -89,6 +105,12 @@ public class PostController {
     }
 
 
+    /**
+     * Mapped by the 'save' button on the template for a new post
+     * @param pageFbId
+     * @param postDto
+     * @return
+     */
     @PostMapping(value = "/schedule/{pageFbId}/new")
     public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto) {
 
@@ -99,7 +121,12 @@ public class PostController {
         return "redirect:/schedule/" + pageFbId;
     }
 
-
+    /**
+     * Mapped by the 'save' button on the template for an edited post
+     * @param pageFbId
+     * @param postDto
+     * @return
+     */
     @PostMapping(value = "/schedule/{pageFbId}/{postId}")
     public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto) {
 
@@ -113,7 +140,11 @@ public class PostController {
     }
 
 
-
+    /**
+     * Mapped by the 'delete' button on the 'post' template
+     * @param pageFbId
+     * @return
+     */
     @GetMapping(value = "/schedule/{pageFbId}/{postId}/delete")
     public String deletePost(@PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") Integer postId) {
 

@@ -7,6 +7,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 
+/**
+ * Configuration Class
+ */
 @Component
 public class ApplicationConfiguration {
 

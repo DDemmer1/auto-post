@@ -37,7 +37,6 @@ public class PostSchedulingTests extends TestContext{
     @SneakyThrows
     @Test
     public void shouldNotPost(){
-        testPost.setContent("This should not be here!");
         scheduleService.schedulePost(testPost);
         scheduleService.cancelScheduling(testPost);
         Thread.sleep(70000);

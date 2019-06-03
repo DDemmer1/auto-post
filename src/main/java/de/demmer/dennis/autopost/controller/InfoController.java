@@ -10,6 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
+/**
+ * Handels the pages with generall informations like "about", "services" or the "Status" in the user menu
+ */
+
+//TODO refactor 'settings' to 'account'
+
+
 @Controller
 public class InfoController {
 
@@ -46,6 +54,11 @@ public class InfoController {
     }
 
 
+    /**
+     * Mapped by the "Status" button in the user drop down menu
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/status")
     public String getStatus(Model model) {
 
@@ -67,6 +80,11 @@ public class InfoController {
     }
 
 
+    /**
+     * Leads to the option to delete a user account
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/settings")
     public String getSettings(Model model) {
         Facebookuser user = sessionService.getActiveUser();
@@ -80,6 +98,11 @@ public class InfoController {
     }
 
 
+    /**
+     * Mapped by the "Example tsv" button in the tsvform template
+     * Returns a example tsv file.
+     * @return
+     */
     @GetMapping(value = "/tsvexample")
     public String getTsvExample(){
         return "tsvexample";

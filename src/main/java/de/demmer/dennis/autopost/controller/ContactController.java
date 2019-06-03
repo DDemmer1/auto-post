@@ -9,6 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Simple Controller which loads the contact page.
+ */
+
+//TODO Extend with a contact formular
+
 @Log4j2
 @Controller
 public class ContactController {

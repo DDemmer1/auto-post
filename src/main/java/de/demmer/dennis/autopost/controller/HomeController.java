@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+/**
+ * Controlls the base page of the web app.
+ * Paragraphs marked with 'DEV' can be uncommented to activate instant login of the admin for testing purposes
+ */
 @Controller
 public class HomeController {
 
@@ -22,14 +25,14 @@ public class HomeController {
     SessionService sessionService;
 
     //----------DEV----------//
-    @Autowired
-    UserFactory userFactory;
-
-    @Autowired
-    LoginService loginService;
-
-    @Value("${test.accessToken}")
-    String devAccessToken;
+//    @Autowired
+//    UserFactory userFactory;
+//
+//    @Autowired
+//    LoginService loginService;
+//
+//    @Value("${test.accessToken}")
+//    String devAccessToken;
     //----------DEV----------//
 
     @GetMapping(value = "/")

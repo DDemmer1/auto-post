@@ -28,6 +28,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Handles requests for the 'tsvform' template
+ */
 @Log4j2
 @Controller
 public class TsvController {
@@ -50,19 +54,19 @@ public class TsvController {
     @Autowired
     ScheduleService scheduleService;
 
+    /**
+     * Mapped by the file picker in the 'tsvform' template
+     *
+     * @param id
+     * @param multiFile
+     * @param modelMap
+     * @param imgcheck
+     * @return
+     */
     @PostMapping(value="/schedule/{id}/tsvform/upload",  consumes = { "multipart/form-data" })
-    public ModelAndView uploadTSV(final HttpServletRequest request, @PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap , @RequestParam Map<String,String> allParams, @RequestParam(name = "imgcheck" ,  defaultValue = "off") String imgcheck){
-
-
-        for (Map.Entry entry : allParams.entrySet()) {
-            log.info(entry.getKey() +" | " + entry.getValue());
-        }
-
-        log.info(imgcheck);
-
+    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap , @RequestParam(name = "imgcheck" ,  defaultValue = "off") String imgcheck){
 
         Facebookuser user = sessionService.getActiveUser();
-
         modelMap.addAttribute("page", pageRepository.findByFbId(id));
 
         //Add fbuser data from session
@@ -81,6 +85,7 @@ public class TsvController {
             return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
         }
 
+        //MultipartFile to File
         File file = null;
         try {
             file = new File(multiFile.getOriginalFilename());
@@ -93,19 +98,21 @@ public class TsvController {
         }
 
         try {
+            //parse tsv to posts
             List<Facebookpost> tsvPosts = tsvService.parseTSV(file, id, imgcheck.equals("on"));
             for (Facebookpost post : tsvPosts) {
                 postRepository.save(post);
                 scheduleService.schedulePost(post);
             }
 
+            //delete temporary tsv file
             file.delete();
 
+            //add number of added posts and trigger android toast like pop up
             modelMap.addAttribute("tsvSuccess" , true);
             modelMap.addAttribute("numAddedPosts" , tsvPosts.size());
 
-        } catch (MalformedTsvException e) {
-//            e.printStackTrace();
+        } catch (MalformedTsvException e) { // Handle malformed files
             modelMap.addAttribute("line",e.getRow());
             modelMap.addAttribute("linecontent",e.getContent());
             modelMap.addAttribute("message",e.getMessage());

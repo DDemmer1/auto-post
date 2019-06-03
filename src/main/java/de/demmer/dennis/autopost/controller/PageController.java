@@ -24,6 +24,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Handels the user interaction with the 'page' template
+ *
+ */
 @Transactional
 @Log4j2
 @Controller
@@ -48,6 +53,12 @@ public class PageController {
     @Autowired
     ScheduleService scheduleService;
 
+    /**
+     * Shows the posts of a page in the 'page' template
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/schedule/{id}")
     public String postList(@PathVariable(value = "id") String id, Model model) {
 
@@ -69,6 +80,14 @@ public class PageController {
     }
 
 
+    /**
+     * Mapped by the 'selected' dropdown button in the 'page' template
+     *
+     * @param id
+     * @param modelMap
+     * @param params
+     * @return
+     */
     @GetMapping(value = "/schedule/{id}/selected")
     public ModelAndView changeSelected(@PathVariable(value = "id") String id, ModelMap modelMap, @RequestParam Map<String, String> params) {
 

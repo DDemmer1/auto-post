@@ -19,6 +19,10 @@ import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 
 
+/**
+ * Controlls the administration page /admin which is only visible for a logged in admin
+ */
+
 @Log4j2
 @Controller
 public class DebugController {
@@ -105,6 +109,9 @@ public class DebugController {
 
 
 
+    /*
+     *Mapped by the "Reschedule all" button on the admin page
+     */
     @PostMapping("/reschedule")
     public String rescheduleAll(){
 
@@ -118,7 +125,9 @@ public class DebugController {
     }
 
 
-
+    /*
+     *Mapped by the "Kill all tasks" button on the admin page
+     */
     @PostMapping("/killall")
     public String killall(){
 
