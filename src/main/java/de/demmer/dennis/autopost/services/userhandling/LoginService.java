@@ -43,8 +43,9 @@ public class LoginService {
 
 
     /**
+     * Logs a user into the web app
      *
-     * @param code
+     * @param code Needs the return code from the facebook login link
      * @throws UserException
      */
     public void login(String code) throws UserException {
@@ -54,7 +55,10 @@ public class LoginService {
     }
 
 
-    public void updateUser(Facebookuser user) {
+    /*
+     * Adds a new user to the database and current session, or updates the informations of a returning user and adds him to the session
+     */
+    private void updateUser(Facebookuser user) {
 
         if (userRepository.findFacebookuserByFbId(user.getFbId()) == null) {
             //New User
@@ -67,7 +71,7 @@ public class LoginService {
         }
     }
 
-
+    //adds a new user
     private Facebookuser newUserLogin(Facebookuser user){
         log.info("New fbuser: " + user.getName());
 
@@ -77,6 +81,7 @@ public class LoginService {
     }
 
 
+    //checks if returning user needs update. If so saved it into database
     private Facebookuser returningUserLogin(Facebookuser user){
         log.info("Returning fbuser: " + user.getName());
 
@@ -103,6 +108,8 @@ public class LoginService {
         return userInDB;
     }
 
+
+    //checks if facebook pages where deleted
     private List<Facebookpage> getPagesToDelete(Facebookuser user, Facebookuser userInDB) {
         List<Facebookpage> pageListInDB = pageRepository.findByFacebookuserId(userInDB.getId());
         List<Facebookpage> pageListReturningUser  = user.getPageList();
@@ -128,6 +135,7 @@ public class LoginService {
     }
 
 
+    //checks if new Facebook pages where created
     private List<Facebookpage> getNewPages(Facebookuser user, Facebookuser userInDB){
 
         List<Facebookpage> pageListInDB = pageRepository.findByFacebookuserId(userInDB.getId());

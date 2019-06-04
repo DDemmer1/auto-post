@@ -9,9 +9,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Utility class for @{@link Facebookpost}
+ *
+ */
 @Log4j2
 @Service
-public class PostService {
+public class PostUtilService {
 
 
     @Autowired
@@ -24,6 +28,14 @@ public class PostService {
     FacebookpostRepository postRepository;
 
 
+    /**
+     * Updates the atributes of a @{@link Facebookpost} via a @{@link PostDto}
+     *
+     * @param post
+     * @param postDto
+     * @param pageFbId
+     * @return
+     */
     public Facebookpost updatePost(Facebookpost post, PostDto postDto, String pageFbId){
         if(postDto.getLongitude()!= null && !postDto.getLongitude().isEmpty()) post.setLongitude(Float.parseFloat(postDto.getLongitude()));
         if(postDto.getLongitude()!= null && !postDto.getLatitude().isEmpty()) post.setLatitude(Float.parseFloat(postDto.getLatitude()));

@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 
-
+/**
+ * Service for reporting a bug via email.
+ *
+ */
 @Log4j2
 @Service
 public class BugReportService{
@@ -21,6 +24,15 @@ public class BugReportService{
     @Value("${debug.mail}")
     String debugMail;
 
+    /**
+     * Sends an email with predefined debug text to the specified debugMail in the application.porperties file
+     * @param firstName
+     * @param lastName
+     * @param messageText
+     * @param replyEmailAdress
+     * @param bugType
+     * @param url
+     */
     @SneakyThrows
     public void sendMail(String firstName, String lastName, String messageText, String replyEmailAdress, String bugType, String url){
         MimeMessage message = sender.createMimeMessage();

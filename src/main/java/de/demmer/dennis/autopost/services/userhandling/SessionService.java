@@ -31,6 +31,12 @@ public class SessionService{
     FacebookuserRepository userRepository;
 
 
+    /**
+     * Adds the a some information about the user to the current Httpsession.
+     * Is called at login.
+     *
+     * @param user
+     */
     public void addActiveUser(Facebookuser user){
 
         Map<String ,String> activeuser = new HashMap<>();
@@ -44,10 +50,19 @@ public class SessionService{
     }
 
 
+    /**
+     * Removes the current active user from the Httpsession. Called at login or account deletion.
+     */
     public void removeActiveUser(){
         session.removeAttribute("activeuser");
     }
 
+
+    /**
+     * Returns the current user in the Httpsession
+     *
+     * @return
+     */
     public Facebookuser getActiveUser(){
         Map<String,String> userMap = (Map<String, String>) session.getAttribute("activeuser");
         if(userMap!=null){

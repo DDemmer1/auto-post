@@ -31,6 +31,10 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handels everything Facebook related. Can retrieve and send data from/to Facebook.
+ *
+ */
 @Transactional (rollbackFor = UserException.class)
 @Log4j2
 @Service
@@ -54,6 +58,12 @@ public class FacebookService {
     ScheduleService scheduleService;
 
 
+    /**
+     * Creates a URL which can be used to login a user to the web app.
+     * The link will redirect you to the specified redirect value, defined in the application.properties value.
+     *
+     * @return The URL used to login
+     */
     public String createFacebookAuthorizationURL() {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
@@ -68,6 +78,12 @@ public class FacebookService {
     }
 
 
+    /**
+     * Creates the oAuth token from the return code of the facebook login link
+     *
+     * @param code
+     * @return The oauth token used for verification in every
+     */
     public String createFacebookAccessToken(String code) {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, redirectURL, null);
@@ -75,6 +91,11 @@ public class FacebookService {
     }
 
 
+    /**
+     * Returns the name of the user with the respective oAuthToken
+     * @param oAuthToken
+     * @return The name of the user
+     */
     public String getName(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String jsonName = facebook.fetchObject("me", String.class, "name");
@@ -82,7 +103,11 @@ public class FacebookService {
         return jsonObject.get("name").toString();
     }
 
-
+    /**
+     * Returns the email of the user with the respective oAuthToken
+     * @param oAuthToken
+     * @return The email of the user
+     */
     public String getEmail(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String jsonEmail = facebook.fetchObject("me", String.class, "email");
@@ -91,7 +116,11 @@ public class FacebookService {
 
     }
 
-
+    /**
+     * Returns the Facebook id of the user with the respective oAuthToken
+     * @param oAuthToken
+     * @return The Facebook id of the user
+     */
     public String getID(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String jsonID = facebook.fetchObject("me", String.class, "id");
@@ -100,6 +129,11 @@ public class FacebookService {
     }
 
 
+    /**
+     * Posts a @{@link Facebookpost} on Facebook
+     * @param user The user who posts the @{@link Facebookpost}
+     * @param post The @{@link Facebookpost} which is about to be send
+     */
     public void post(Facebookuser user, Facebookpost post) {
 
         scheduleService.cancelScheduling(post);
@@ -172,6 +206,11 @@ public class FacebookService {
     }
 
 
+    /**
+     * Returns all permissioned pages of the user with the oAuth token  @{@link Facebookpage}
+     * @param oAuthToken
+     * @return A List of @{@link Facebookpage}
+     */
     public List<Facebookpage> getPages(String oAuthToken) {
 
         List<Facebookpage> pageList = new ArrayList<>();
@@ -201,6 +240,11 @@ public class FacebookService {
     }
 
 
+    /**
+     * Gives you the URL of the profile picture of the user
+     * @param oAuthToken The oAuth token of the user
+     * @return The profile picture URL
+     */
     public String getProfilePicture(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
 
@@ -214,6 +258,12 @@ public class FacebookService {
 
     }
 
+    /**
+     * Returns the image url of the facebook page
+     * @param oAuthToken
+     * @param pageID
+     * @return image url of the facebook page
+     */
     public String getPageProfilePicture(String oAuthToken, String pageID) {
 
         Facebook facebook = new FacebookTemplate(oAuthToken);

@@ -8,7 +8,7 @@ import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
-import de.demmer.dennis.autopost.services.PostService;
+import de.demmer.dennis.autopost.services.PostUtilService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
@@ -39,7 +39,7 @@ public class PostController {
     FacebookService facebookService;
 
     @Autowired
-    PostService postService;
+    PostUtilService postUtilService;
 
     @Autowired
     ScheduleService scheduleService;
@@ -114,7 +114,7 @@ public class PostController {
     @PostMapping(value = "/schedule/{pageFbId}/new")
     public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto) {
 
-        Facebookpost post = postService.updatePost(new Facebookpost(), postDto, pageFbId);
+        Facebookpost post = postUtilService.updatePost(new Facebookpost(), postDto, pageFbId);
         if(post.isEnabled())
         scheduleService.schedulePost(post);
 
@@ -132,7 +132,7 @@ public class PostController {
 
         Facebookpost post = postRepository.findByIdAndFacebookuserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
         scheduleService.cancelScheduling(post);
-        Facebookpost updatedPost = postService.updatePost(post,postDto,pageFbId);
+        Facebookpost updatedPost = postUtilService.updatePost(post,postDto,pageFbId);
         if(updatedPost.isEnabled())
         scheduleService.schedulePost(updatedPost);
 
