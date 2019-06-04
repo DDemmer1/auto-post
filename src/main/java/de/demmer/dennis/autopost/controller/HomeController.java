@@ -48,6 +48,7 @@ public class HomeController {
 
         if (activeUser != null) {
             model.addAttribute("pageList", activeUser.getPageList());
+            model.addAttribute("pageName", "Choose Facebook page");
         }
 
         //----------DEV----------//

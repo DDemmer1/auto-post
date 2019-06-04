@@ -30,17 +30,19 @@
                         Login with Facebook</a>
                 </li>
 
-                <!--/*If Session is active*/-->
+                <!--/*Dropdown menu 'Choose Facebook page'*/-->
 
                 <li th:if="${session.activeuser != null}" class="nav-item dropdown mb-2 mb-sm-0">
                     <button style="margin-bottom: 0.5rem" class="btn btn-schedule dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Facebook pages
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="${page != null} ? '<i class=\'fa fa-facebook-square\'></i> ' + ${page.getName()}  : 'Choose Facebook page'">
+                        Choose Facebook page
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <a th:each="page : ${pageList}" th:href="'/schedule/' + ${page.getFbId()}" th:classappend="dropdown-item"><i class="fa fa-facebook-square"></i> [[${page.getName()}]]</a>
                     </div>
                 </li>
+
+                <!--/*Dropdown menu User Options*/-->
                 <li th:if="${session.activeuser != null}" class="mb-2 mb-sm-0 nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

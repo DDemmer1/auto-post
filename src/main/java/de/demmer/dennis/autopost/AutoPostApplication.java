@@ -18,16 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
  * ###################################################################################
  */
 
-//@Transactional (rollbackFor = UserException.class)
-//@SpringBootApplication
-//public class AutoPostApplication implements CommandLineRunner{
-//
-//    public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}
-//
-//    @Override
-//    public void run(String... args) {
-//
-//    }
+@Transactional (rollbackFor = UserException.class)
+@SpringBootApplication
+public class AutoPostApplication implements CommandLineRunner{
+
+    public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}
+
+    @Override
+    public void run(String... args) {
+
+    }
 
 
 
@@ -40,24 +40,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
-@Transactional
-@SpringBootApplication
-
-public class AutoPostApplication extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return configureApplication(builder);
-    }
-
-    public static void main(String[] args) {
-        configureApplication(new SpringApplicationBuilder()).run(args);
-    }
-
-    private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
-        return builder.sources(AutoPostApplication.class).bannerMode(Banner.Mode.OFF);
-    }
-
+//@Transactional
+//@SpringBootApplication
+//
+//public class AutoPostApplication extends SpringBootServletInitializer {
+//
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//        return configureApplication(builder);
+//    }
+//
+//    public static void main(String[] args) {
+//        configureApplication(new SpringApplicationBuilder()).run(args);
+//    }
+//
+//    private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
+//        return builder.sources(AutoPostApplication.class).bannerMode(Banner.Mode.OFF);
+//    }
+//
 
 
 }

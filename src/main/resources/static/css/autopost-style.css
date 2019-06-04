@@ -125,6 +125,7 @@ tr.non-clickable {
 img.idh-logo {
     height: 2rem;
     margin-bottom: 0.2rem;
+    /*background-color: white;*/
 }
 
 button.submit-post {
