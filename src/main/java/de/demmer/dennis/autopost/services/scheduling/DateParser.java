@@ -14,7 +14,7 @@ public class DateParser {
      * @param input
      * @return
      */
-    public static String parse(String input){
+    public static String parse(String input, boolean datecheck){
 
         List<String> patternList = new ArrayList<>();
         patternList.add("yyyy-MM-dd");
@@ -32,9 +32,10 @@ public class DateParser {
                     Date current = new Date();
                     current.setHours(0);
 
-                    if(date1.after(current)){
-                        return new SimpleDateFormat("yyyy-MM-dd").format(date1);
-                    } else return null;
+                    if(datecheck && !date1.after(current)){
+                        return null;
+                    } else return new SimpleDateFormat("yyyy-MM-dd").format(date1);
+
 
 
                 } catch (ParseException e) {

@@ -63,9 +63,10 @@ public class TsvController {
      * @param imgcheck
      * @return
      */
-    @PostMapping(value="/schedule/{id}/tsvform/upload",  consumes = { "multipart/form-data" })
-    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap , @RequestParam(name = "imgcheck" ,  defaultValue = "off") String imgcheck){
+    @PostMapping(value = "/schedule/{id}/tsvform/upload", consumes = {"multipart/form-data"})
+    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap, @RequestParam(name = "imgcheck", defaultValue = "off") String imgcheck, @RequestParam(name = "datecheck", defaultValue = "off") String datecheck) {
 
+        log.info(datecheck);
         Facebookuser user = sessionService.getActiveUser();
         modelMap.addAttribute("page", pageRepository.findByFbId(id));
 
@@ -81,8 +82,8 @@ public class TsvController {
         }
 
         //No Input
-        if(multiFile ==null || multiFile.isEmpty() || multiFile.getName().equals("")){
-            return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
+        if (multiFile == null || multiFile.isEmpty() || multiFile.getName().equals("")) {
+            return new ModelAndView("redirect:/schedule/" + id + "/tsvform", modelMap);
         }
 
         //MultipartFile to File
@@ -99,7 +100,7 @@ public class TsvController {
 
         try {
             //parse tsv to posts
-            List<Facebookpost> tsvPosts = tsvService.parseTSV(file, id, imgcheck.equals("on"));
+            List<Facebookpost> tsvPosts = tsvService.parseTSV(file, id, imgcheck.equals("on"), datecheck.equals("on"));
             for (Facebookpost post : tsvPosts) {
                 postRepository.save(post);
                 scheduleService.schedulePost(post);
@@ -108,19 +109,30 @@ public class TsvController {
             //delete temporary tsv file
             file.delete();
 
-            //add number of added posts and trigger android toast like pop up
-            modelMap.addAttribute("tsvSuccess" , true);
-            modelMap.addAttribute("numAddedPosts" , tsvPosts.size());
+
+            //get the number of errors
+            int numErrors = 0;
+            for (Facebookpost post : tsvPosts) {
+                if (post.isError()) {
+                    numErrors++;
+                }
+            }
+
+
+            //add number of added posts and trigger "android toast" like pop up
+            modelMap.addAttribute("tsvSuccess", true);
+            modelMap.addAttribute("numAddedPosts", tsvPosts.size());
+            modelMap.addAttribute("numErrors", numErrors);
 
         } catch (MalformedTsvException e) { // Handle malformed files
-            modelMap.addAttribute("line",e.getRow());
-            modelMap.addAttribute("linecontent",e.getContent());
-            modelMap.addAttribute("message",e.getMessage());
-            modelMap.addAttribute("error",true);
+            modelMap.addAttribute("line", e.getRow());
+            modelMap.addAttribute("linecontent", e.getContent());
+            modelMap.addAttribute("message", e.getMessage());
+            modelMap.addAttribute("error", true);
             file.delete();
-            return new ModelAndView("redirect:/schedule/" + id +"/tsvform", modelMap);
+            return new ModelAndView("redirect:/schedule/" + id + "/tsvform", modelMap);
         }
-        return new ModelAndView("redirect:/schedule/"+ id, modelMap);
+        return new ModelAndView("redirect:/schedule/" + id, modelMap);
     }
 
 
@@ -133,8 +145,8 @@ public class TsvController {
      * @param numAddedPosts
      * @return
      */
-    @GetMapping(value="/schedule/{id}/tsvform")
-    public String tsvForm(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "tsvSuccess", required = false) Boolean tsvSuccess, @RequestParam(value = "numAddedPosts", required = false) Integer numAddedPosts){
+    @GetMapping(value = "/schedule/{id}/tsvform")
+    public String tsvForm(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "tsvSuccess", required = false) Boolean tsvSuccess, @RequestParam(value = "numAddedPosts", required = false) Integer numAddedPosts) {
 
         Facebookuser user = sessionService.getActiveUser();
 
@@ -151,8 +163,8 @@ public class TsvController {
         }
 
 
-        model.addAttribute("numAddedPosts",numAddedPosts);
-        model.addAttribute("tsvSuccess",tsvSuccess);
+        model.addAttribute("numAddedPosts", numAddedPosts);
+        model.addAttribute("tsvSuccess", tsvSuccess);
 
 
         return "tsvform";

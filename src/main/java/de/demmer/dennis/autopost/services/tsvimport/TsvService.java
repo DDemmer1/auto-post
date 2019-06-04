@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * The TsvService parses a tsv-file(tab-seperated-value) to a list of @{@link Facebookpost}.
- *
  */
 @Log4j2
 @Service
@@ -40,13 +39,14 @@ public class TsvService {
     /**
      * Parses a tsv-file. Availability check for image url's can be turned on and off.
      * Makes use of the univocity tsv parser
+     *
      * @param tsvFile
      * @param id
      * @param imgcheck
      * @return
      * @throws MalformedTsvException
      */
-    public List<Facebookpost> parseTSV(File tsvFile, String id, boolean imgcheck) throws MalformedTsvException {
+    public List<Facebookpost> parseTSV(File tsvFile, String id, boolean imgcheck, boolean datecheck) throws MalformedTsvException {
 
 
         TsvParserSettings settings = new TsvParserSettings();
@@ -67,7 +67,7 @@ public class TsvService {
                 continue;
             }
 
-            Facebookpost post = arrayToPost(row, i, imgcheck);
+            Facebookpost post = arrayToPost(row, i, imgcheck, datecheck);
             if (post != null) {
                 try {
                     if (post.getContent().equals("") && post.getImg().equals("")) {
@@ -92,10 +92,10 @@ public class TsvService {
 
 
     /**
-     *       Iterates over each value in a row and creates a @{@link Facebookpost}
-     *       Tsv Error handling is done here.
+     * Iterates over each value in a row and creates a @{@link Facebookpost}
+     * Tsv Error handling is done here.
      */
-    private Facebookpost arrayToPost(String[] posts, int row, boolean imgcheck) throws MalformedTsvException {
+    private Facebookpost arrayToPost(String[] posts, int row, boolean imgcheck, boolean datecheck) throws MalformedTsvException {
 
         Facebookpost post = new Facebookpost();
         for (int col = 0; col < posts.length; col++) {
@@ -106,7 +106,7 @@ public class TsvService {
                     //Date
                     try {
                         originalDate = value;
-                        String date = DateParser.parse(value);
+                        String date = DateParser.parse(value,datecheck);
                         post.setDate(date);
                         if (date == null) {
                             throw new MalformedTsvException("Date Error", row, value);
@@ -120,9 +120,12 @@ public class TsvService {
                     try {
                         post.setTime(value);
                         int delay = scheduleService.getDelay(post);
-                        if (delay < 0) {
+                        if (delay < 0 && datecheck) {
                             throw new MalformedTsvException("Time Error", row, originalDate + " " + value);
+                        } else if (delay < 0) {
+                            post.setError(true);
                         }
+
                     } catch (Exception e) {
                         throw new MalformedTsvException("Time Error", row, originalDate + " " + value);
                     }
@@ -150,6 +153,7 @@ public class TsvService {
 
     /**
      * Checks if the image URL is reachable. Can be turned on and off in @parseTSV
+     *
      * @param imagePath
      * @return
      */

@@ -41,11 +41,18 @@
                         </button>
                     </div>
 
-                    <div class="col-5 pt-2 pr-5 " data-toggle="tooltip" data-placement="bottom"
+                    <div class="col-3 pt-2 " data-toggle="tooltip" data-placement="bottom"
+                         title="Recommended. Checks if your posts are scheduled in the future. If you don't use this, posts scheduled in the past will show an error symbol and won't be scheduled.">
+                        <label for="datecheck">Date check</label>
+                        <input type="checkbox" name="datecheck" id="datecheck" checked>
+                    </div>
+
+                    <div class="col-3 pt-2 pr-2 " data-toggle="tooltip" data-placement="bottom"
                          title="Not recommended for files larger then 50 posts. Every image URL will be checked for reachability. This could take a while. ">
-                        <label for="imgcheck">Image URL check</label>
+                        <label for="imgcheck">Image check</label>
                         <input type="checkbox" name="imgcheck" id="imgcheck">
                     </div>
+
 
                 </div>
             </form>
@@ -73,7 +80,7 @@
                 successfully. The list below contains all the rules you need to follow. If you want to see an example
                 TSV file, click on the link below. </p>
             <a href="/tsvexample" target="_blank" style="margin-top: 1rem; margin-bottom: 2rem"
-               class="btn text-white btn-secondary" >Example TSV</a>
+               class="btn text-white btn-secondary">Example TSV</a>
             <ul class="list-group scroll-group">
                 <li class="list-group-item">Order of columns: Date, Time, Content, Image URL</li>
                 <li class="list-group-item">The time has to be in format HH:MM (Example: 12:08)</li>

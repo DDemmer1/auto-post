@@ -27,7 +27,6 @@ import java.util.Map;
 
 /**
  * Handels the user interaction with the 'page' template
- *
  */
 @Transactional
 @Log4j2
@@ -55,26 +54,38 @@ public class PageController {
 
     /**
      * Shows the posts of a page in the 'page' template
+     *
      * @param id
      * @param model
      * @return
      */
     @GetMapping(value = "/schedule/{id}")
-    public String postList(@PathVariable(value = "id") String id, Model model) {
+    public String postList(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "start", required = false) Integer start,@RequestParam(value = "end", required = false) Integer end) {
 
         Facebookuser user = sessionService.getActiveUser();
 
         model.addAttribute("page", pageRepository.findByFbId(id));
 
+        //start and end of sulist of posts
+        start = (start == null) ? 0 : start;
+        end = (end == null) ? 20 : end;
+
         if (user != null) {
             List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
-            model.addAttribute("postList", posts);
+
+            //check if start/ end is in range of list size
+            start = (start > posts.size()) ? posts.size()-20 : start;
+            end = (end > posts.size()) ? posts.size() : end;
+
+            model.addAttribute("postList", posts.subList(start,end));
+            model.addAttribute("numPosts", posts.size());
         } else {
             model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return "no-login";
         }
+
 
         return "page";
     }
@@ -107,7 +118,7 @@ public class PageController {
         });
 
         if (action.equals("delete"))
-            postIds.forEach((postId) ->{
+            postIds.forEach((postId) -> {
                 Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
 

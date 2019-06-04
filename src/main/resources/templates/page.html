@@ -15,7 +15,7 @@
             <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
                   <i class="fa fa-facebook fa-stack-1x"></i>
                   <i class="fa fa-file-o fa-stack-2x"></i>
-                </span> [[${page.getName()}]]
+                </span> Facebook page: [[${page.getName()}]]
             </h2>
             <hr/>
         </div>
@@ -40,6 +40,8 @@
         <div class="tsvToast" style="display: none">[[${param.numAddedPosts}]] Post(s) added <i style="color: green;"
                                                                                               class="fa fa-check"
                                                                                               aria-hidden="true"></i>
+            <br>
+            [[${param.numErrors}]] Posts with time errors <i style="color: red" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
         </div>
     </div>
 
@@ -112,8 +114,8 @@
                         <i data-toggle="tooltip" title="Not scheduled" class="not-enabled fa fa-minus-circle"></i>
                     </td>
 
-                    <td th:if="${post.isError()}" style="color:black">
-                        <i data-toggle="tooltip" title="Error" class="fa fa-exclamation-triangle" aria-hidden="true"></i></i>
+                    <td th:if="${post.isError()}" style="color:red">
+                        <i data-toggle="tooltip" title="Error. Not scheduled and posted. Time in the past or other error." class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                     </td>
 
                     <td th:if="${post.isPosted()}"  >
@@ -124,6 +126,15 @@
 
                 </tbody>
             </table>
+            <div class="text-center">
+                <p>Page:</p>
+                <a th:href="'?start=0&end='+ ${numPosts}">Show all</a>
+
+                <th:block th:each="i: ${#numbers.sequence(0, (numPosts/20))}">
+                    <a th:href="'?start=' + ${i*20} + '&end=' + ${(i+1)*20}">[[${i+1}]]</a>
+                </th:block>
+
+            </div>
 
 
         </div>
@@ -132,7 +143,7 @@
 
 <!-- Footer -->
 <footer th:replace="../elements/footer"></footer>
-<script>$('.tsvToast').stop().fadeIn(400).delay(3000).fadeOut(400)</script>
+<script>$('.tsvToast').stop().fadeIn(400).delay(5000).fadeOut(400)</script>
 
 </body>
 

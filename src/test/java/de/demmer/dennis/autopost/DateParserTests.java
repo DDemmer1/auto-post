@@ -17,7 +17,7 @@ public class DateParserTests {
     @Test
     public void parseTest(){
 
-        String date = DateParser.parse("18.05.2019");
+        String date = DateParser.parse("18.05.2019",true);
         System.out.println(date);
         System.out.println("*******************");
 
