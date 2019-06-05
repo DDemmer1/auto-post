@@ -126,12 +126,14 @@
 
                 </tbody>
             </table>
-            <div class="text-center">
-                <p>Page:</p>
-                <a th:href="'?start=0&end='+ ${numPosts}">Show all</a>
 
+            <!--/**/-->
+            <div th:if="${postList.size()>0}" class="text-center">
+                <p>Page:</p>
+                <a th:class="${active==numPosts} ? 'active' : ''" th:href="'?start=0&end='+ ${numPosts}+ '&active='+ ${numPosts}">Show all posts</a>
+                <a> | </a>
                 <th:block th:each="i: ${#numbers.sequence(0, (numPosts/20))}">
-                    <a th:href="'?start=' + ${i*20} + '&end=' + ${(i+1)*20}">[[${i+1}]]</a>
+                    <a th:class="${active==(i+1)} ? 'active' : ''" th:href="'?start=' + ${i*20} + '&end=' + ${(i+1)*20}+ '&active='+ ${i+1}">[[${i+1}]]</a>
                 </th:block>
 
             </div>

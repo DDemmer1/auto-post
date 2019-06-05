@@ -60,7 +60,7 @@ public class PageController {
      * @return
      */
     @GetMapping(value = "/schedule/{id}")
-    public String postList(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "start", required = false) Integer start,@RequestParam(value = "end", required = false) Integer end) {
+    public String postList(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "start", required = false) Integer start,@RequestParam(value = "end", required = false) Integer end, @RequestParam(value = "active", defaultValue = "1") Integer active) {
 
         Facebookuser user = sessionService.getActiveUser();
 
@@ -81,6 +81,7 @@ public class PageController {
 
             model.addAttribute("postList", posts.subList(start,end));
             model.addAttribute("numPosts", posts.size());
+            model.addAttribute("active",active);
         } else {
             model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return "no-login";

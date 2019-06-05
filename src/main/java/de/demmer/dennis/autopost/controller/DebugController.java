@@ -62,6 +62,7 @@ public class DebugController {
     @GetMapping("/admin")
     public String tasks(Model model) {
 
+        final int numPostsToShow = 200;
 
         Facebookuser activeUser = sessionService.getActiveUser();
 
@@ -72,10 +73,13 @@ public class DebugController {
 
         List<Facebookpost> scheduledTasks = new ArrayList<>();
 
+        int counter = 0;
         for (Map.Entry<Integer, ScheduledFuture<?>> entry : tasks.entrySet()) {
+            if(counter > numPostsToShow) break;
             Optional<Facebookpost> postOptional = facebookpostRepository.findById(entry.getKey());
             Facebookpost post = postOptional.get();
             scheduledTasks.add(post);
+            counter++;
         }
 
         Collections.sort(scheduledTasks);
@@ -102,7 +106,9 @@ public class DebugController {
 
 
         model.addAttribute("pageList", activeUser.getPageList());
-        model.addAttribute("postList", scheduledTasks);
+
+        int postsToShow = scheduledTasks.size() > numPostsToShow ? numPostsToShow  : scheduledTasks.size();
+        model.addAttribute("postList", scheduledTasks.subList(0,postsToShow));
 
         return "admin";
     }
