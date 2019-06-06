@@ -1,6 +1,7 @@
 package de.demmer.dennis.autopost.entities.user;
 
 import de.demmer.dennis.autopost.entities.Facebookpage;
+import de.demmer.dennis.autopost.entities.ImageFile;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,11 @@ public class Facebookuser {
     @OneToMany(mappedBy = "facebookuser", cascade = CascadeType.REMOVE)
     @ElementCollection
     private List<Facebookpage> pageList;
+
+
+    @OneToMany(mappedBy = "facebookuser", cascade = CascadeType.REMOVE)
+    @ElementCollection
+    private List<ImageFile> imageFileList;
 
 
 

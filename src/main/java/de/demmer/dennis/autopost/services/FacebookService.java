@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
@@ -22,6 +23,8 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -138,6 +141,7 @@ public class FacebookService {
 
         scheduleService.cancelScheduling(post);
 
+        //Image URL in facebook post. Temporary downloads the image to prevent silent Facebook errors
         int random = new Random().nextInt(9999);
         if (!post.getImg().equals("")) {
             try {
@@ -167,6 +171,7 @@ public class FacebookService {
                 e.printStackTrace();
             }
 
+            //deletes tmp after one minute from server
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -187,12 +192,46 @@ public class FacebookService {
         }
 
 
+        //Temporary download image file to prevent facebook errors
+        if(post.getImageFile()!=null){
+            try{
+                byte [] data = post.getImageFile().getData();
+                ByteArrayInputStream bis = new ByteArrayInputStream(data);
+                BufferedImage bImage2 = ImageIO.read(bis);
+                ImageIO.write(bImage2, "png", new File(random + ".png") );
+            }  catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            //deletes tmp after one minute from server
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String picture = random + ".png";
+                    try {
+                        TimeUnit.MINUTES.sleep(1);
+                        try {
+                            Files.delete(Paths.get(picture));
+                            ctx.getResource("file:" + picture).getFile().delete();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+
+
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
         PageOperations pageOps = facebook.pageOperations();
         try {
-            if (!post.getImg().equals("") && post.getImg() != null) {
+            if ((!post.getImg().equals("") && post.getImg() != null) || post.getImageFile()!=null) { //post with image URL
                 pageOps.postPhoto(post.getPageID(), post.getPageID(), ctx.getResource("file:" + random + ".png"), post.getContent());
-            } else {
+            } else if (post.getImageFile() == null){ //just text to post
                 PagePostData ppd = new PagePostData(post.getPageID());
                 ppd.message(post.getContent());
                 pageOps.post(ppd);

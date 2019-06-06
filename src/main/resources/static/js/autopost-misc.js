@@ -63,4 +63,16 @@ jQuery(document).ready(function ($) {
         $(".emoji-wysiwyg-editor").addClass("text-input");
     });
 
+
+    //activate tab toggle in post editor
+    $('#imagetype a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
+
+
+
+
+
+
 });

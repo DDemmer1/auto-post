@@ -27,6 +27,11 @@ public class Facebookpost implements Comparable<Facebookpost>{
     @JoinColumn(name = "facebookuser_id", nullable = false)
     private Facebookuser facebookuser;
 
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "imageFile_id")
+    private ImageFile imageFile;
+
     private String pageID;
 
     @Column (length= 10485760, nullable = false)

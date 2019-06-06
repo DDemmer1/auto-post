@@ -6,6 +6,7 @@ import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 //@NoArgsConstructor
 @Service
+@Transactional
 public class ScheduleService {
 
     @Autowired
@@ -35,6 +37,7 @@ public class ScheduleService {
 
     private Map<Integer, ScheduledFuture<?>> tasks = new HashMap<>();
 
+    @Transactional
     public Facebookpost schedulePost(Facebookpost post) {
 
         int delay = getDelay(post);

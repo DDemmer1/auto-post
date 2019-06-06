@@ -7,6 +7,7 @@ import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.TimerTask;
@@ -21,6 +22,7 @@ import java.util.TimerTask;
 @Getter
 @Setter
 @NoArgsConstructor
+@Transactional
 public class PostTask extends TimerTask {
 
     @NotNull
@@ -42,12 +44,12 @@ public class PostTask extends TimerTask {
     /**
      * Publishes @{@link Facebookpost} and update database
      */
+    @Transactional
     @Override
     public void run() {
 
         if (post != null && user != null && !post.isPosted() && post.isScheduled() && post.isEnabled()) {
             facebookService.post(user, post);
-
             Facebookpost posted = postRepository.findByIdAndFacebookuserId(post.getId(), user.getId());
             posted.setPosted(true);
             posted.setEnabled(false);

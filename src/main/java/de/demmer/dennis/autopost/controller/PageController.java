@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -66,7 +63,8 @@ public class PageController {
 
         model.addAttribute("page", pageRepository.findByFbId(id));
 
-        //start and end of sulist of posts
+
+        //start and end of sublist of posts
         start = (start == null) ? 0 : start;
         end = (end == null) ? 20 : end;
 

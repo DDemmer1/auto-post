@@ -28,10 +28,18 @@ $(document).ready(function () {
         }
 
 
+
         return true;
     });
 });
 
+
+$("#file").on("change", function () {
+    if(this.files[0].size > 2000000) {
+        alert("File is too large. Only images up to 2mb are allowed");
+        $(this).val('');
+    }
+});
 
 function testImage() {
     if($("#img-preview").attr("src") == ""){

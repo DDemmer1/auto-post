@@ -38,10 +38,11 @@
 
     <div th:if="${param.tsvSuccess}">
         <div class="tsvToast" style="display: none">[[${param.numAddedPosts}]] Post(s) added <i style="color: green;"
-                                                                                              class="fa fa-check"
-                                                                                              aria-hidden="true"></i>
+                                                                                                class="fa fa-check"
+                                                                                                aria-hidden="true"></i>
             <br>
-            [[${param.numErrors}]] Posts with time errors <i style="color: red" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            [[${param.numErrors}]] Posts with time errors <i style="color: red" class="fa fa-exclamation-triangle"
+                                                             aria-hidden="true"></i>
         </div>
     </div>
 
@@ -51,7 +52,8 @@
             <a class="btn text-white btn-facebook" style="margin-bottom: 1rem; margin-top: 1rem"
                th:href="${page.getFbId()} +'/new'"><i
                     class="fa fa-plus"></i> Add new Post</a>
-            <a class="d-none d-sm-inline-block btn btn-facebook text-white" style="margin-bottom: 1rem; margin-top: 1rem"
+            <a class="d-none d-sm-inline-block btn btn-facebook text-white"
+               style="margin-bottom: 1rem; margin-top: 1rem"
                th:href="${page.getFbId()} +'/tsvform'"><i class="fa fa-upload" aria-hidden="true"></i> Import
                 TSV-File</a>
             <li class="nav-item dropdown action-dropdown">
@@ -59,7 +61,7 @@
                         id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                     Selected
+                    Selected
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <div class="dropdown-item"><i class="fa fa-trash-o" aria-hidden="true"></i><input
@@ -102,8 +104,14 @@
                         <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
                     </td>
 
-                    <td><img th:src="${post.getImg()}" class="post-picture"
-                             src="https://upload.wikimedia.org/wikipedia/commons/3/3d/FuBK-Testbild.png"/></td>
+                    <td th:if="${post.getImg().length()>0}"><img  th:src="${post.getImg()}" class="post-picture"/>
+                    </td>
+
+                    <td th:if="${post.getImageFile()!=null}">
+                        <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}" class="post-picture"/>
+                    </td>
+
+                    <td th:if="${post.getImageFile()==null AND post.getImg().length()<=0}"></td>
 
 
                     <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
@@ -115,25 +123,30 @@
                     </td>
 
                     <td th:if="${post.isError()}" style="color:red">
-                        <i data-toggle="tooltip" title="Error. Not scheduled and posted. Time in the past or other error." class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <i data-toggle="tooltip"
+                           title="Error. Not scheduled and posted. Time in the past or other error."
+                           class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                     </td>
 
-                    <td th:if="${post.isPosted()}"  >
-                        <i data-toggle="tooltip" title="Posted" class="fa fa-envelope-o" aria-hidden="true"></i><i class="is-posted fa fa-check"
-                                                                              aria-hidden="true"></i>
+                    <td th:if="${post.isPosted()}">
+                        <i data-toggle="tooltip" title="Posted" class="fa fa-envelope-o" aria-hidden="true"></i><i
+                            class="is-posted fa fa-check"
+                            aria-hidden="true"></i>
                     </td>
                 </tr>
 
                 </tbody>
             </table>
 
-            <!--/**/-->
+            <!--/*Page break*/-->
             <div th:if="${postList.size()>0}" class="text-center">
                 <p>Page:</p>
-                <a th:class="${active==numPosts} ? 'active' : ''" th:href="'?start=0&end='+ ${numPosts}+ '&active='+ ${numPosts}">Show all posts</a>
+                <a th:class="${active==numPosts} ? 'active' : ''"
+                   th:href="'?start=0&end='+ ${numPosts}+ '&active='+ ${numPosts}">Show all posts</a>
                 <a> | </a>
                 <th:block th:each="i: ${#numbers.sequence(0, (numPosts/20))}">
-                    <a th:class="${active==(i+1)} ? 'active' : ''" th:href="'?start=' + ${i*20} + '&end=' + ${(i+1)*20}+ '&active='+ ${i+1}">[[${i+1}]]</a>
+                    <a th:class="${active==(i+1)} ? 'active' : ''"
+                       th:href="'?start=' + ${i*20} + '&end=' + ${(i+1)*20}+ '&active='+ ${i+1}">[[${i+1}]]</a>
                 </th:block>
 
             </div>

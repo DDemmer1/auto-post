@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-md-12 mx-auto">
 
-            <form id="post-form" method="post" th:object="${postDto}" th:action="${#httpServletRequest.requestURI}"
+            <form enctype="multipart/form-data" id="post-form" method="post" th:object="${postDto}" th:action="${#httpServletRequest.requestURI}"
                   role="form">
                 <div class="row">
                     <div class="col-8 col-md-7 col-lg-3">

@@ -3,12 +3,15 @@ package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
+import de.demmer.dennis.autopost.entities.ImageFile;
 import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.PostUtilService;
+import de.demmer.dennis.autopost.services.image.ImageStorageException;
+import de.demmer.dennis.autopost.services.image.ImageStorageService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Transactional
@@ -43,6 +46,9 @@ public class PostController {
 
     @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    ImageStorageService imageStorageService;
 
 
     /**
@@ -112,11 +118,14 @@ public class PostController {
      * @return
      */
     @PostMapping(value = "/schedule/{pageFbId}/new")
-    public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto) {
+    public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto, @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        Facebookpost post = postUtilService.updatePost(new Facebookpost(), postDto, pageFbId);
+        Facebookpost post = postUtilService.updatePost(new Facebookpost(), postDto, pageFbId,file);
         if(post.isEnabled())
         scheduleService.schedulePost(post);
+
+
+
 
         return "redirect:/schedule/" + pageFbId;
     }
@@ -128,11 +137,11 @@ public class PostController {
      * @return
      */
     @PostMapping(value = "/schedule/{pageFbId}/{postId}")
-    public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto) {
+    public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto, @RequestParam(value = "file", required = false) MultipartFile file) {
 
         Facebookpost post = postRepository.findByIdAndFacebookuserId(Integer.valueOf(postId),sessionService.getActiveUser().getId());
         scheduleService.cancelScheduling(post);
-        Facebookpost updatedPost = postUtilService.updatePost(post,postDto,pageFbId);
+        Facebookpost updatedPost = postUtilService.updatePost(post,postDto,pageFbId,file);
         if(updatedPost.isEnabled())
         scheduleService.schedulePost(updatedPost);
 
