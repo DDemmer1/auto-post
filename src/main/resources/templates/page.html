@@ -104,15 +104,17 @@
                         <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
                     </td>
 
-                    <td th:if="${post.getImg().length()>0}"><img  th:src="${post.getImg()}" class="post-picture"/>
-                    </td>
+                    <div th:if="${post.getImg()!=null}">
+                        <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}" class="post-picture"/>
+                        </td>
+                    </div>
 
                     <td th:if="${post.getImageFile()!=null}">
-                        <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}" class="post-picture"/>
+                        <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
+                             class="post-picture"/>
                     </td>
 
-                    <td th:if="${post.getImageFile()==null AND post.getImg().length()<=0}"></td>
-
+                    <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile()==null AND post.getImg().length()<=0)}"></td>
 
                     <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
                         <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>

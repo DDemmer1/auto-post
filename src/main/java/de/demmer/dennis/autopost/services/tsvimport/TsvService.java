@@ -81,6 +81,9 @@ public class TsvService {
                 post.setPageID(page.getFbId());
                 post.setEnabled(true);
                 post.setFacebookuser(sessionService.getActiveUser());
+                if(post.getImg()==null){
+                    post.setImg("");
+                }
                 parsedPosts.add(post);
                 i++;
             } else throw new MalformedTsvException("Unspecific Formatting Error", i, Arrays.asList(row).toString());
@@ -139,7 +142,12 @@ public class TsvService {
                     if (imgcheck) {
                         if (!isImage(value)) throw new MalformedTsvException("Image Error", row, value);
                     }
-                    post.setImg(value);
+                    if(value==null){
+                        post.setImg("");
+                    }else{
+                        post.setImg(value);
+                    }
+
                     break;
                 default:
                     break;
