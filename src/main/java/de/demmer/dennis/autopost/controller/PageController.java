@@ -69,7 +69,7 @@ public class PageController {
         end = (end == null) ? 20 : end;
 
         if (user != null) {
-            List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
+            List<Facebookpost> posts = pageRepository.findByFbIdAndFacebookuser_Id(id,user.getId()).getFacebookposts();
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
 
