@@ -12,6 +12,7 @@ public interface FacebookpageRepository extends CrudRepository<Facebookpage, Int
     List<Facebookpage> findByFacebookuserId(int userID);
 
     Facebookpage findByFbId(String fbId);
+    Facebookpage findByFbIdAndFacebookuser_Id(String fbId, int id);
 
     void deleteByFbId(String fbId);
 

@@ -14,6 +14,8 @@ public interface FacebookpostRepository extends CrudRepository<Facebookpost, Int
 
     Facebookpost findByIdAndFacebookpageFbId(int postId, String pageFbId);
 
+    Facebookpost findByIdAndFacebookpageFbIdAndFacebookuser_Id(int postId, String pageFbId, int id);
+
     List<Facebookpost> findByScheduledAndFacebookuserId(boolean scheduled, int userId);
 
     List<Facebookpost> findByPostedAndFacebookuserId(boolean posted, int userId);
@@ -29,4 +31,6 @@ public interface FacebookpostRepository extends CrudRepository<Facebookpost, Int
     List<Facebookpost> findByPosted(boolean enabled);
     List<Facebookpost> findByScheduled(boolean enabled);
     List<Facebookpost> findByError(boolean error);
+
+
 }

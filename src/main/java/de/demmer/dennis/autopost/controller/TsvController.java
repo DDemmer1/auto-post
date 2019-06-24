@@ -70,7 +70,7 @@ public class TsvController {
         Facebookuser user = sessionService.getActiveUser();
         modelMap.addAttribute("page", pageRepository.findByFbId(id));
 
-        //Add fbuser data from session
+        //Add fbuser data from session to view
         if (user != null) {
             List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
             Collections.sort(posts);

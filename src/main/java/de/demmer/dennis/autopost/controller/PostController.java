@@ -65,7 +65,7 @@ public class PostController {
             Facebookuser user = sessionService.getActiveUser();
 
             if (user != null) {
-                Facebookpage page = pageRepository.findByFbId(pageFbId);
+                Facebookpage page = pageRepository.findByFbIdAndFacebookuser_Id(pageFbId,user.getId());
                 Facebookpost post = postRepository.findByIdAndFacebookuserId(Integer.valueOf(postId), user.getId());
                 model.addAttribute("pageList", user.getPageList());
                 model.addAttribute("post", post);
@@ -97,7 +97,7 @@ public class PostController {
         Facebookuser user = sessionService.getActiveUser();
 
         if (user != null) {
-            Facebookpage page = pageRepository.findByFbId(pageFbId);
+            Facebookpage page = pageRepository.findByFbIdAndFacebookuser_Id(pageFbId,user.getId());
             model.addAttribute("pageList", user.getPageList());
             model.addAttribute("page", page);
             model.addAttribute("postDto", new PostDto());
@@ -156,8 +156,9 @@ public class PostController {
      */
     @GetMapping(value = "/schedule/{pageFbId}/{postId}/delete")
     public String deletePost(@PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") Integer postId) {
-
-        Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, pageFbId);
+        Facebookuser user = sessionService.getActiveUser();
+        if(user == null) return "no-login";
+        Facebookpost post = postRepository.findByIdAndFacebookpageFbIdAndFacebookuser_Id(postId, pageFbId, user.getId());
         scheduleService.cancelScheduling(post);
 
         postRepository.deleteByIdAndFacebookpageFbId(postId, pageFbId);

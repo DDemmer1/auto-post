@@ -139,6 +139,7 @@ public class FacebookService {
      */
     public void post(Facebookuser user, Facebookpost post) {
 
+        //TODO save in memory not on disk
         scheduleService.cancelScheduling(post);
 
         //Image URL in facebook post. Temporary downloads the image to prevent silent Facebook errors

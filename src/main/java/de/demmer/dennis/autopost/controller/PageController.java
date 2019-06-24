@@ -61,7 +61,7 @@ public class PageController {
 
         Facebookuser user = sessionService.getActiveUser();
 
-        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("page", pageRepository.findByFbIdAndFacebookuser_Id(id,user.getId()));
 
 
         //start and end of sublist of posts
