@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -34,6 +36,9 @@ public class Facebookpage {
 
     @Column(columnDefinition="boolean default true")
     private boolean enabled = true;
+
+    @ElementCollection
+    private Set<String> adminFbIds = new HashSet<>();
 
 
     @Override

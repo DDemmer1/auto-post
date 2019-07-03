@@ -73,9 +73,7 @@ public class FacebookService {
         OAuth2Parameters params = new OAuth2Parameters();
         params.setRedirectUri(redirectURL);
         params.setScope("email," +
-                "manage_pages," +
-                "user_photos," +
-                "publish_pages");
+                "manage_pages");
 
         return oauthOperations.buildAuthorizeUrl(params);
     }
