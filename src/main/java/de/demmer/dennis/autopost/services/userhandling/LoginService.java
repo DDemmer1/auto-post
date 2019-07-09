@@ -76,7 +76,6 @@ public class LoginService {
 
         userRepository.save(user);
         user.getPageList().forEach((page) -> {
-            page.getAdminFbIds().add(user.getFbId());
             pageRepository.save(page);
         });
         return user;
@@ -94,7 +93,6 @@ public class LoginService {
         List<Facebookpage> newPages = getNewPages(user, userInDB);
         if (!newPages.isEmpty()) {
             newPages.forEach((page) -> {
-                page.getAdminFbIds().add(user.getFbId());
                 pageRepository.save(page);
             });
         }
@@ -103,13 +101,7 @@ public class LoginService {
         List<Facebookpage> pagesToDelete = getPagesToDelete(user, userInDB);
         if (!pagesToDelete.isEmpty()) {
             pagesToDelete.forEach((page) -> {
-                page.getAdminFbIds().remove(user.getFbId());
-                if (page.getAdminFbIds().isEmpty()) {
-                    pageRepository.deleteByFbId(page.getFbId());
-                } else {
-                    pageRepository.save(page);
-                }
-
+                pageRepository.deleteByFbId(page.getFbId());
             });
         }
 

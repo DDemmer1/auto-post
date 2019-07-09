@@ -37,9 +37,6 @@ public class Facebookpage {
     @Column(columnDefinition="boolean default true")
     private boolean enabled = true;
 
-    @ElementCollection
-    private Set<String> adminFbIds = new HashSet<>();
-
 
     @Override
     public boolean equals(Object o) {

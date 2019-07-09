@@ -35,6 +35,7 @@ public class UserFactory {
             user.getPageList().forEach(page -> page.setFacebookuser(user));
             return user;
         } catch (Exception e){
+            e.printStackTrace();
             throw new UserException("Insufficient rights given.");
         }
 

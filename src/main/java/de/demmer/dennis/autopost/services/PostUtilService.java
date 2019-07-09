@@ -67,7 +67,7 @@ public class PostUtilService {
         post.setDate(postDto.getDate());
         post.setTime(postDto.getTime());
 
-        post.setFacebookpage(pageRepository.findByFbId(pageFbId));
+        post.setFacebookpage(pageRepository.findByFbIdAndFacebookuser_Id(pageFbId,sessionService.getActiveUser().getId()));
 
         ImageFile image= null;
         if (file != null && file.getSize() > 0L){

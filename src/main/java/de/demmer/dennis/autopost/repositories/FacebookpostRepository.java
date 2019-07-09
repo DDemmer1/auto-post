@@ -11,6 +11,7 @@ public interface FacebookpostRepository extends CrudRepository<Facebookpost, Int
     void deleteByIdAndFacebookpageFbId(int postId, String pageFbId);
 
     Facebookpost findByIdAndFacebookuserId(int postId, int userId);
+    Facebookpost findById(int id);
 
     Facebookpost findByIdAndFacebookpageFbId(int postId, String pageFbId);
 

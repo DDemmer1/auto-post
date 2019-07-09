@@ -1,5 +1,6 @@
 package de.demmer.dennis.autopost.controller;
 
+import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
@@ -7,6 +8,7 @@ import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
+import de.demmer.dennis.autopost.services.userhandling.FacebookuserService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,9 @@ public class PageController {
     @Autowired
     ScheduleService scheduleService;
 
+    @Autowired
+    FacebookuserService facebookuserService;
+
     /**
      * Shows the posts of a page in the 'page' template
      *
@@ -57,11 +62,20 @@ public class PageController {
      * @return
      */
     @GetMapping(value = "/schedule/{id}")
-    public String postList(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "start", required = false) Integer start,@RequestParam(value = "end", required = false) Integer end, @RequestParam(value = "active", defaultValue = "1") Integer active) {
+    public String postList(@PathVariable(value = "id") String id, Model model, @RequestParam(value = "start", required = false) Integer start, @RequestParam(value = "end", required = false) Integer end, @RequestParam(value = "active", defaultValue = "1") Integer active) {
 
         Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+        //Check if user is page Admin
+        if (!facebookuserService.isAdminOfPage(id, user)) {
+            model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+            model.addAttribute("pageList", user.getPageList());
+            return "no-rights";
+        }
 
-        model.addAttribute("page", pageRepository.findByFbIdAndFacebookuser_Id(id,user.getId()));
+        model.addAttribute("page", pageRepository.findByFbIdAndFacebookuser_Id(id, user.getId()));
 
 
         //start and end of sublist of posts
@@ -69,17 +83,23 @@ public class PageController {
         end = (end == null) ? 20 : end;
 
         if (user != null) {
-            List<Facebookpost> posts = pageRepository.findByFbIdAndFacebookuser_Id(id,user.getId()).getFacebookposts();
+//            List<Facebookpost> posts = pageRepository.findByFbIdAndFacebookuser_Id(id,user.getId()).getFacebookposts();
+            List<Facebookpost> posts = new ArrayList<>();
+            for (Facebookpage page : pageRepository.findAllByFbId(id)) {
+                posts.addAll(page.getFacebookposts());
+            }
+
+
             Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
 
             //check if start/ end is in range of list size
-            start = (start > posts.size()) ? posts.size()-20 : start;
+            start = (start > posts.size()) ? posts.size() - 20 : start;
             end = (end > posts.size()) ? posts.size() : end;
 
-            model.addAttribute("postList", posts.subList(start,end));
+            model.addAttribute("postList", posts.subList(start, end));
             model.addAttribute("numPosts", posts.size());
-            model.addAttribute("active",active);
+            model.addAttribute("active", active);
         } else {
             model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return "no-login";
