@@ -30,7 +30,7 @@ public class InfoController {
     @Autowired
     FacebookpostRepository postRepository;
 
-    @GetMapping(value = "/about")
+    @GetMapping(value = "/privacy")
     public String getAbout(Model model) {
 
         Facebookuser activeUser = sessionService.getActiveUser();
@@ -38,10 +38,10 @@ public class InfoController {
         if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 
-        return "about";
+        return "privacy";
     }
 
-    @GetMapping(value = "/services")
+    @GetMapping(value = "/roadmap")
     public String getServices(Model model) {
 
         Facebookuser activeUser = sessionService.getActiveUser();
@@ -50,7 +50,7 @@ public class InfoController {
 
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 
-        return "services";
+        return "roadmap";
     }
 
 

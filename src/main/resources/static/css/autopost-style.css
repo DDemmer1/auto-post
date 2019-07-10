@@ -347,4 +347,19 @@ input.input-submit{
 }
 
 
+#page-top .table-scroll{
+    overflow:scroll;
+    width:100%;
+    text-decoration: none;
+}
+
+.roadmap-img{
+    width: 10%;
+}
+
+.post-detail-picture{
+    height: 8rem;
+}
+
+
 

@@ -140,7 +140,6 @@ public class PageController {
             postIds.forEach((postId) -> {
                 Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
-
                 postRepository.deleteByIdAndFacebookpageFbId(postId, id);
             });
 
@@ -148,7 +147,6 @@ public class PageController {
             postIds.forEach((postId) -> {
                 Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 scheduleService.cancelScheduling(post);
-
                 post.setEnabled(false);
                 postRepository.save(post);
             });
@@ -158,6 +156,7 @@ public class PageController {
             postIds.forEach((postId) -> {
                 Facebookpost post = postRepository.findByIdAndFacebookpageFbId(postId, id);
                 post.setEnabled(true);
+                post.setPosted(false);
                 scheduleService.schedulePost(post);
                 postRepository.save(post);
             });

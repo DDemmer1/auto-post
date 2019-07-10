@@ -7,9 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -37,7 +35,6 @@ public class Facebookpage {
     @Column(columnDefinition="boolean default true")
     private boolean enabled = true;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,7 +44,6 @@ public class Facebookpage {
 
         return fbId.equals(page.fbId);
     }
-
 
     @Override
     public String toString() {

@@ -6,6 +6,7 @@ import de.demmer.dennis.autopost.services.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import java.net.URI;
 
 @Log4j2
 @Controller
-public class ErrorController {
+public class ErrorControllerImpl implements ErrorController {
 
     @Autowired
     BugReportService bugReportService;
@@ -37,12 +38,12 @@ public class ErrorController {
      */
     @GetMapping(value = "/error")
     public String error(Model model){
-
         Facebookuser activeUser = sessionService.getActiveUser();
-        if (activeUser!=null) model.addAttribute("pageList", activeUser.getPageList());
-
+        if (activeUser != null) {
+            model.addAttribute("pageList", activeUser.getPageList());
+            model.addAttribute("pageName", "Choose Facebook page");
+        }
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
-
         return "error";
     }
 
@@ -81,7 +82,8 @@ public class ErrorController {
     }
 
 
-
-
-
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
 }
