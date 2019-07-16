@@ -76,7 +76,7 @@ public class TsvService {
                 } catch (NullPointerException ne) {
                     throw new MalformedTsvException("Content Error", i, "no content or image detected");
                 }
-                Facebookpage page = pageRepository.findByFbId(id);
+                Facebookpage page = pageRepository.findByFbIdAndFacebookuser_Id(id,sessionService.getActiveUser().getId());
                 post.setFacebookpage(page);
                 post.setPageID(page.getFbId());
                 post.setEnabled(true);

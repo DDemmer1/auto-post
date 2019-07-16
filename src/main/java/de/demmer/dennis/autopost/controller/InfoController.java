@@ -108,4 +108,19 @@ public class InfoController {
         return "tsvexample";
     }
 
+
+
+    @GetMapping(value = "/faq")
+    public String getFaq(Model model) {
+
+        Facebookuser activeUser = sessionService.getActiveUser();
+
+        if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
+
+        model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
+        return "faq";
+    }
+
+
 }
