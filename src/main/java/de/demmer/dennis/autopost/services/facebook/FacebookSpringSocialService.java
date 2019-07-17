@@ -1,4 +1,4 @@
-package de.demmer.dennis.autopost.services;
+package de.demmer.dennis.autopost.services.facebook;
 
 
 import de.demmer.dennis.autopost.entities.Facebookpage;
@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ByteArrayResource;
+import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
@@ -36,12 +36,11 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Handels everything Facebook related. Can retrieve and send data from/to Facebook.
- *
  */
-@Transactional (rollbackFor = UserException.class)
+@Transactional(rollbackFor = UserException.class)
 @Log4j2
 @Service
-public class FacebookService {
+public class FacebookSpringSocialService implements FacebookService {
 
     @Value("${spring.social.facebook.appId}")
     private String facebookAppId;
@@ -67,6 +66,7 @@ public class FacebookService {
      *
      * @return The URL used to login
      */
+    @Override
     public String createFacebookAuthorizationURL() {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
@@ -86,6 +86,7 @@ public class FacebookService {
      * @param code
      * @return The oauth token used for verification in every
      */
+    @Override
     public String createFacebookAccessToken(String code) {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, redirectURL, null);
@@ -95,9 +96,11 @@ public class FacebookService {
 
     /**
      * Returns the name of the user with the respective oAuthToken
+     *
      * @param oAuthToken
      * @return The name of the user
      */
+    @Override
     public String getName(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String jsonName = facebook.fetchObject("me", String.class, "name");
@@ -107,9 +110,11 @@ public class FacebookService {
 
     /**
      * Returns the email of the user with the respective oAuthToken
+     *
      * @param oAuthToken
      * @return The email of the user
      */
+    @Override
     public String getEmail(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String jsonEmail = facebook.fetchObject("me", String.class, "email");
@@ -120,9 +125,11 @@ public class FacebookService {
 
     /**
      * Returns the Facebook id of the user with the respective oAuthToken
+     *
      * @param oAuthToken
      * @return The Facebook id of the user
      */
+    @Override
     public String getID(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
         String jsonID = facebook.fetchObject("me", String.class, "id");
@@ -133,9 +140,11 @@ public class FacebookService {
 
     /**
      * Posts a @{@link Facebookpost} on Facebook
+     *
      * @param user The user who posts the @{@link Facebookpost}
      * @param post The @{@link Facebookpost} which is about to be send
      */
+    @Override
     public void post(Facebookuser user, Facebookpost post) {
 
         //TODO save in memory not on disk
@@ -193,13 +202,13 @@ public class FacebookService {
 
 
         //Temporary download image file to prevent facebook errors
-        if(post.getImageFile()!=null){
-            try{
-                byte [] data = post.getImageFile().getData();
+        if (post.getImageFile() != null) {
+            try {
+                byte[] data = post.getImageFile().getData();
                 ByteArrayInputStream bis = new ByteArrayInputStream(data);
                 BufferedImage bImage2 = ImageIO.read(bis);
-                ImageIO.write(bImage2, "png", new File(random + ".png") );
-            }  catch (IOException e) {
+                ImageIO.write(bImage2, "png", new File(random + ".png"));
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -225,17 +234,19 @@ public class FacebookService {
         }
 
 
-
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
         PageOperations pageOps = facebook.pageOperations();
         try {
-            if ((!post.getImg().equals("") && post.getImg() != null) || post.getImageFile()!=null) { //post with image URL
+            if ((!post.getImg().equals("") && post.getImg() != null) || post.getImageFile() != null) { //post with image URL
                 pageOps.postPhoto(post.getPageID(), post.getPageID(), ctx.getResource("file:" + random + ".png"), post.getContent());
-            } else if (post.getImageFile() == null){ //just text to post
+            } else if (post.getImageFile() == null) { //just text to post
                 PagePostData ppd = new PagePostData(post.getPageID());
                 ppd.message(post.getContent());
                 pageOps.post(ppd);
             }
+        } catch (InsufficientPermissionException ip) {
+            log.error("Missing permission: " + ip.getRequiredPermission());
+            ip.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -247,9 +258,11 @@ public class FacebookService {
 
     /**
      * Returns all permissioned pages of the user with the oAuth token  @{@link Facebookpage}
+     *
      * @param oAuthToken
      * @return A List of @{@link Facebookpage}
      */
+    @Override
     public List<Facebookpage> getPages(String oAuthToken) {
 
         List<Facebookpage> pageList = new ArrayList<>();
@@ -271,7 +284,7 @@ public class FacebookService {
                 page.setName(name);
                 pageList.add(page);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
         return pageList;
@@ -281,9 +294,11 @@ public class FacebookService {
 
     /**
      * Gives you the URL of the profile picture of the user
+     *
      * @param oAuthToken The oAuth token of the user
      * @return The profile picture URL
      */
+    @Override
     public String getProfilePicture(String oAuthToken) {
         Facebook facebook = new FacebookTemplate(oAuthToken);
 
@@ -299,10 +314,12 @@ public class FacebookService {
 
     /**
      * Returns the image url of the facebook page
+     *
      * @param oAuthToken
      * @param pageID
      * @return image url of the facebook page
      */
+    @Override
     public String getPageProfilePicture(String oAuthToken, String pageID) {
 
         Facebook facebook = new FacebookTemplate(oAuthToken);

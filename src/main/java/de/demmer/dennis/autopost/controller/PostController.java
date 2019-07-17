@@ -3,14 +3,12 @@ package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
-import de.demmer.dennis.autopost.entities.ImageFile;
 import de.demmer.dennis.autopost.entities.PostDto;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import de.demmer.dennis.autopost.services.PostUtilService;
-import de.demmer.dennis.autopost.services.image.ImageStorageException;
 import de.demmer.dennis.autopost.services.image.ImageStorageService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.userhandling.FacebookuserService;
@@ -23,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 
 @Transactional
@@ -42,7 +38,7 @@ public class PostController {
     SessionService sessionService;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     PostUtilService postUtilService;
