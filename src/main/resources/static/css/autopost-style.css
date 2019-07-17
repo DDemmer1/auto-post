@@ -371,4 +371,21 @@ input.input-submit{
 
 }
 
+a.anchor {
+    display: block;
+    position: relative;
+    top: -4.5rem;
+    visibility: hidden;
+}
 
+a.anchor-white:link{
+    color: white;
+}
+
+a.anchor-white{
+    color: white;
+}
+a.anchor-white:hover{
+    color: #cecece;
+    margin-top: 1.5rem;
+}

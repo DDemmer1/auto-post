@@ -10,32 +10,62 @@
 <nav th:replace="../elements/navbar"></nav>
 
 <header class="bg-facebook text-white">
-    <div class="container">
+    <div class="container col-12 col-xl-5">
         <div class="row">
-            <div class="col-12 text-center">
-                <h1>FAQ</h1>
+            <div class="col-12">
+                <h2>FAQ:</h2>
+                <ul>
+                    <li><a class="anchor-white" href="#0">What is autoPost?</a></li>
+                    <li><a class="anchor-white" href="#1">Is autoPost free?</a></li>
+                    <li><a class="anchor-white" href="#2">Can I post on my personal Facebook feed with autoPost?</a>
+                    </li>
+                    <li><a class="anchor-white" href="#3">Can I create events on my Facebook page via autoPost?</a></li>
+                    <li><a class="anchor-white" href="#3-1">Can I post messages in groups via autoPost?</a></li>
+                    <li><a class="anchor-white" href="#4">My post was not posted. What can I do?</a></li>
+                    <li><a class="anchor-white" href="#5">My question was not answered in this FAQ.</a></li>
+                </ul>
             </div>
         </div>
     </div>
 </header>
 
-<section class="mt-0 pt-2 pt-sm-5">
+<section style="margin-bottom: 50rem" class="mt-0 pt-2 pt-sm-5">
     <div class="container">
+        <a id="0" class="anchor"></a>
         <h5 class="faq-question">What is autoPost?</h5>
-        <p class="mt-4 faq-answer">AutoPost is a web service, where you can write Facebook posts for Facebook pages in advance. You choose the date and the time when autoPost should post your input to your Facebook page. </p>
+        <p class="mt-4 faq-answer">AutoPost is a web service that lets you post to Facebook pages in advance. You choose
+            the date and time when you want autoPost to publish your messages on your page.</p>
         <!---->
-        <h5 class="faq-question">Can I post as my personal Facebook with autoPost?</h5>
-        <p class="mt-4 faq-answer">No. Facebook shutdown the access to personal Facebook feeds for third party apps. Only Facebook pages can be accessed.</p>
-        <!---->
-        <h5 class="faq-question">How to use autoPost?</h5>
-        <p class="mt-4 faq-answer">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        <!---->
+
+        <a id="1" class="anchor"></a>
         <h5 class="faq-question">Is autoPost free?</h5>
-        <p class="mt-4 faq-answer">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <p class="mt-4 faq-answer">Yes, autoPost is completely free to use.</p>
         <!---->
+
+        <a id="2" class="anchor"></a>
+        <h5 class="faq-question">Can I post on my personal Facebook feed with autoPost?</h5>
+        <p class="mt-4 faq-answer">No. You need to create a page with your Facebook profile. You can then post on this
+            page. Facebook has blocked access to personal feeds for third-party applications. Only pages can be
+            accessed.</p>
+        <!---->
+
+        <a id="3" class="anchor"></a>
+        <h5 class="faq-question">Can I create events on my Facebook page via autoPost?</h5>
+        <p class="mt-4 faq-answer">No. Facebook shutdown the access to event creation for third party apps.</p>
+        <!---->
+
+        <a id="3-1" class="anchor"></a>
+        <h5 class="faq-question">Can I post messages in groups via autoPost?</h5>
+        <p class="mt-4 faq-answer">No. This would technically be possible but is not implemented yet into autoPost.</p>
+        <!---->
+
+        <a id="4" class="anchor"></a>
         <h5 class="faq-question">My post was not posted. What can I do?</h5>
-        <p class="mt-4 faq-answer">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <p class="mt-4 faq-answer">If you experience any problems with your posts. Please <a href="/contact">contact</a>
+            us.</p>
         <!---->
+
+        <a id="5" class="anchor"></a>
         <h5 class="faq-question">My question was not answered in this FAQ.</h5>
         <p class="mt-4 faq-answer">Please <a href="/contact">contact</a> us.</p>
 
