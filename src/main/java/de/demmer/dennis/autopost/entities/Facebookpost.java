@@ -55,6 +55,9 @@ public class Facebookpost implements Comparable<Facebookpost>{
     @Column (length= 10485760)
     private String img;
 
+    @Column (nullable = false)
+    private int timezoneOffset;
+
     @Column
     private float longitude;
 

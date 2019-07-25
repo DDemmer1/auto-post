@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -80,9 +82,11 @@ public class ScheduleService {
 
 
     public int getDelay(Facebookpost post) {
-        String dateNow = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
-        String timeNow = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now());
-
+        log.info(getZoneIdFromTimezoneOffset(post.getTimezoneOffset()));
+        String dateNow = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now(getZoneIdFromTimezoneOffset(post.getTimezoneOffset())));
+        String timeNow = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now(getZoneIdFromTimezoneOffset(post.getTimezoneOffset())));
+        log.info("SERVER-TIME: " + timeNow);
+        log.info("SERVER-DATE: " + dateNow);
         String datePost = post.getDate();
         String timePost = post.getTime() + ":00";
 
@@ -118,5 +122,13 @@ public class ScheduleService {
 
 
         toRemove.forEach(id -> tasks.remove(id));
+    }
+
+
+
+    private ZoneId getZoneIdFromTimezoneOffset(int timeZone){
+
+        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds(timeZone*-60));
+
     }
 }

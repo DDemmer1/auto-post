@@ -124,9 +124,11 @@ public class PostController {
      * @return
      */
     @PostMapping(value = "/schedule/{pageFbId}/new")
-    public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto, @RequestParam(value = "file", required = false) MultipartFile file) {
-
+    public String saveNewPost(@PathVariable(value = "pageFbId") String pageFbId, @ModelAttribute PostDto postDto, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "timezone") Integer timezone) {
+    log.info("Timezone: " + timezone);
         Facebookpost post = postUtilService.updatePost(new Facebookpost(), postDto, pageFbId, file);
+        post.setTimezoneOffset(timezone);
+        postRepository.save(post);
         if (post.isEnabled())
             scheduleService.schedulePost(post);
 
@@ -142,7 +144,7 @@ public class PostController {
      * @return
      */
     @PostMapping(value = "/schedule/{pageFbId}/{postId}")
-    public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public String saveEditedPost(Model model, @PathVariable(value = "pageFbId") String pageFbId, @PathVariable(value = "postId") String postId, @ModelAttribute PostDto postDto, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "timezone") Integer timezone) {
         Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
             return "no-login";
@@ -157,6 +159,8 @@ public class PostController {
         if (updatedPost.isEnabled())
             scheduleService.schedulePost(updatedPost);
 
+        post.setTimezoneOffset(timezone);
+        postRepository.save(post);
         return "redirect:/schedule/" + pageFbId;
     }
 
