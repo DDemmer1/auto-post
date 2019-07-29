@@ -64,7 +64,7 @@ public class TsvController {
      * @return
      */
     @PostMapping(value = "/schedule/{id}/tsvform/upload", consumes = {"multipart/form-data"})
-    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap, @RequestParam(name = "imgcheck", defaultValue = "off") String imgcheck, @RequestParam(name = "datecheck", defaultValue = "off") String datecheck) {
+    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap, @RequestParam(name = "imgcheck", defaultValue = "off") String imgcheck, @RequestParam(name = "datecheck", defaultValue = "off") String datecheck, @RequestParam(value = "timezone") Integer timezone) {
 
         Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
@@ -104,6 +104,7 @@ public class TsvController {
             //parse tsv to posts
             List<Facebookpost> tsvPosts = tsvService.parseTSV(file, id, imgcheck.equals("on"), datecheck.equals("on"));
             for (Facebookpost post : tsvPosts) {
+                post.setTimezoneOffset(timezone);
                 postRepository.save(post);
                 scheduleService.schedulePost(post);
             }
