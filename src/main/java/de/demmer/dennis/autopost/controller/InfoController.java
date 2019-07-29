@@ -122,5 +122,19 @@ public class InfoController {
         return "faq";
     }
 
+    @GetMapping(value = "/tutorial")
+    public String getTutorial(Model model) {
+
+        Facebookuser activeUser = sessionService.getActiveUser();
+
+        if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
+
+        model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
+        return "tutorial";
+    }
+
+
+
 
 }

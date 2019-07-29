@@ -8,6 +8,7 @@ section {
 
 .btn-login {
     color: white;
+    background-color: #3b5998;
 }
 
 .btn-login:hover {
@@ -392,4 +393,10 @@ a.anchor-white{
 a.anchor-white:hover{
     color: #cecece;
     margin-top: 1.5rem;
+}
+
+
+.vid-tutorial{
+    width: 100%;
+
 }
