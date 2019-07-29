@@ -25,7 +25,8 @@ li {
 }
 
 .bg-facebook {
-    background-color: #3b5998;
+    /*background-color: #3b5998;*/
+    background-color: #117a8b;
 }
 
 .btn-facebook {
@@ -333,6 +334,9 @@ input.input-submit{
 
 .autopost-logo-sm{
     height: 3rem;
+    background-color: white;
+    border-radius: 100%;
+    overflow: visible;
 }
 
 
