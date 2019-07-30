@@ -74,6 +74,7 @@ public class FacebookSpringSocialService implements FacebookService {
         params.setRedirectUri(redirectURL);
         params.setScope("email," +
                 "manage_pages," +
+                "pages_show_list," +
                 "publish_pages");
 
         return oauthOperations.buildAuthorizeUrl(params);
@@ -285,6 +286,7 @@ public class FacebookSpringSocialService implements FacebookService {
                 pageList.add(page);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return pageList;

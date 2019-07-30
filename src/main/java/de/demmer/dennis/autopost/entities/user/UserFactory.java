@@ -22,22 +22,19 @@ public class UserFactory {
     FacebookpageRepository pageRepository;
 
     public Facebookuser getUser(String oAuthToken) throws UserException {
-        try{
-            String id = facebookService.getID(oAuthToken);
-            String name = facebookService.getName(oAuthToken);
-            String email = facebookService.getEmail(oAuthToken);
-            List<Facebookpage> pageList = facebookService.getPages(oAuthToken);
-            if(pageList == null){
-                throw new UserException("No facebookpage or insufficient rights to facebookpage.");
-            }
 
-            Facebookuser user = new Facebookuser(id,oAuthToken,name,email,pageList);
-            user.getPageList().forEach(page -> page.setFacebookuser(user));
-            return user;
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new UserException("Insufficient rights given.");
+        String id = facebookService.getID(oAuthToken);
+        String name = facebookService.getName(oAuthToken);
+        String email = facebookService.getEmail(oAuthToken);
+        List<Facebookpage> pageList = facebookService.getPages(oAuthToken);
+        if (pageList == null) {
+            throw new UserException("No facebookpage or insufficient rights to facebookpage.");
         }
+
+        Facebookuser user = new Facebookuser(id, oAuthToken, name, email, pageList);
+        user.getPageList().forEach(page -> page.setFacebookuser(user));
+        return user;
+
 
     }
 }

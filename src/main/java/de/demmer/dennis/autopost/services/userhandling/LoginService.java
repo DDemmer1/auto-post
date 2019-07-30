@@ -57,7 +57,7 @@ public class LoginService {
     /*
      * Adds a new user to the database and current session, or updates the informations of a returning user and adds him to the session
      */
-    private void updateUser(Facebookuser user) {
+    public void updateUser(Facebookuser user) {
 
         if (userRepository.findFacebookuserByFbId(user.getFbId()) == null) {
             //New User

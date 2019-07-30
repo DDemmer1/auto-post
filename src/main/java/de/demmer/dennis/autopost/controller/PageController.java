@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -162,6 +163,33 @@ public class PageController {
             });
 
         return new ModelAndView("redirect:/schedule/" + id, modelMap);
+    }
+
+
+
+    @PostMapping(value = "/schedule/{id}/delete")
+    public String changeSelected(@PathVariable(value = "id") String id, Model model) {
+        Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+
+        if(!facebookuserService.isAdminOfPage(id,user)){
+            return "no-rights";
+        }
+
+        List<Facebookpost> posts = postRepository.findAllByFacebookpageFbIdAndPosted(id,false);
+        log.info("Posts to delete size:" + posts.size());
+        posts.forEach((post) -> {
+            scheduleService.cancelScheduling(post);
+            postRepository.delete(post);
+        });
+
+        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("postList", new ArrayList<>());
+
+
+        return "page";
     }
 
 

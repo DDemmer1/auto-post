@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-//TODO not implemented yet
+//TODO implement a direct connection to GraphAPI instead of using unsupported Spring Social
 
 
 @Service

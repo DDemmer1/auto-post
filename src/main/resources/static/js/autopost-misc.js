@@ -23,7 +23,7 @@ jQuery(document).ready(function ($) {
     });
 
 
-    //stops bubbeling of clickable row in checkbox
+    //Alert before account deletion
     $(".btn-delete-account").click(function (event) {
         let answer = confirm("Do you realy want to delete your account? This will remove all of your autoPost-data irreversible ")
         if(answer === true){
@@ -75,6 +75,19 @@ jQuery(document).ready(function ($) {
     });
 
 
+
+    //Alert before account deletion
+    $(".btn-delete-all").click(function (event) {
+        let answer = confirm("Are you sure you want to delete all unposted posts? The Posts will be irreversibly deleted from the autoPost app.")
+        if(answer === true){
+            $.post(window.location.href.split("?")[0] + "/delete", function( data ) {
+                location.reload();
+            });
+
+
+
+        }
+    });
 
 
 
