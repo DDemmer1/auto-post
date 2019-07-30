@@ -2,7 +2,7 @@ package de.demmer.dennis.autopost.entities.user;
 
 import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 public class UserFactory {
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     FacebookpageRepository pageRepository;
@@ -35,6 +35,7 @@ public class UserFactory {
             user.getPageList().forEach(page -> page.setFacebookuser(user));
             return user;
         } catch (Exception e){
+            e.printStackTrace();
             throw new UserException("Insufficient rights given.");
         }
 

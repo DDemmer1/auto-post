@@ -6,7 +6,7 @@ import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Handles everything user related at login.
  * Checks for changed user informations if a user returns and creates new user if it is the first login.
- *
  */
 @Log4j2
 @Service
@@ -33,7 +32,7 @@ public class LoginService {
     UserFactory userFactory;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     SessionService sessionService;
@@ -72,32 +71,38 @@ public class LoginService {
     }
 
     //adds a new user
-    private Facebookuser newUserLogin(Facebookuser user){
+    private Facebookuser newUserLogin(Facebookuser user) {
         log.info("New fbuser: " + user.getName());
 
         userRepository.save(user);
-        user.getPageList().forEach(page -> pageRepository.save(page));
+        user.getPageList().forEach((page) -> {
+            pageRepository.save(page);
+        });
         return user;
     }
 
 
     //checks if returning user needs update. If so saved it into database
-    private Facebookuser returningUserLogin(Facebookuser user){
+    private Facebookuser returningUserLogin(Facebookuser user) {
         log.info("Returning fbuser: " + user.getName());
 
         Facebookuser userInDB = userRepository.findFacebookuserByFbId(user.getFbId());
         int tmpUserId = userInDB.getId();
 
         //check for new pages
-        List<Facebookpage> newPages = getNewPages(user,userInDB);
-        if(!newPages.isEmpty()){
-            newPages.forEach(page -> pageRepository.save(page));
+        List<Facebookpage> newPages = getNewPages(user, userInDB);
+        if (!newPages.isEmpty()) {
+            newPages.forEach((page) -> {
+                pageRepository.save(page);
+            });
         }
 
-        //check for pages to delete
-        List<Facebookpage> pagesToDelete = getPagesToDelete(user,userInDB);
-        if(!pagesToDelete.isEmpty()){
-            pagesToDelete.forEach(page -> pageRepository.deleteByFbId(page.getFbId()));
+        //check for pages to delete or remove admin
+        List<Facebookpage> pagesToDelete = getPagesToDelete(user, userInDB);
+        if (!pagesToDelete.isEmpty()) {
+            pagesToDelete.forEach((page) -> {
+                pageRepository.deleteByFbId(page.getFbId());
+            });
         }
 
         //update fbuser data
@@ -112,17 +117,17 @@ public class LoginService {
     //checks if facebook pages where deleted
     private List<Facebookpage> getPagesToDelete(Facebookuser user, Facebookuser userInDB) {
         List<Facebookpage> pageListInDB = pageRepository.findByFacebookuserId(userInDB.getId());
-        List<Facebookpage> pageListReturningUser  = user.getPageList();
+        List<Facebookpage> pageListReturningUser = user.getPageList();
         List<Facebookpage> pagesToDelete = new ArrayList<>();
 
         boolean pageToDelete = true;
         for (Facebookpage pageInDB : pageListInDB) {
 
             for (Facebookpage returningUserPage : pageListReturningUser) {
-                if(pageInDB.equals(returningUserPage)) pageToDelete = false;
+                if (pageInDB.equals(returningUserPage)) pageToDelete = false;
             }
 
-            if(pageToDelete){
+            if (pageToDelete) {
                 pagesToDelete.add(pageInDB);
             }
 
@@ -130,30 +135,29 @@ public class LoginService {
         }
 
 
-
         return pagesToDelete;
     }
 
 
     //checks if new Facebook pages where created
-    private List<Facebookpage> getNewPages(Facebookuser user, Facebookuser userInDB){
+    private List<Facebookpage> getNewPages(Facebookuser user, Facebookuser userInDB) {
 
         List<Facebookpage> pageListInDB = pageRepository.findByFacebookuserId(userInDB.getId());
-        List<Facebookpage> pageListReturningUser  = user.getPageList();
+        List<Facebookpage> pageListReturningUser = user.getPageList();
         List<Facebookpage> newPages = new ArrayList<>();
 
         boolean isNewPage = true;
-        for (Facebookpage returningUserPage: pageListReturningUser) {
+        for (Facebookpage returningUserPage : pageListReturningUser) {
 
             for (Facebookpage dbPage : pageListInDB) {
                 if (returningUserPage.equals(dbPage)) isNewPage = false;
             }
 
-            if(isNewPage){
+            if (isNewPage) {
                 returningUserPage.setFacebookuser(userInDB);
                 newPages.add(returningUserPage);
             }
-            isNewPage =true;
+            isNewPage = true;
         }
         return newPages;
     }

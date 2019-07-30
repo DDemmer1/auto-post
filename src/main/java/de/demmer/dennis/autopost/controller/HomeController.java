@@ -1,12 +1,9 @@
 package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
-import de.demmer.dennis.autopost.entities.user.UserFactory;
-import de.demmer.dennis.autopost.services.FacebookService;
-import de.demmer.dennis.autopost.services.userhandling.LoginService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     SessionService sessionService;

@@ -4,7 +4,7 @@ package de.demmer.dennis.autopost.controller;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import de.demmer.dennis.autopost.services.userhandling.LoginService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +28,7 @@ public class LoginController {
     LoginService loginService;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     FacebookuserRepository userRepository;

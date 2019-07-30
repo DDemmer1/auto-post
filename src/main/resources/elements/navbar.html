@@ -3,8 +3,8 @@
     <div class="container">
 
         <!--<a class="navbar-brand js-scroll-trigger" href="/home"><i class="fa fa-facebook-square"></i> autoPost</a>-->
-        <a class="navbar-brand js-scroll-trigger" href="/home"><img class="autopost-logo-sm" src="/img/autopost_assets/autopost_circle/autopost_circle.svg"> autoPost</a>
-        <p class="d-lg-none nav-text text-white mb-0" th:if="${session.activeuser != null}" >Hi, [[${session.activeuser.name.substring(0,6)}]]... </p>
+        <a class="navbar-brand js-scroll-trigger" href="/home"><img class="autopost-logo-sm" src="/img/autopost_assets/autopost_circle/autopost_circle.svg"> autoPost <div style="display:inline; font-size: 0.5rem">BETA</div></a>
+        <p class="d-lg-none nav-text text-white mb-0" th:if="${session.activeuser != null AND session.activeuser.name.length() >= 6}" >Hi, [[${session.activeuser.name.substring(0,6)}]]... </p>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,10 +15,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="/about">About</a>
+                    <a class="nav-link js-scroll-trigger" href="/faq">FAQ</a>
                 </li>
+                <!--<li class="nav-item">-->
+                <!--<a class="nav-link js-scroll-trigger" href="/roadmap">Roadmap</a>-->
+                <!--</li>-->
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="/services">Services</a>
+                    <a class="nav-link js-scroll-trigger" href="/privacy">Privacy</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="/contact">Contact</a>

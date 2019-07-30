@@ -2,7 +2,7 @@ package de.demmer.dennis.autopost;
 
 import de.demmer.dennis.autopost.properties.TestContext;
 import de.demmer.dennis.autopost.properties.TestProperties;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -24,7 +24,7 @@ public class PostSchedulingTests extends TestContext{
     ScheduleService scheduleService;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @SneakyThrows
     @Test

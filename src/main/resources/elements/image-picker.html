@@ -8,58 +8,62 @@
     <!--</div>*/-->
     <div class="jumbotron" id="div-image">
 
-            <ul class="nav nav-tabs" id="imagetype" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
-                       aria-controls="home" aria-selected="true"><i class="fa fa-file-image-o" aria-hidden="true"></i>
-                        Image Upload</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="url-tab" data-toggle="tab" href="#url" role="tab"
-                       aria-controls="profile" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i>
-                        Image Web URL</label></a>
-                </li>
+        <ul class="nav nav-tabs" id="imagetype" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
+                   aria-controls="home" aria-selected="true"><i class="fa fa-file-image-o" aria-hidden="true"></i>
+                    Image Upload</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="url-tab" data-toggle="tab" href="#url" role="tab"
+                   aria-controls="profile" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i>
+                    Image Web URL</label></a>
+            </li>
 
-            </ul>
-            <div class="tab-content" id="myTabContent">
+        </ul>
+        <div class="tab-content" id="myTabContent">
 
-                <!--Image Upload-->
-                <div class="mt-4 tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-                    <input data-toggle="tooltip"
-                           title="Upload an image. Only files up to 2mb are allowed" data-placement="bottom" class="btn btn-facebook text-white" type="file" name="file" id="file">
-                </div>
-
-
-                <!--Image Web URL-->
-                <div class="mt-4 tab-pane fade" id="url" role="tabpanel" aria-labelledby="url-tab">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="image"><i class="fa fa-globe" aria-hidden="true"></i> Image URL</label>
-                                <input  th:value="*{img}" th:field="*{img}" rows="4" id="image" type="text" name="image"
-                                       class="form-control"
-                                       placeholder="https://www.hoster.com/picture.jpg"/>
-                                <div class="help-block with-errors"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="img-preview"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image
-                                    preview</label>
-                                <a id="img-preview-lightbox"
-                                   th:href="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
-                                   data-toggle="lightbox">
-                                    <img th:src="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
-                                         id="img-preview" class="img-thumbnail img-fluid rounded"
-                                    >
-                                </a>
-                            </div>
-                        </div>
+            <!--Image Upload-->
+            <div class="mt-4 tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                <input data-toggle="tooltip"
+                       title="Upload an image. Only files up to 2mb are allowed" data-placement="bottom"
+                       class="btn btn-facebook text-white" type="file" name="file" id="file">
+                <div class="d-inline" th:if="${post!=null}">
+                    <div class="ml-5 d-inline" th:if="${post.getImageFile()!=null}">
+                        <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
+                             class="post-detail-picture"/>
                     </div>
                 </div>
             </div>
 
 
+            <!--Image Web URL-->
+            <div class="mt-4 tab-pane fade" id="url" role="tabpanel" aria-labelledby="url-tab">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="image"><i class="fa fa-globe" aria-hidden="true"></i> Image URL</label>
+                            <input th:value="*{img}" th:field="*{img}" rows="4" id="image" type="text" name="image"
+                                   class="form-control"
+                                   placeholder="https://www.hoster.com/picture.jpg"/>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="img-preview"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image
+                                preview</label>
+                            <a id="img-preview-lightbox"
+                               th:href="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
+                               data-toggle="lightbox">
+                                <img th:src="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
+                                     id="img-preview" class="img-thumbnail img-fluid rounded">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>

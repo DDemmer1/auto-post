@@ -35,7 +35,6 @@ public class Facebookpage {
     @Column(columnDefinition="boolean default true")
     private boolean enabled = true;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,7 +44,6 @@ public class Facebookpage {
 
         return fbId.equals(page.fbId);
     }
-
 
     @Override
     public String toString() {

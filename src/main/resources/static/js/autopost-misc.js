@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-
+    //selects all posts
     $('#select-all').on('click',function(){
         if(this.checked){
             $('.checkbox').each(function(){
@@ -43,6 +43,10 @@ jQuery(document).ready(function ($) {
             });
         }
     });
+
+    //sets timezone
+    var offset = new Date().getTimezoneOffset();
+    $("#timezone").val(offset);
 
     //Lightbox preview for post images
     $(document).on('click', '[data-toggle="lightbox"]', function (event) {

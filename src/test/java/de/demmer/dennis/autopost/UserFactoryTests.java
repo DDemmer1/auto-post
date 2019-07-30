@@ -5,7 +5,7 @@ import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.properties.TestProperties;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class UserFactoryTests {
     UserFactory userFactory;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     private TestProperties testProperties;

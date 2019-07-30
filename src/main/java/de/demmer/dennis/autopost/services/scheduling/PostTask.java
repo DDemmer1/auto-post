@@ -4,7 +4,7 @@ package de.demmer.dennis.autopost.services.scheduling;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +32,9 @@ public class PostTask extends TimerTask {
     private Facebookpost post;
 
     private FacebookpostRepository postRepository;
-    private FacebookService facebookService;
+    private FacebookSpringSocialService facebookService;
 
-    public PostTask(Facebookuser user, Facebookpost post, FacebookService facebookService, FacebookpostRepository postRepository) {
+    public PostTask(Facebookuser user, Facebookpost post, FacebookSpringSocialService facebookService, FacebookpostRepository postRepository) {
         this.user = user;
         this.post = post;
         this.facebookService = facebookService;

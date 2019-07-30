@@ -66,7 +66,7 @@
 
                     <!--/*<div th:replace="../elements/location-picker"></div>*/-->
 
-
+                    <input class="d-none" id="timezone" name="timezone">
                     <div class="row">
 
                         <div class="col-5 col-sm-5 col-md-3 col-lg-2 col-xl-1">
@@ -75,7 +75,7 @@
                             </button>
                         </div>
 
-                        <div style="margin-top: 1rem" class="col-4 col-sm-4" th:if="*{!posted}">
+                        <div style="margin-top: 1rem" class="col-4 col-sm-4">
                             <input id="enabled" th:field="*{enabled}" type="checkbox" data-toggle="toggle"
                                    data-onstyle="success" data-offstyle="danger" data-on="Scheduling enabled"
                                    data-off="Scheduling disabled"/>

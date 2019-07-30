@@ -52,7 +52,7 @@
                         <label for="imgcheck">Image check</label>
                         <input type="checkbox" name="imgcheck" id="imgcheck">
                     </div>
-
+                    <input class="d-none" id="timezone" name="timezone">
 
                 </div>
             </form>
@@ -79,8 +79,9 @@
                 is separated by a tab. But you need to follow some guidelines in order to upload your TSV file
                 successfully. The list below contains all the rules you need to follow. If you want to see an example
                 TSV file, click on the link below. </p>
-            <a href="/tsvexample" target="_blank" style="margin-top: 1rem; margin-bottom: 2rem"
-               class="btn text-white btn-secondary">Example TSV</a>
+            <!--<a href="/tsvexample" target="_blank" style="margin-top: 1rem; margin-bottom: 2rem"-->
+            <a href="/tsvexample" download="tsvexample.tsv" style="margin-top: 1rem; margin-bottom: 2rem"
+               class="btn text-white btn-secondary">Download example TSV</a>
             <ul class="list-group scroll-group">
                 <li class="list-group-item">Order of columns: Date, Time, Content, Image URL</li>
                 <li class="list-group-item">Only web URL's are allowed</li>

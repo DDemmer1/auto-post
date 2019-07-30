@@ -1,10 +1,11 @@
 package de.demmer.dennis.autopost.controller;
 
+import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.tsvimport.MalformedTsvException;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
@@ -21,12 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -46,7 +46,7 @@ public class TsvController {
     TsvService tsvService;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     FacebookpostRepository postRepository;
@@ -64,22 +64,24 @@ public class TsvController {
      * @return
      */
     @PostMapping(value = "/schedule/{id}/tsvform/upload", consumes = {"multipart/form-data"})
-    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap, @RequestParam(name = "imgcheck", defaultValue = "off") String imgcheck, @RequestParam(name = "datecheck", defaultValue = "off") String datecheck) {
+    public ModelAndView uploadTSV(@PathVariable(value = "id") String id, @RequestParam("file") MultipartFile multiFile, ModelMap modelMap, @RequestParam(name = "imgcheck", defaultValue = "off") String imgcheck, @RequestParam(name = "datecheck", defaultValue = "off") String datecheck, @RequestParam(value = "timezone") Integer timezone) {
 
-        log.info(datecheck);
         Facebookuser user = sessionService.getActiveUser();
-        modelMap.addAttribute("page", pageRepository.findByFbId(id));
-
-        //Add fbuser data from session
-        if (user != null) {
-            List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
-            Collections.sort(posts);
-            modelMap.addAttribute("pageList", user.getPageList());
-            modelMap.addAttribute("postList", posts);
-        } else {
+        if (user == null) {
             modelMap.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return new ModelAndView("redirect:/error", modelMap);
         }
+        modelMap.addAttribute("page", pageRepository.findByFbIdAndFacebookuser_Id(id, user.getId()));
+
+        //Add fbuser data from session to view
+        List<Facebookpost> posts = new ArrayList<>();
+        for (Facebookpage page : pageRepository.findAllByFbId(id)) {
+            posts.addAll(page.getFacebookposts());
+        }
+
+        Collections.sort(posts);
+        modelMap.addAttribute("pageList", user.getPageList());
+        modelMap.addAttribute("postList", posts);
 
         //No Input
         if (multiFile == null || multiFile.isEmpty() || multiFile.getName().equals("")) {
@@ -102,13 +104,13 @@ public class TsvController {
             //parse tsv to posts
             List<Facebookpost> tsvPosts = tsvService.parseTSV(file, id, imgcheck.equals("on"), datecheck.equals("on"));
             for (Facebookpost post : tsvPosts) {
+                post.setTimezoneOffset(timezone);
                 postRepository.save(post);
                 scheduleService.schedulePost(post);
             }
 
             //delete temporary tsv file
             file.delete();
-
 
             //get the number of errors
             int numErrors = 0;
@@ -117,7 +119,6 @@ public class TsvController {
                     numErrors++;
                 }
             }
-
 
             //add number of added posts and trigger "android toast" like pop up
             modelMap.addAttribute("tsvSuccess", true);
@@ -150,13 +151,10 @@ public class TsvController {
 
         Facebookuser user = sessionService.getActiveUser();
 
-        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("page", pageRepository.findByFbIdAndFacebookuser_Id(id, user.getId()));
 
         if (user != null) {
-            List<Facebookpost> posts = pageRepository.findByFbId(id).getFacebookposts();
-            Collections.sort(posts);
             model.addAttribute("pageList", user.getPageList());
-            model.addAttribute("postList", posts);
         } else {
             model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
             return "no-login";

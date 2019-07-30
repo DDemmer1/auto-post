@@ -20,14 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 //@Transactional (rollbackFor = UserException.class)
 //@SpringBootApplication
-//public class AutoPostApplication implements CommandLineRunner{
+//public class AutoPostApplication{
 //
 //    public static void main(String[] args){SpringApplication.run(AutoPostApplication.class, args);}
 //
-//    @Override
-//    public void run(String... args) {
-//
-//    }
 
 
 

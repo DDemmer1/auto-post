@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="../elements/header (title='Privacy')"></head>
+
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav th:replace="../elements/navbar"></nav>
+
+<div class="about bg-facebook text-white mt-sm-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2>§ Legal notices</h2>
+                <hr>
+                <p>Neither the University of Cologne nor the authors and associates of this website warrant its
+                    operation or the accuracy and topicality of the information provided thereon. Furthermore, in its
+                    ruling of 12 May 1998, the district court (Landgericht) of Hamburg decided that with the displaying
+                    of a link, a website operator can under certain circumstances be held liable for the contents of the
+                    linked web page. According to the district court, this can only be avoided by explicitly distancing
+                    oneself from these contents. Thus, the for this website responsible persons declare: "We hereby
+                    disclaim responsibility for the content of all websites mentioned or linked here. We are not
+                    responsible for these contents and distance ourselves from them." Lastly, all company, product and
+                    service names used within this website are for identification purposes only. All trademarks and
+                    registered trademarks are the property of their respective owners.</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <h2><i class="fa fa-user-secret" aria-hidden="true"></i> Privacy policy</h2>
+                <hr>
+                <p>We do not access any sensitive information available through granting this application access to Your
+                    Facebook-account. All stored data revolves around the information You directly provide. In detail,
+                    Your Facebook-ID and the associated Facebook API token and secret as well as all information about
+                    scheduled Posts and the pages containing them are stored permanently. Furthermore, we deliberately
+                    provide You with full control over Your information, as all persisted data gets deleted when You
+                    choose to delete Your autoPost-account. Lastly, we want to assure You, that no trackers or
+                    analyzation tools whatsoever are embedded in this website.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section>
+    <div class="text-center ">
+        <!--<a href="http://dh.uni-koeln.de/"><img class="img-fluid" th:src="@{/img/IDH_Logo.png}"/></a>-->
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer th:replace="../elements/footer"></footer>
+
+</body>
+
+</html>

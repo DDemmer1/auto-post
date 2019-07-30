@@ -2,7 +2,7 @@ package de.demmer.dennis.autopost;
 
 import de.demmer.dennis.autopost.properties.TestContext;
 import de.demmer.dennis.autopost.properties.TestProperties;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class FacebookServiceTest extends TestContext {
 
     @Autowired
-    private FacebookService facebookService;
+    private FacebookSpringSocialService facebookService;
 
     @Autowired
     private TestProperties testProperties;

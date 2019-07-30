@@ -3,7 +3,7 @@ package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
-import de.demmer.dennis.autopost.services.FacebookService;
+import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,12 +25,12 @@ public class InfoController {
     SessionService sessionService;
 
     @Autowired
-    FacebookService facebookService;
+    FacebookSpringSocialService facebookService;
 
     @Autowired
     FacebookpostRepository postRepository;
 
-    @GetMapping(value = "/about")
+    @GetMapping(value = "/privacy")
     public String getAbout(Model model) {
 
         Facebookuser activeUser = sessionService.getActiveUser();
@@ -38,10 +38,10 @@ public class InfoController {
         if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 
-        return "about";
+        return "privacy";
     }
 
-    @GetMapping(value = "/services")
+    @GetMapping(value = "/roadmap")
     public String getServices(Model model) {
 
         Facebookuser activeUser = sessionService.getActiveUser();
@@ -50,7 +50,7 @@ public class InfoController {
 
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 
-        return "services";
+        return "roadmap";
     }
 
 
@@ -107,5 +107,34 @@ public class InfoController {
     public String getTsvExample(){
         return "tsvexample";
     }
+
+
+
+    @GetMapping(value = "/faq")
+    public String getFaq(Model model) {
+
+        Facebookuser activeUser = sessionService.getActiveUser();
+
+        if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
+
+        model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
+        return "faq";
+    }
+
+    @GetMapping(value = "/tutorial")
+    public String getTutorial(Model model) {
+
+        Facebookuser activeUser = sessionService.getActiveUser();
+
+        if (activeUser != null) model.addAttribute("pageList", activeUser.getPageList());
+
+        model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+
+        return "tutorial";
+    }
+
+
+
 
 }

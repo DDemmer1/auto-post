@@ -8,6 +8,7 @@ section {
 
 .btn-login {
     color: white;
+    background-color: #3b5998;
 }
 
 .btn-login:hover {
@@ -25,7 +26,8 @@ li {
 }
 
 .bg-facebook {
-    background-color: #3b5998;
+    /*background-color: #3b5998;*/
+    background-color: #117a8b;
 }
 
 .btn-facebook {
@@ -333,6 +335,9 @@ input.input-submit{
 
 .autopost-logo-sm{
     height: 3rem;
+    background-color: white;
+    border-radius: 100%;
+    overflow: visible;
 }
 
 
@@ -347,4 +352,51 @@ input.input-submit{
 }
 
 
+#page-top .table-scroll{
+    overflow:scroll;
+    width:100%;
+    text-decoration: none;
+}
 
+.roadmap-img{
+    width: 10%;
+}
+
+.post-detail-picture{
+    height: 8rem;
+}
+
+
+.faq-question{
+    font-style:italic;
+    margin-top: 5rem;
+}
+
+.faq-answer{
+
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -4.5rem;
+    visibility: hidden;
+}
+
+a.anchor-white:link{
+    color: white;
+}
+
+a.anchor-white{
+    color: white;
+}
+a.anchor-white:hover{
+    color: #cecece;
+    margin-top: 1.5rem;
+}
+
+
+.vid-tutorial{
+    width: 100%;
+
+}

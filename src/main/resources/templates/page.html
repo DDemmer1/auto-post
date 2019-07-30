@@ -74,72 +74,72 @@
 
                 </div>
             </li>
+            <div class="table-scroll">
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col"><input id="select-all" class="all-btn" type="checkbox"></input></th>
+                        <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
+                        <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
+                        <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
+                        <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
+                        th:data-href="${post.getFacebookpage().getFbId()} + '/' + ${post.getId()}"
+                        th:each="post : ${postList}">
 
 
-            <table class="table table-hover table-responsive-sm">
-                <thead>
-                <tr>
-                    <th scope="col"><input id="select-all" class="all-btn" type="checkbox"></input></th>
-                    <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> Date</th>
-                    <th scope="col"><i class="fa fa-pencil" aria-hidden="true"></i> Content</th>
-                    <th scope="col"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image</th>
-                    <th scope="col"><i class="fa fa-cubes" aria-hidden="true"></i> Status</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr th:classappend="${post.isPosted()} ? non-clickable : clickable-row"
-                    th:data-href="${post.getFacebookpage().getFbId()} + '/' + ${post.getId()}"
-                    th:each="post : ${postList}">
+                        <td class="checkbox"><input th:name="${post.getId()}" class="checkbox" type="checkbox"></td>
 
 
-                    <td class="checkbox"><input th:name="${post.getId()}" class="checkbox" type="checkbox"></td>
+                        <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
+                            <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
+                        </th:block>
 
-
-                    <th:block th:with="sdf = ${new java.text.SimpleDateFormat('yyyy-MM-dd')}">
-                        <td th:text="${#dates.format(sdf.parse(post.getDate()), 'dd.MM.yyyy') + ' ' + post.getTime()}"></td>
-                    </th:block>
-
-                    <td>
-                        <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
-                    </td>
-
-                    <div th:if="${post.getImg()!=null}">
-                        <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}" class="post-picture"/>
+                        <td>
+                            <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
                         </td>
-                    </div>
 
-                    <td th:if="${post.getImageFile()!=null}">
-                        <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
-                             class="post-picture"/>
-                    </td>
+                        <div th:if="${post.getImg()!=null}">
+                            <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}"
+                                                                         class="post-picture"/>
+                            </td>
+                        </div>
 
-                    <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile()==null AND post.getImg().length()<=0)}"></td>
+                        <td th:if="${post.getImageFile()!=null}">
+                            <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
+                                 class="post-picture"/>
+                        </td>
 
-                    <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
-                        <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>
-                    </td>
+                        <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile()==null AND post.getImg().length()<=0)}"></td>
 
-                    <td th:if="${!post.isEnabled() && !post.isPosted()}">
-                        <i data-toggle="tooltip" title="Not scheduled" class="not-enabled fa fa-minus-circle"></i>
-                    </td>
+                        <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
+                            <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>
+                        </td>
 
-                    <td th:if="${post.isError()}" style="color:red">
-                        <i data-toggle="tooltip"
-                           title="Error. Not scheduled and posted. Time in the past or other error."
-                           class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    </td>
+                        <td th:if="${!post.isEnabled() && !post.isPosted()}">
+                            <i data-toggle="tooltip" title="Not scheduled" class="not-enabled fa fa-minus-circle"></i>
+                        </td>
 
-                    <td th:if="${post.isPosted()}">
-                        <i data-toggle="tooltip" title="Posted" class="fa fa-envelope-o" aria-hidden="true"></i><i
-                            class="is-posted fa fa-check"
-                            aria-hidden="true"></i>
-                    </td>
-                </tr>
+                        <td th:if="${post.isError()}" style="color:red">
+                            <i data-toggle="tooltip"
+                               title="Error. Not scheduled and posted. Time in the past or other error."
+                               class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </td>
 
-                </tbody>
-            </table>
+                        <td th:if="${post.isPosted()}">
+                            <i data-toggle="tooltip" title="Posted" class="fa fa-envelope-o" aria-hidden="true"></i><i
+                                class="is-posted fa fa-check"
+                                aria-hidden="true"></i>
+                        </td>
+                    </tr>
 
+                    </tbody>
+                </table>
+            </div>
             <!--/*Page break*/-->
             <div th:if="${postList.size()>0}" class="text-center">
                 <p>Page:</p>
