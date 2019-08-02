@@ -52,6 +52,7 @@ public class TsvService {
         TsvParserSettings settings = new TsvParserSettings();
 
         settings.getFormat().setLineSeparator("\n");
+        settings.setMaxCharsPerColumn(2000000);
 
         TsvParser parser = new TsvParser(settings);
 
@@ -121,6 +122,10 @@ public class TsvService {
                 case 1:
                     //Time
                     try {
+                        if(value.split(":").length == 3){
+                            String[] timeArray = value.split(":");
+                            value = timeArray[0] + ":" + timeArray[1];
+                        }
                         post.setTime(value);
                         int delay = scheduleService.getDelay(post);
                         if (delay < 0 && datecheck) {

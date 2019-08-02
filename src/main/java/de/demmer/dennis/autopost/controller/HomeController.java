@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Controlls the base page of the web app.
+ * Controls the base page of the web app.
  * Paragraphs marked with 'DEV' can be uncommented to activate instant login of the admin for testing purposes
  */
 @Controller
