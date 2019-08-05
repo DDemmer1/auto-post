@@ -77,7 +77,7 @@ public class DebugController {
         for (Map.Entry<Integer, ScheduledFuture<?>> entry : tasks.entrySet()) {
             if(counter > numPostsToShow) break;
             Optional<Facebookpost> postOptional = facebookpostRepository.findById(entry.getKey());
-            Facebookpost post = postOptional.get();
+            Facebookpost post = postOptional.orElse(null);
             scheduledTasks.add(post);
             counter++;
         }
