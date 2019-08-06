@@ -353,6 +353,7 @@ input.input-submit{
 }
 
 
+
 #page-top .table-scroll{
     overflow:scroll;
     width:100%;
@@ -396,8 +397,22 @@ a.anchor-white:hover{
     margin-top: 1.5rem;
 }
 
-
 .vid-tutorial{
     width: 100%;
+}
 
+a#url-tab:not(.active){
+    background-color: ghostwhite;
+    /*border: solid white;*/
+}
+
+a#upload-tab:not(.active){
+    background-color: ghostwhite;
+}
+
+a#upload-tab.active{
+    border: solid thin #3b5998;
+}
+a#url-tab.active{
+    border: solid  thin #3b5998;
 }
