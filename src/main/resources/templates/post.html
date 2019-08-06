@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="../elements/header (title='Post')"></head>
-
-
 <body id="page-top">
-
 <!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
-
 <div class="bg-facebook text-white schedule-banner">
     <div>
         <div class="container">
@@ -21,10 +16,7 @@
         </div>
     </div>
 </div>
-
 <div class="container">
-
-
     <div class="row">
         <div class="col-md-12 mx-auto">
 
@@ -38,7 +30,6 @@
                         <a th:href="${#httpServletRequest.requestURI} + '/delete' " style="color: white" class=" btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
                     </div>
                 </div>
-
                 <div class="messages"></div>
                 <div class="controls">
                     <div class="jumbotron">
@@ -59,22 +50,17 @@
                             </div>
                         </div>
                     </div>
-
                     <div th:replace="../elements/scheduling"></div>
-
                     <div th:replace="../elements/image-picker"></div>
-
+                    <a id="new-image" class="btn btn-facebook text-white" href="#new-image">+ Add image</a>
                     <!--/*<div th:replace="../elements/location-picker"></div>*/-->
-
                     <input class="d-none" id="timezone" name="timezone">
                     <div class="row">
-
                         <div class="col-5 col-sm-5 col-md-3 col-lg-2 col-xl-1">
                             <button class="btn btn-facebook text-white submit-post" type="submit">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                             </button>
                         </div>
-
                         <div style="margin-top: 1rem" class="col-4 col-sm-4">
                             <input id="enabled" th:field="*{enabled}" type="checkbox" data-toggle="toggle"
                                    data-onstyle="success" data-offstyle="danger" data-on="Scheduling enabled"
@@ -82,10 +68,7 @@
                         </div>
                     </div>
                 </div>
-
             </form>
-
-
         </div>
     </div>
 </div>

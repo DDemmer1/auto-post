@@ -1,33 +1,33 @@
 jQuery(document).ready(function ($) {
 
     //Makes table row clickable
-    $(".clickable-row").click(function () {
-        window.location = $(this).data("href");
+    $('.clickable-row').click(function () {
+        window.location = $(this).data('href');
     });
 
 
     //Makes table row clickable
-    $(".non-clickable").click(function () {
-        window.location = $(this).data("href");
+    $('.non-clickable').click(function () {
+        window.location = $(this).data('href');
     });
 
 
     $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+        $("[data-toggle='tooltip']").tooltip();
     });
 
 
     //stops bubbeling of clickable row in checkbox
-    $(".checkbox").click(function (event) {
+    $('.checkbox').click(function (event) {
         event.stopImmediatePropagation();
     });
 
 
     //Alert before account deletion
-    $(".btn-delete-account").click(function (event) {
-        let answer = confirm("Do you realy want to delete your account? This will remove all of your autoPost-data irreversible ")
+    $('.btn-delete-account').click(function (event) {
+        let answer = confirm('Do you realy want to delete your account? This will remove all of your autoPost-data irreversible ')
         if(answer === true){
-            window.location.href="/deleteaccount";
+            window.location.href='/deleteaccount';
         }
     });
 
@@ -46,10 +46,10 @@ jQuery(document).ready(function ($) {
 
     //sets timezone
     var offset = new Date().getTimezoneOffset();
-    $("#timezone").val(offset);
+    $('#timezone').val(offset);
 
     //Lightbox preview for post images
-    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+    $(document).on('click', "[data-toggle='lightbox']", function (event) {
         event.preventDefault();
         $(this).ekkoLightbox();
     });
@@ -64,7 +64,7 @@ jQuery(document).ready(function ($) {
         });
         window.emojiPicker.discover();
         //set preserve formatting on wysiwyg editor
-        $(".emoji-wysiwyg-editor").addClass("text-input");
+        $('.emoji-wysiwyg-editor').addClass('text-input');
     });
 
 
@@ -77,19 +77,43 @@ jQuery(document).ready(function ($) {
 
 
     //Alert before account deletion
-    $(".btn-delete-all").click(function (event) {
-        let answer = confirm("Are you sure you want to delete all unposted posts? The Posts will be irreversibly deleted from the autoPost app.")
+    $('.btn-delete-all').click(function (event) {
+        let answer = confirm('Are you sure you want to delete all unposted posts? The Posts will be irreversibly deleted from the autoPost app.')
         if(answer === true){
-            $.post(window.location.href.split("?")[0] + "/delete", function( data ) {
+            $.post(window.location.href.split('?')[0] + '/delete', function( data ) {
                 location.reload();
             });
-
-
-
         }
     });
 
 
+    $('#new-image').on('click', function (e) {
+        $('').append("");
+    });
+
+
+    $('#input-container').on('click',function (e) {
+        $('#file').click();
+    });
+
+
+    $('#file').on('change', function (e) {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        console.log(input);
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview-container').show();
+                $('#preview').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
 
 });

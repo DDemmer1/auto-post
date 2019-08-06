@@ -348,7 +348,6 @@ input.input-submit{
 
 
 .active{
-    text-decoration: underline;
     font-weight: 700;
 }
 
@@ -415,4 +414,42 @@ a#upload-tab.active{
 }
 a#url-tab.active{
     border: solid  thin #3b5998;
+}
+
+
+/**/
+
+#input-container {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 10%;
+    background-color: white;
+    display: inline;
+    border: lightgray dashed;
+    color: lightgray;
+    font-size: 2.5rem;
+    cursor: pointer;
+    text-align: center;
+    padding-bottom: 1.8rem;
+    padding-top: 0.2rem;
+}
+
+.crop {
+    width: 5rem;
+    height: 5rem;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 10%;
+}
+
+.crop img {
+    width: 5rem;
+}
+
+.hidden-input[type='file'] {
+    display: none;
+}
+
+#preview-container{
+    display: none;
 }

@@ -26,9 +26,20 @@
 
             <!--Image Upload-->
             <div class="mt-4 tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-                <input data-toggle="tooltip"
+                <input accept="image/*" data-toggle="tooltip"
                        title="Upload an image. Only files up to 2mb are allowed" data-placement="bottom"
-                       class="btn btn-facebook text-white" type="file" name="file" id="file">
+                       class="btn btn-facebook text-white hidden-input" type="file" name="file" id="file">
+
+                <div class="row">
+                    <!--Preview picture-->
+                    <div id="preview-container" class="crop ml-1 mr-1">
+                        <img class="upload-preview" id="preview" src="">
+                    </div>
+                    <!--Mockup input-->
+                    <div class="ml-1 mr-1" id="input-container">+</div>
+                </div>
+
+
                 <div class="d-inline" th:if="${post!=null}">
                     <div class="ml-5 d-inline" th:if="${post.getImageFile()!=null}">
                         <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
