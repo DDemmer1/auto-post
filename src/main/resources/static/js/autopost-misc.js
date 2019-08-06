@@ -86,34 +86,47 @@ jQuery(document).ready(function ($) {
         }
     });
 
-
-    $('#new-image').on('click', function (e) {
-        $('').append("");
-    });
-
-
-    $('#input-container').on('click',function (e) {
-        $('#file').click();
-    });
-
-
-    $('#file').on('change', function (e) {
-        readURL(this);
-    });
-
-    function readURL(input) {
-        console.log(input);
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#preview-container').show();
-                $('#preview').attr('src', e.target.result);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-
 });
+
+
+
+
+//Picture Upload widget
+let maxImg = 5;
+let currentImg = 0;
+$("#input-container").on('click',function (e) {
+    if(currentImg < maxImg){
+        $("#file-" + currentImg).click();
+    }
+});
+
+// $("#file-" + currentImg).on('change', function (e) {
+//     readURL(this);
+// });
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#preview-" + currentImg).attr('src', e.target.result);
+            $("#preview-container-" + currentImg).addClass("d-inline-block");
+            $("#preview-container-" + currentImg).show();
+            currentImg++;
+            createNewInput();
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function createNewInput() {
+    $("#all-previews").append("<div id=\"preview-container-"+ currentImg + "\" class=\"crop ml-1 mr-1\" style=\"display: none\">\n" +
+        "                            <img class=\"upload-preview\" id=\"preview-"+ currentImg +"\" src=\"\">\n" +
+        "                        </div>");
+
+    $("#upload").append("<input accept=\"image/*\" data-toggle=\"tooltip\"\n" +
+        "                       onchange='readURL(this)'" +
+        "                       title=\"Upload an image. Only files up to 2mb are allowed\" data-placement=\"bottom\"\n" +
+        "                       class=\"btn btn-facebook text-white hidden-input\" type=\"file\" name=\"file-"+ currentImg +"\" id=\"file-"+ currentImg +"\">");
+
+}
+

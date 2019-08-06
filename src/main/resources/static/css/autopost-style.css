@@ -449,7 +449,3 @@ a#url-tab.active{
 .hidden-input[type='file'] {
     display: none;
 }
-
-#preview-container{
-    display: none;
-}
