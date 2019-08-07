@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Utility class for @{@link Facebookpost}
  */
@@ -48,8 +51,7 @@ public class PostUtilService {
      * @param pageFbId
      * @return
      */
-    public Facebookpost updatePost(Facebookpost post, PostDto postDto, String pageFbId, MultipartFile file) {
-        //TODO location not yet implemented
+    public Facebookpost updatePost(Facebookpost post, PostDto postDto, String pageFbId, List<MultipartFile> files) {
         if (postDto.getLongitude() != null && !postDto.getLongitude().isEmpty())
             post.setLongitude(Float.parseFloat(postDto.getLongitude()));
         if (postDto.getLongitude() != null && !postDto.getLatitude().isEmpty())
@@ -69,28 +71,34 @@ public class PostUtilService {
 
         post.setFacebookpage(pageRepository.findByFbIdAndFacebookuser_Id(pageFbId,sessionService.getActiveUser().getId()));
 
-        ImageFile image= null;
-        if (file != null && file.getSize() > 0L){
-            post.setImg("");
-            try {
-                image = imageStorageService.storeFile(file, sessionService.getActiveUser());
-                post.setImageFile(image);
-            } catch (ImageStorageException e) {
-                e.printStackTrace();
+        List<ImageFile> convertedImages = new ArrayList<>();
+        for (MultipartFile file: files) {
+            ImageFile image= null;
+            if (file != null && file.getSize() > 0L){
+                post.setImg("");
+                try {
+                    image = imageStorageService.storeFile(file, sessionService.getActiveUser());
+                    post.getImageFile().add(image);
+                    convertedImages.add(image);
+                } catch (ImageStorageException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         if(post.getImg().length()>0 && post.getImageFile()!=null){
             post.setImageFile(null);
-//            imageRepository.delete(post.getImageFile());
-
         }
 
         postRepository.save(post);
-        if(image!=null){
-            image.setFacebookpost(post);
-            imageRepository.save(image);
+
+        for (ImageFile image: convertedImages) {
+            if(image!=null){
+                image.setFacebookpost(post);
+                imageRepository.save(image);
+            }
         }
+
 
 
 

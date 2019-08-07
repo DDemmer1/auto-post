@@ -3,7 +3,7 @@ package de.demmer.dennis.autopost.controller;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
-import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
+import de.demmer.dennis.autopost.services.facebook.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.LoginService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +20,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @Autowired
-    FacebookSpringSocialService facebookService;
+    FacebookService facebookService;
 
     @Autowired
     SessionService sessionService;
 
     //----------DEV----------//
-//    @Autowired
-//    UserFactory userFactory;
-//
-//    @Autowired
-//    LoginService loginService;
-//
-//    @Value("${test.accessToken}")
-//    String devAccessToken;
+    @Autowired
+    UserFactory userFactory;
+
+    @Autowired
+    LoginService loginService;
+
+    @Value("${test.accessToken}")
+    String devAccessToken;
     //----------DEV----------//
 
     @GetMapping(value = "/")
@@ -53,16 +53,16 @@ public class HomeController {
         }
 
         //----------DEV----------//
-//        else {
-//            try {
-//                activeUser = userFactory.getUser(devAccessToken);
-//            } catch (UserException e) {
-//                e.printStackTrace();
-//            }
-//            sessionService.addActiveUser(activeUser);
-//            loginService.updateUser(activeUser);
-//            model.addAttribute("pageList", activeUser.getPageList());
-//        }
+        else {
+            try {
+                activeUser = userFactory.getUser(devAccessToken);
+            } catch (UserException e) {
+                e.printStackTrace();
+            }
+            sessionService.addActiveUser(activeUser);
+            loginService.updateUser(activeUser);
+            model.addAttribute("pageList", activeUser.getPageList());
+        }
         //----------DEV----------//
 
 

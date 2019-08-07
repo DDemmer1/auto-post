@@ -44,7 +44,7 @@ public class ImageFile {
     @Type(type = "org.hibernate.type.ImageType")
     private byte[] data;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name ="facebookpost_id")
     private Facebookpost facebookpost;
 

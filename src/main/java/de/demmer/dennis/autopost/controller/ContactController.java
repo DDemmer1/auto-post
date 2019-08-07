@@ -1,7 +1,7 @@
 package de.demmer.dennis.autopost.controller;
 
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
-import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
+import de.demmer.dennis.autopost.services.facebook.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class ContactController {
     SessionService sessionService;
 
     @Autowired
-    FacebookSpringSocialService facebookService;
+    FacebookService facebookService;
 
 
     @GetMapping(value = "/contact")

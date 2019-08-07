@@ -111,12 +111,12 @@
                             </td>
                         </div>
 
-                        <td th:if="${post.getImageFile()!=null}">
-                            <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
+                        <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()>0}">
+                            <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
                                  class="post-picture"/>
                         </td>
 
-                        <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile()==null AND post.getImg().length()<=0)}"></td>
+                        <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile().size()<=0 AND post.getImg().length()<=0)}"></td>
 
                         <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
                             <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>

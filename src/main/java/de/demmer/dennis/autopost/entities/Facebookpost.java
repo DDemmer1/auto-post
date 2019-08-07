@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -28,9 +30,9 @@ public class Facebookpost implements Comparable<Facebookpost>{
     private Facebookuser facebookuser;
 
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "imageFile_id")
-    private ImageFile imageFile;
+    private List<ImageFile> imageFile = new ArrayList<>();
 
     private String pageID;
 
