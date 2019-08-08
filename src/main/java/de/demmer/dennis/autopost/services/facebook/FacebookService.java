@@ -152,9 +152,9 @@ public class FacebookService {
      * @param post The @{@link Facebookpost} which is about to be send
      */
     public void post(Facebookuser user, Facebookpost post) {
-        if(post.getImageFile().size()>1){
+        if (post.getImageFile().size() > 1) {
             log.info("Size is: " + post.getImageFile().size());
-            postMultiplePictures(user,post);
+            postMultiplePictures(user, post);
             return;
         }
         //TODO save in memory not on disk
@@ -349,38 +349,67 @@ public class FacebookService {
     }
 
 
-    public void postMultiplePictures(Facebookuser user, Facebookpost post){
+    public void postMultiplePictures(Facebookuser user, Facebookpost post) {
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
         String pageID = post.getPageID();
         String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
-        log.info("Page Access Token: "+ pageAccessToken);
         FacebookClient fbClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_3_3);
         List<ImageFile> images = imageRepository.findAllByFacebookpost_Id(post.getId());
         log.info("Images connected with post: " + images.size());
 
         List<Parameter> parameters = new ArrayList<>();
         int index = 0;
-        for (ImageFile file: images) {
+        for (ImageFile file : images) {
             String id = fbClient.publish(pageID + "/photos", FacebookType.class, BinaryAttachment.with(file.getFileName(), file.getData()), Parameter.with("published", "false")).getId();
             log.info("Id of " + index + ": " + id);
-            parameters.add(Parameter.with("attached_media[" + index + "]", "{\"media_fbid\":\""+id+"\"}"));
+            parameters.add(Parameter.with("attached_media[" + index + "]", "{\"media_fbid\":\"" + id + "\"}"));
             index++;
         }
         log.info("Parameters created: " + parameters.size());
-//        Parameter[] param = new Parameter[parameters.size()];
-//
-//        for (int i = 0; param.length >= i; i++ ){
-//            param[i] = parameters.get(i);
-//        }
 
         parameters.forEach(params -> System.out.println(params.toString()));
-        if(!parameters.isEmpty()){
-            fbClient.publish(pageID + "/feed", FacebookType.class,(Parameter[]) parameters.toArray());
-//            fbClient.publish(pageID + "/feed", FacebookType.class, parameters.get(0));
-        } else{
+
+        if (!parameters.isEmpty()) {
+            //workaround because restFb does not handle the varargs argument right
+            switch (parameters.size()) {
+                case 1:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0));
+                    break;
+                case 2:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1));
+                    break;
+                case 3:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2));
+                    break;
+                case 4:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
+                    break;
+                case 5:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4));
+                    break;
+                case 6:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5));
+                    break;
+                case 7:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6));
+                    break;
+                case 8:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7));
+                    break;
+                case 9:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7), parameters.get(8));
+                    break;
+                case 10:
+                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7), parameters.get(8), parameters.get(9));
+                    break;
+                default:
+                    break;
+            }
+        } else {
             try {
                 throw new Exception();
             } catch (Exception e) {
+                log.error("Parameter list was empty!");
                 e.printStackTrace();
             }
         }

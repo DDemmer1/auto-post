@@ -449,3 +449,28 @@ a#url-tab.active{
 .hidden-input[type='file'] {
     display: none;
 }
+
+.close-picture-button {
+    color: white;
+    position: absolute;
+    cursor: pointer;
+    height: 1rem;
+    width: 1rem;
+    margin-top: 0.1rem;
+    margin-left: 3.8rem;
+    font-size: 1rem;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.close-picture-button .fa.fa-times{
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.close-picture-button:hover{
+    opacity: 1;
+}
+
+

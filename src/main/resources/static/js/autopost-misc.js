@@ -89,20 +89,58 @@ jQuery(document).ready(function ($) {
 });
 
 
-
-
 //Picture Upload widget
-let maxImg = 5;
 let currentImg = 0;
+let map = new Map();
+map.set(0,true);
+map.set(1,true);
+map.set(2,true);
+map.set(3,true);
+map.set(4,true);
+map.set(5,true);
+map.set(6,true);
+map.set(7,true);
+map.set(8,true);
+map.set(9,true);
+
+
+if(indexArray){
+    indexArray.forEach(function(item, index, array) {
+        map.set(item,false);
+    });
+}
+
 $("#input-container").on('click',function (e) {
-    if(currentImg < maxImg){
-        $("#file-" + currentImg).click();
-    }
+    console.log(currentImg);
+    if(checkIfMapIsFull()){
+            $("#file-" + currentImg).click();
+        } else{
+            console.log("Could not be posted. Map is full");
+        }
+
 });
 
-// $("#file-" + currentImg).on('change', function (e) {
-//     readURL(this);
-// });
+function checkIfMapIsFull(){
+    for (var index of map.keys()) {
+        if(map.get(index) === true){
+            currentImg = index;
+            console.log("Found empty slot " + index);
+            return true;
+        }
+    }
+    console.log("Map is full");
+    return false;
+}
+
+function deleteInput(input){
+    let index = $(input).attr("index");
+    map.set(parseInt(index),true);
+    console.log(index);
+    $("#preview-container-" + index).removeClass("d-inline-block");
+    $("#preview-container-" + index).hide();
+    $("#preview-" + index).attr("src","");
+    console.log($("#file-" + index).val(""));
+}
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -111,7 +149,7 @@ function readURL(input) {
             $("#preview-" + currentImg).attr('src', e.target.result);
             $("#preview-container-" + currentImg).addClass("d-inline-block");
             $("#preview-container-" + currentImg).show();
-            currentImg++;
+            map.set(parseInt(currentImg),false);
             createNewInput();
         };
         reader.readAsDataURL(input.files[0]);
@@ -119,14 +157,19 @@ function readURL(input) {
 }
 
 function createNewInput() {
+    checkIfMapIsFull();
     $("#all-previews").append("<div id=\"preview-container-"+ currentImg + "\" class=\"crop ml-1 mr-1\" style=\"display: none\">\n" +
-        "                            <img class=\"upload-preview\" id=\"preview-"+ currentImg +"\" src=\"\">\n" +
+        "                            <div index=\""+ currentImg +"\" class=\"close-picture-button\" onclick=\"deleteInput(this)\">\n" +
+        "                                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n" +
+        "                            </div>" +
+        "                           <img class=\"upload-preview\" id=\"preview-"+ currentImg +"\" src=\"\">\n" +
         "                        </div>");
 
     $("#upload").append("<input accept=\"image/*\" data-toggle=\"tooltip\"\n" +
         "                       onchange='readURL(this)'" +
         "                       title=\"Upload an image. Only files up to 2mb are allowed\" data-placement=\"bottom\"\n" +
         "                       class=\"btn btn-facebook text-white hidden-input\" type=\"file\" name=\"file-"+ currentImg +"\" id=\"file-"+ currentImg +"\">");
-
 }
+
+
 
