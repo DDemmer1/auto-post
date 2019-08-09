@@ -89,7 +89,7 @@ jQuery(document).ready(function ($) {
 });
 
 
-//Picture Upload widget
+//Picture Upload widget [Start]
 let currentImg = 0;
 let map = new Map();
 map.set(0,true);
@@ -103,16 +103,19 @@ map.set(7,true);
 map.set(8,true);
 map.set(9,true);
 
-
-if(indexArray){
+//add existing img to map and refresh currentImg counter
+if (typeof indexArray !== 'undefined') {
     indexArray.forEach(function(item, index, array) {
         map.set(item,false);
     });
+    currentImg = indexArray.length
 }
 
+//Mockup click -> input click
 $("#input-container").on('click',function (e) {
-    console.log(currentImg);
-    if(checkIfMapIsFull()){
+    console.log("Click: Current Image: "+ currentImg);
+    if(!mapIsFull()){
+            // getNextIndex();
             $("#file-" + currentImg).click();
         } else{
             console.log("Could not be posted. Map is full");
@@ -120,11 +123,11 @@ $("#input-container").on('click',function (e) {
 
 });
 
-function checkIfMapIsFull(){
+function getNextIndex(){
     for (var index of map.keys()) {
         if(map.get(index) === true){
             currentImg = index;
-            console.log("Found empty slot " + index);
+            console.log("New Current Image: " + index);
             return true;
         }
     }
@@ -132,14 +135,27 @@ function checkIfMapIsFull(){
     return false;
 }
 
+function mapIsFull(){
+    for (var index of map.keys()) {
+        if(map.get(index) === true){
+            return false;
+        }
+    }
+    console.log("Map is full");
+    return true;
+}
+
 function deleteInput(input){
+    console.log("Delete Input");
     let index = $(input).attr("index");
+    if(typeof $(input).attr("dbid")!== 'undefined'){
+       addToDeleteList($(input).attr("dbid"));
+       $(input).removeAttr("dbid");
+    }
     map.set(parseInt(index),true);
-    console.log(index);
     $("#preview-container-" + index).removeClass("d-inline-block");
     $("#preview-container-" + index).hide();
     $("#preview-" + index).attr("src","");
-    console.log($("#file-" + index).val(""));
 }
 
 function readURL(input) {
@@ -150,6 +166,8 @@ function readURL(input) {
             $("#preview-container-" + currentImg).addClass("d-inline-block");
             $("#preview-container-" + currentImg).show();
             map.set(parseInt(currentImg),false);
+            //prepare next Input field
+            getNextIndex();
             createNewInput();
         };
         reader.readAsDataURL(input.files[0]);
@@ -157,7 +175,6 @@ function readURL(input) {
 }
 
 function createNewInput() {
-    checkIfMapIsFull();
     $("#all-previews").append("<div id=\"preview-container-"+ currentImg + "\" class=\"crop ml-1 mr-1\" style=\"display: none\">\n" +
         "                            <div index=\""+ currentImg +"\" class=\"close-picture-button\" onclick=\"deleteInput(this)\">\n" +
         "                                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n" +
@@ -165,11 +182,23 @@ function createNewInput() {
         "                           <img class=\"upload-preview\" id=\"preview-"+ currentImg +"\" src=\"\">\n" +
         "                        </div>");
 
-    $("#upload").append("<input accept=\"image/*\" data-toggle=\"tooltip\"\n" +
+    $("#upload").append("<input accept=\"image/*\"" +
         "                       onchange='readURL(this)'" +
-        "                       title=\"Upload an image. Only files up to 2mb are allowed\" data-placement=\"bottom\"\n" +
         "                       class=\"btn btn-facebook text-white hidden-input\" type=\"file\" name=\"file-"+ currentImg +"\" id=\"file-"+ currentImg +"\">");
 }
+
+
+function addToDeleteList(dbid){
+    if(typeof $("#toDelete").attr("value")!== 'undefined'){
+        $("#toDelete").attr("value", $("#toDelete").attr("value") + "," + dbid);
+    } else {
+        $("#toDelete").attr("value", dbid);
+    }
+
+    console.log(dbid);
+}
+
+//Picture Upload widget [END]
 
 
 

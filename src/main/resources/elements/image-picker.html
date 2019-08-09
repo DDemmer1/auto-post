@@ -30,44 +30,66 @@
                 <div class="ml-1 row">
                     <!--Preview picture-->
                     <div id="all-previews">
-                        <div th:if="${post!= null AND post.getImageFile()!= null AND post.getImageFile().size()>0}">
+                        <div th:if="${post==null}" id="preview-container-0" class="crop ml-1 mr-1"
+                             style="display: none">
+                            <div index="0" class="close-picture-button" onclick="deleteInput(this)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                            <img class="upload-preview" id="preview-0" src="">
+                        </div>
+
+                        <div th:if="${post!= null AND post.getImageFile()!= null AND post.getImageFile().size()>0}"
+                             th:remove="tag">
                             <script>var indexArray = [];</script>
-                            <div th:id="${'preview-container-'+iter.index}"
-                                 class="crop ml-1 mr-1 d-inline-block"
+                            <div th:remove="tag"
                                  th:if="${post!= null AND post.getImageFile()!= null AND post.getImageFile().size()>0}"
                                  th:each="imageFile,iter : ${post.getImageFile()}">
-                                <div th:index="${iter.index}" index="0" class="close-picture-button"
-                                     onclick="deleteInput(this)">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </div>
-                                <img class="upload-preview" th:id="${'preview-'+iter.index}"
-                                     th:src="${'data:image/png;base64,' +
+                                <div th:id="${'preview-container-'+iter.index}"
+                                     class="crop ml-1 mr-1 d-inline-block">
+                                    <div th:dbid="${imageFile.getId()}" th:index="${iter.index}" index="0"
+                                         class="close-picture-button"
+                                         onclick="deleteInput(this)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                    <img class="upload-preview" th:id="${'preview-'+iter.index}"
+                                         th:src="${'data:image/png;base64,' +
                                      T(java.util.Base64).getEncoder().encodeToString(imageFile.getData())}">
-                                <script th:inline="javascript">
-                                    /*<![CDATA[*/
-                                    var index = /*[[${iter.index}]]*/ 0;
-                                    indexArray.push(index);
-                                    //                                    map.set(index ,false);
-                                    console.log(index);
-                                    /*]]>*/
-                                </script>
-                                <input accept="image/*" onchange="readURL(this)" class="hidden-input" type="file"
-                                       th:name="${'file-' + iter.index}" th:id="${'file-' + iter.index}" name="file-0"
-                                       id="file-0">
+                                    <script th:inline="javascript">
+                                        /*<![CDATA[*/
+                                        var index = /*[[${iter.index}]]*/ 0;
+                                        indexArray.push(index);
+                                        /*]]>*/
+                                    </script>
+                                    <input accept="image/*" onchange="readURL(this)" class="hidden-input" type="file"
+                                           th:name="${'file-' + iter.index}" th:id="${'file-' + iter.index}"
+                                           name="file-0"
+                                           id="file-0">
+                                    <input th:if="${(iter.index+1) == post.getImageFile().size()}" accept="image/*"
+                                           onchange="readURL(this)" class="hidden-input" type="file"
+                                           th:name="${'file-' + (iter.index+1)}" th:id="${'file-' + (iter.index+1)}"
+                                           name="file-0"
+                                           id="file-0">
+                                </div>
+
+                                <div th:if="${(iter.index+1) == post.getImageFile().size()}" th:remove="tag">
+                                    <div th:id="${'preview-container-'+(iter.index+1)}" class="crop ml-1 mr-1"
+                                         style="display: none">
+                                        <div th:index="${(iter.index+1)}" class="close-picture-button" onclick="deleteInput(this)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </div>
+                                        <img class="upload-preview" th:id="${'preview-'  +(iter.index+1)}" src="">
+                                    </div>
+                                </div>
+
                             </div>
-                            <!--<div id="preview-container-0" class="crop ml-1 mr-1" style="display: none">-->
-                            <!--<div index="0" class="close-picture-button" onclick="deleteInput(this)">-->
-                            <!--<i class="fa fa-times" aria-hidden="true"></i>-->
-                            <!--</div>-->
-                            <!--<img class="upload-preview" id="preview-0" src="">-->
-                            <!--</div>-->
                         </div>
                     </div>
                     <!--Mockup input-->
                     <div class="ml-1 mr-1" id="input-container">+</div>
                 </div>
-
-                <!--<input accept="image/*" onchange="readURL(this)" class="hidden-input" type="file" name="file-0" id="file-0">-->
+                <input name="toDelete" id="toDelete" class="d-none"></input>
+                <input th:if="${post == null OR post.getImageFile().size()<=0}" accept="image/*"
+                       onchange="readURL(this)" class="hidden-input" type="file" name="file-0" id="file-0">
             </div>
 
 

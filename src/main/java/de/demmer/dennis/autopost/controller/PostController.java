@@ -174,6 +174,7 @@ public class PostController {
                                  @PathVariable(value = "pageFbId") String pageFbId,
                                  @PathVariable(value = "postId") String postId,
                                  @ModelAttribute PostDto postDto,
+                                 @RequestParam(value = "toDelete", required = false) String imagesToDelete,
                                  @RequestParam(value = "file-0", required = false) MultipartFile file0,
                                  @RequestParam(value = "file-1", required = false) MultipartFile file1,
                                  @RequestParam(value = "file-2", required = false) MultipartFile file2,
@@ -210,8 +211,17 @@ public class PostController {
         Facebookpost post = postRepository.findById(Integer.valueOf(postId).intValue());
         scheduleService.cancelScheduling(post);
         Facebookpost updatedPost = postUtilService.updatePost(post, postDto, pageFbId, images);
-        if (updatedPost.isEnabled())
+        if (updatedPost.isEnabled()){
             scheduleService.schedulePost(updatedPost);
+        }
+
+        if(imagesToDelete!= null && !imagesToDelete.equals("")){
+            for (String id : imagesToDelete.split(",")) {
+                log.info("Images toDelete: " + id);
+                imageStorageService.deleteById(id);
+            }
+        }
+
 
         post.setTimezoneOffset(timezone);
         postRepository.save(post);

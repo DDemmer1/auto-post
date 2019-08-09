@@ -45,5 +45,8 @@ public class ImageStorageService {
                 .orElseThrow(() -> new ImageStorageException("File not found with id " + fileId));
     }
 
+    public void deleteById(String id){
+        imageRepository.deleteById(id);
+    }
 
 }
