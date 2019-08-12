@@ -145,13 +145,49 @@ public class FacebookService {
     }
 
 
+    public void post(Facebookuser user, Facebookpost post) {
+        try {
+            boolean isMultiImagePost = post.getImageFile() != null && post.getImageFile().size() > 0;
+            boolean isImageUrlPost = post.getImg() != null && !post.getImg().equals("");
+            boolean isMessageContentPost = post.getContent() != null && !post.getContent().equals("");
+            if (isMultiImagePost) {
+                log.info("MultiImagePost; ImageFiles: " + post.getImageFile().size());
+                log.info("MultiImagePost; ImageUrl: " + post.getImg());
+                postMultiplePictures(user, post);
+                return;
+            } else if (isImageUrlPost) {
+                log.info("SimpleImageURLPost; ImageUrl: " + post.getImg());
+                Facebook facebook = new FacebookTemplate(user.getOauthToken());
+                String pageID = post.getPageID();
+                String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
+                FacebookClient fbClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_3_3);
+                BinaryAttachment pictureAttachment = BinaryAttachment.with(post.getImg(), toByteArray(post.getImg()));
+                fbClient.publish(pageID + "/photos", FacebookType.class, pictureAttachment, Parameter.with("message", post.getContent()));
+                return;
+            } else if (isMessageContentPost) {
+                log.info("SimpleMessagePost: " + post.getContent());
+                Facebook facebook = new FacebookTemplate(user.getOauthToken());
+                String pageID = post.getPageID();
+                String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
+                FacebookClient fbClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_3_3);
+                fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()));
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     /**
      * Posts a @{@link Facebookpost} on Facebook
      *
      * @param user The user who posts the @{@link Facebookpost}
      * @param post The @{@link Facebookpost} which is about to be send
      */
-    public void post(Facebookuser user, Facebookpost post) {
+    public void postOld(Facebookuser user, Facebookpost post) {
         if (post.getImageFile().size() > 1) {
             log.info("Size is: " + post.getImageFile().size());
             postMultiplePictures(user, post);
@@ -365,6 +401,12 @@ public class FacebookService {
             parameters.add(Parameter.with("attached_media[" + index + "]", "{\"media_fbid\":\"" + id + "\"}"));
             index++;
         }
+        //Image URL exists
+        if (post.getImg() != null && !post.getImg().equals("")) {
+            String id = fbClient.publish(pageID + "/photos", FacebookType.class, BinaryAttachment.with("image", toByteArray(post.getImg())), Parameter.with("published", "false")).getId();
+            log.info("Id of " + index + ": " + id);
+            parameters.add(Parameter.with("attached_media[" + index + "]", "{\"media_fbid\":\"" + id + "\"}"));
+        }
         log.info("Parameters created: " + parameters.size());
 
         parameters.forEach(params -> System.out.println(params.toString()));
@@ -414,4 +456,29 @@ public class FacebookService {
             }
         }
     }
+
+
+    private byte[] toByteArray(String postImageUrl) {
+        byte[] byteArray = null;
+        try {
+            URL url = new URL(postImageUrl);
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            try (InputStream inputStream = url.openStream()) {
+                int n = 0;
+                byte[] buffer = new byte[1024];
+                while (-1 != (n = inputStream.read(buffer))) {
+                    output.write(buffer, 0, n);
+                }
+            }
+            byteArray = output.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (byteArray == null) {
+            throw new NullPointerException("Byte Array is null");
+        }
+        return byteArray;
+    }
+
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -199,32 +200,37 @@ public class PostController {
         images.add(file8);
         images.add(file9);
 
-
         Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
             return "no-login";
         }
-
         if (!facebookuserService.isAdminOfPage(pageFbId, user)) {
             return "no-rights";
         }
+
         Facebookpost post = postRepository.findById(Integer.valueOf(postId).intValue());
         scheduleService.cancelScheduling(post);
         Facebookpost updatedPost = postUtilService.updatePost(post, postDto, pageFbId, images);
-        if (updatedPost.isEnabled()){
+        if (updatedPost.isEnabled()) {
             scheduleService.schedulePost(updatedPost);
         }
 
-        if(imagesToDelete!= null && !imagesToDelete.equals("")){
-            for (String id : imagesToDelete.split(",")) {
-                log.info("Images toDelete: " + id);
-                imageStorageService.deleteById(id);
+        post.setTimezoneOffset(timezone);
+        postRepository.save(post);
+
+        if (imagesToDelete != null && !imagesToDelete.equals("")) {
+            Iterator<ImageFile> iter = post.getImageFile().iterator();
+            while (iter.hasNext()){
+                ImageFile current = iter.next();
+                for (String id : imagesToDelete.split(",")) {
+                    if (current.getId().equals(id)) {
+                        log.info("Image to delete: " + id);
+                        iter.remove();
+                    }
+                }
             }
         }
 
-
-        post.setTimezoneOffset(timezone);
-        postRepository.save(post);
         return "redirect:/schedule/" + pageFbId;
     }
 
@@ -241,7 +247,6 @@ public class PostController {
         if (user == null) {
             return "no-login";
         }
-
         if (!facebookuserService.isAdminOfPage(pageFbId, user)) {
             return "no-rights";
         }
@@ -252,6 +257,5 @@ public class PostController {
 
         return "redirect:/schedule/" + pageFbId;
     }
-
 
 }

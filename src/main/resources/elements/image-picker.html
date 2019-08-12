@@ -26,11 +26,11 @@
 
             <!--Image Upload-->
             <div class="mt-4 tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-
+                <h6 class="ml-2 mb-4 bold"><i class="fa fa-upload" aria-hidden="true"></i> Upload up to 10 images:</h6>
                 <div class="ml-1 row">
                     <!--Preview picture-->
                     <div id="all-previews">
-                        <div th:if="${post==null}" id="preview-container-0" class="crop ml-1 mr-1"
+                        <div th:if="${post==null OR post.getImageFile().size()<=0}" id="preview-container-0" class="crop ml-1 mr-1"
                              style="display: none">
                             <div index="0" class="close-picture-button" onclick="deleteInput(this)">
                                 <i class="fa fa-times" aria-hidden="true"></i>

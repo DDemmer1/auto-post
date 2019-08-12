@@ -33,4 +33,5 @@ public interface FacebookpostRepository extends CrudRepository<Facebookpost, Int
     List<Facebookpost> findByScheduled(boolean enabled);
     List<Facebookpost> findByError(boolean error);
     List<Facebookpost> findAllByFacebookpageFbIdAndPosted(String pageFbId,boolean isPosted);
+
 }

@@ -105,16 +105,35 @@
                             <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
                         </td>
 
-                        <div th:if="${post.getImg()!=null}">
-                            <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}"
-                                                                         class="post-picture"/>
+
+                        <div th:remove="tag" th:if="${post.getImageFile().size()<=0 OR post.getImg().length()<=0}">
+                            <div th:if="${post.getImg()!=null}" th:remove="tag">
+                                <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}"
+                                                                             class="post-picture"/>
+                                </td>
+                            </div>
+
+                            <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()>=2}">
+                                <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
+                                     class="post-picture"/>
+                                <div>[...]</div>
+                            </td>
+
+                            <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()==1}">
+                                <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
+                                     class="post-picture"/>
                             </td>
                         </div>
 
-                        <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()>0}">
-                            <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
-                                 class="post-picture"/>
-                        </td>
+                        <div th:remove="tag" th:if="${post.getImageFile().size()>0 AND post.getImg().length()>0}">
+                            <td>
+                                <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
+                                     class="post-picture"/>
+                                <div>[...]</div>
+                            </td>
+                        </div>
+
+
 
                         <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile().size()<=0 AND post.getImg().length()<=0)}"></td>
 

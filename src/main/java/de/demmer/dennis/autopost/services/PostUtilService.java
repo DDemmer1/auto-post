@@ -75,7 +75,6 @@ public class PostUtilService {
         for (MultipartFile file: files) {
             ImageFile image= null;
             if (file != null && file.getSize() > 0L){
-                post.setImg("");
                 try {
                     image = imageStorageService.storeFile(file, sessionService.getActiveUser());
                     post.getImageFile().add(image);
@@ -84,10 +83,6 @@ public class PostUtilService {
                     e.printStackTrace();
                 }
             }
-        }
-
-        if(post.getImg().length()>0 && post.getImageFile()!=null){
-            post.setImageFile(null);
         }
 
         postRepository.save(post);

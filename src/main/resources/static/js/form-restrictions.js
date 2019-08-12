@@ -27,7 +27,14 @@ $(document).ready(function () {
             return false;
         }
 
+        var content = $("#content").val();
+        var imageurl = $("#image").val();
+        var upload = $("#file-0").val();
 
+        if((content === "") && (upload === "") && (imageurl === "")){
+            alert("No content or image to schedule");
+            return false;
+        }
 
         return true;
     });

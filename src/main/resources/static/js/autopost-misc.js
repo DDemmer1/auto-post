@@ -156,6 +156,8 @@ function deleteInput(input){
     $("#preview-container-" + index).removeClass("d-inline-block");
     $("#preview-container-" + index).hide();
     $("#preview-" + index).attr("src","");
+    $("#file-" + index).val("");
+
 }
 
 function readURL(input) {
