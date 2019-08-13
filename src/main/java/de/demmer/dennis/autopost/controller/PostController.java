@@ -230,7 +230,6 @@ public class PostController {
                 }
             }
         }
-
         return "redirect:/schedule/" + pageFbId;
     }
 

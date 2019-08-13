@@ -116,7 +116,7 @@
                             <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()>=2}">
                                 <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
                                      class="post-picture"/>
-                                <div>[...]</div>
+                                <div>[[${post.getImageFile().size()}]] Images</div>
                             </td>
 
                             <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()==1}">
@@ -129,7 +129,7 @@
                             <td>
                                 <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
                                      class="post-picture"/>
-                                <div>[...]</div>
+                                <div>([[${post.getImageFile().size()+1}]] Images)</div>
                             </td>
                         </div>
 

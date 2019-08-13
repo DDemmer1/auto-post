@@ -86,6 +86,21 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    //Delete image url input
+    $('#delete-img-url').click(function (event) {
+        $('#image').val("");
+        $('#img-preview').attr("src","https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg");
+    });
+
+
+    //set post preview img to placeholder pic if no img detected
+    if( $('#image').val() == ""){
+        $('#img-preview').attr("src","https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg");
+    }
+
+
+
+
 });
 
 

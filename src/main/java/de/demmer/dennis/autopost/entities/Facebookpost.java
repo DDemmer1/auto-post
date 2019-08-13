@@ -30,7 +30,7 @@ public class Facebookpost implements Comparable<Facebookpost>{
     private Facebookuser facebookuser;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "imageFile_id")
     private List<ImageFile> imageFile = new ArrayList<>();
 

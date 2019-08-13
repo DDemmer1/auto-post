@@ -4,6 +4,7 @@ package de.demmer.dennis.autopost.services.facebook;
 import com.restfb.*;
 import com.restfb.exception.FacebookException;
 import com.restfb.types.FacebookType;
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.ImageFile;
@@ -37,6 +38,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -461,10 +463,13 @@ public class FacebookService {
     private byte[] toByteArray(String postImageUrl) {
         byte[] byteArray = null;
         try {
-            URL url = new URL(postImageUrl);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-            try (InputStream inputStream = url.openStream()) {
+            URLConnection connection = new URL(postImageUrl).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.connect();
+
+            try (InputStream inputStream = connection.getInputStream()) {
                 int n = 0;
                 byte[] buffer = new byte[1024];
                 while (-1 != (n = inputStream.read(buffer))) {
@@ -473,6 +478,11 @@ public class FacebookService {
             }
             byteArray = output.toByteArray();
         } catch (IOException e) {
+            if(e.getCause().getMessage().contains("403")){
+                System.err.println("Server denied access to picture");
+                e.printStackTrace();
+                return null;
+            }
             e.printStackTrace();
         }
         if (byteArray == null) {
