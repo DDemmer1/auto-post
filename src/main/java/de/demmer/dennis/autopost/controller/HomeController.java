@@ -3,6 +3,7 @@ package de.demmer.dennis.autopost.controller;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
+import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
 import de.demmer.dennis.autopost.services.facebook.FacebookService;
 import de.demmer.dennis.autopost.services.userhandling.LoginService;
 import de.demmer.dennis.autopost.services.userhandling.SessionService;
@@ -25,15 +26,18 @@ public class HomeController {
     @Autowired
     SessionService sessionService;
 
+    @Autowired
+    FacebookpostRepository postRepository;
+
     //----------DEV----------//
-    @Autowired
-    UserFactory userFactory;
-
-    @Autowired
-    LoginService loginService;
-
-    @Value("${test.accessToken}")
-    String devAccessToken;
+//    @Autowired
+//    UserFactory userFactory;
+//
+//    @Autowired
+//    LoginService loginService;
+//
+//    @Value("${test.accessToken}")
+//    String devAccessToken;
     //----------DEV----------//
 
     @GetMapping(value = "/")
@@ -45,26 +49,32 @@ public class HomeController {
     @GetMapping(value = "/home")
     public String home(Model model) {
 
-        Facebookuser activeUser = sessionService.getActiveUser();
+        Facebookuser user = sessionService.getActiveUser();
 
-        if (activeUser != null) {
-            model.addAttribute("pageList", activeUser.getPageList());
+        if (user != null) {
+            model.addAttribute("pageList", user.getPageList());
             model.addAttribute("pageName", "Choose Facebook page");
+            model.addAttribute("pageList", user.getPageList());
+            model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
+            model.addAttribute("user",user);
+            model.addAttribute("scheduled",postRepository.findByScheduledAndFacebookuserId(true,user.getId()).size());
+            model.addAttribute("enabled",postRepository.findByEnabledAndFacebookuserId(true,user.getId()).size());
+            model.addAttribute("error",postRepository.findByErrorAndFacebookuserId(true,user.getId()).size());
+            model.addAttribute("disabled",postRepository.findByEnabledAndPostedAndFacebookuserId(false,false,user.getId()).size());
+            model.addAttribute("posted",postRepository.findByPostedAndFacebookuserId(true,user.getId()).size());
         }
 
         //----------DEV----------//
-        else {
-            try {
-                activeUser = userFactory.getUser(devAccessToken);
-            } catch (UserException e) {
-                e.printStackTrace();
-            }
-            sessionService.addActiveUser(activeUser);
-            loginService.updateUser(activeUser);
-            model.addAttribute("pageList", activeUser.getPageList());
-        }
+//        else {
+//            try {
+//                user = userFactory.getUser(devAccessToken);
+//            } catch (UserException e) {
+//                e.printStackTrace();
+//            }
+//            sessionService.addActiveUser(user);
+//            loginService.updateUser(user);
+//        }
         //----------DEV----------//
-
 
         model.addAttribute("loginlink", facebookService.createFacebookAuthorizationURL());
 

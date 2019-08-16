@@ -147,7 +147,7 @@ public class FacebookService {
     }
 
 
-    public void post(Facebookuser user, Facebookpost post) {
+    public String post(Facebookuser user, Facebookpost post) {
         try {
             boolean isMultiImagePost = post.getImageFile() != null && post.getImageFile().size() > 0;
             boolean isImageUrlPost = post.getImg() != null && !post.getImg().equals("");
@@ -155,8 +155,8 @@ public class FacebookService {
             if (isMultiImagePost) {
                 log.info("MultiImagePost; ImageFiles: " + post.getImageFile().size());
                 log.info("MultiImagePost; ImageUrl: " + post.getImg());
-                postMultiplePictures(user, post);
-                return;
+                String id = postMultiplePictures(user, post);
+                return id;
             } else if (isImageUrlPost) {
                 log.info("SimpleImageURLPost; ImageUrl: " + post.getImg());
                 Facebook facebook = new FacebookTemplate(user.getOauthToken());
@@ -164,21 +164,21 @@ public class FacebookService {
                 String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
                 FacebookClient fbClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_3_3);
                 BinaryAttachment pictureAttachment = BinaryAttachment.with(post.getImg(), toByteArray(post.getImg()));
-                fbClient.publish(pageID + "/photos", FacebookType.class, pictureAttachment, Parameter.with("message", post.getContent()));
-                return;
+                String id = fbClient.publish(pageID + "/photos", FacebookType.class, pictureAttachment, Parameter.with("message", post.getContent())).getId();
+                return id;
             } else if (isMessageContentPost) {
                 log.info("SimpleMessagePost: " + post.getContent());
                 Facebook facebook = new FacebookTemplate(user.getOauthToken());
                 String pageID = post.getPageID();
                 String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
                 FacebookClient fbClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_3_3);
-                fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()));
-                return;
+                String id = fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent())).getId();
+                return id;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return null;
 
     }
 
@@ -189,6 +189,7 @@ public class FacebookService {
      * @param user The user who posts the @{@link Facebookpost}
      * @param post The @{@link Facebookpost} which is about to be send
      */
+    @Deprecated
     public void postOld(Facebookuser user, Facebookpost post) {
         if (post.getImageFile().size() > 1) {
             log.info("Size is: " + post.getImageFile().size());
@@ -387,7 +388,7 @@ public class FacebookService {
     }
 
 
-    public void postMultiplePictures(Facebookuser user, Facebookpost post) {
+    public String postMultiplePictures(Facebookuser user, Facebookpost post) {
         Facebook facebook = new FacebookTemplate(user.getOauthToken());
         String pageID = post.getPageID();
         String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
@@ -417,35 +418,25 @@ public class FacebookService {
             //workaround because restFb does not handle the varargs argument right
             switch (parameters.size()) {
                 case 1:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0)).getId();
                 case 2:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1)).getId();
                 case 3:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2)).getId();
                 case 4:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3)).getId();
                 case 5:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4)).getId();
                 case 6:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5)).getId();
                 case 7:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6)).getId();
                 case 8:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7)).getId();
                 case 9:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7), parameters.get(8));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7), parameters.get(8)).getId();
                 case 10:
-                    fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7), parameters.get(8), parameters.get(9));
-                    break;
+                    return fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3), parameters.get(4), parameters.get(5), parameters.get(6), parameters.get(7), parameters.get(8), parameters.get(9)).getId();
                 default:
                     break;
             }
@@ -457,6 +448,8 @@ public class FacebookService {
                 e.printStackTrace();
             }
         }
+
+        return null;
     }
 
 

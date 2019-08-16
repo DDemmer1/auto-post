@@ -328,7 +328,6 @@ input.input-submit{
 
 .autopost-logo{
     height: 4.5rem;
-    /*padding-bottom: 1rem;*/
     overflow: visible;
     margin-bottom: 0.4rem;
     margin-right: -0.3rem;
@@ -336,9 +335,6 @@ input.input-submit{
 
 .autopost-logo-sm{
     height: 3rem;
-    background-color: white;
-    border-radius: 100%;
-    overflow: visible;
 }
 
 
@@ -473,4 +469,56 @@ a#url-tab.active{
     opacity: 1;
 }
 
+.home-dashboard-container{
+    margin-top:4.6rem;
+    height: 18rem;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+}
 
+.slide-down{
+    display: none;
+}
+
+.fade-in{
+    display:none;
+}
+
+
+
+.se-pre-con {
+    margin-top:4.2rem;
+    margin-bottom: 2rem;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 80%;
+    z-index: 9998;
+    background: url(../img/load.svg) center no-repeat #fff;
+    background-size: 20rem;
+}
+
+.se-pre-con-img{
+    z-index: 9999;
+    display: block;
+    margin-top: 20.38rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10rem;
+}
+
+.toggle.btn {
+
+    min-width: 12rem !important ;
+    min-height: 2.38rem !important ;
+}
+
+
+a.fbpage-link{
+    color: #3b5998;
+}
+
+a.fbpage-link:hover{
+    color: #374681;
+}

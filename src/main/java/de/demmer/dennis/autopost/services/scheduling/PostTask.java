@@ -49,12 +49,24 @@ public class PostTask extends TimerTask {
     public void run() {
 
         if (post != null && user != null && !post.isPosted() && post.isScheduled() && post.isEnabled()) {
-            facebookService.post(user, post);
+            String id = facebookService.post(user, post);
+            id = null;
             Facebookpost posted = postRepository.findByIdAndFacebookuserId(post.getId(), user.getId());
-            posted.setPosted(true);
-            posted.setEnabled(false);
-            posted.setScheduled(false);
-            postRepository.save(posted);
+            if(id != null && !id.isEmpty()){
+                posted.setPosted(true);
+                posted.setEnabled(false);
+                posted.setScheduled(false);
+                postRepository.save(posted);
+                log.info("Post-id: " +id);
+            } else {
+                log.error("No id callback");
+                posted.setPosted(false);
+                posted.setEnabled(false);
+                posted.setScheduled(false);
+                posted.setError(true);
+                postRepository.save(posted);
+            }
+
 
         } else {
             log.info("Not valid to post: " + post);

@@ -14,6 +14,11 @@ $(document).ready(function () {
     //Validation of form. Triggered by submit
     $('#post-form').submit(function () {
 
+        if($('#time').val()==""){
+            alert("Please enter a time");
+            return false;
+        }
+
         //Validate time
         let currentDateTime = new Date();
         let formDateTime = new Date($("#date").val() + " " + $('#time').val() + ":00");
@@ -44,7 +49,7 @@ $(document).ready(function () {
             alert("No content or image to schedule");
             return false;
         }
-
+        $(".se-pre-con").fadeIn("slow");
         return true;
     });
 });

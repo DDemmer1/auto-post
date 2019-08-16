@@ -1,5 +1,24 @@
 jQuery(document).ready(function ($) {
 
+    var input = $('#time').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+
+    // Manually toggle to the minutes view
+    $('#check-minutes').click(function(e){
+        // Have to stop propagation here
+        e.stopPropagation();
+        input.clockpicker('show')
+            .clockpicker('toggleView', 'minutes');
+    });
+
+
+
+
+
     //Makes table row clickable
     $('.clickable-row').click(function () {
         window.location = $(this).data('href');
@@ -76,7 +95,7 @@ jQuery(document).ready(function ($) {
 
 
 
-    //Alert before account deletion
+    //Alert before post deletion
     $('.btn-delete-all').click(function (event) {
         let answer = confirm('Are you sure you want to delete all unposted posts? The Posts will be irreversibly deleted from the autoPost app.')
         if(answer === true){
@@ -181,7 +200,7 @@ function readURL(input) {
         reader.onload = function (e) {
             $("#preview-" + currentImg).attr('src', e.target.result);
             $("#preview-container-" + currentImg).addClass("d-inline-block");
-            $("#preview-container-" + currentImg).show();
+            $("#preview-container-" + currentImg).fadeIn(800);
             map.set(parseInt(currentImg),false);
             //prepare next Input field
             getNextIndex();

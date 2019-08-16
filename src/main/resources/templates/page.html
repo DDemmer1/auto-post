@@ -9,7 +9,7 @@
 <!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
 
-<div class="bg-facebook text-white schedule-banner">
+<div class="bg-facebook text-white schedule-banner mb-4" style="height: 9.8rem; padding-bottom: 2rem">
     <div>
         <div class="container">
             <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <form th:action="${page.getFbId()} + '/selected'" method="GET">
+    <form th:action="${page.getFbId()} + '/selected'" method="GET" class="fade-in">
 
         <div class="container schedule-table">
             <a class="btn text-white btn-facebook" style="margin-bottom: 1rem; margin-top: 1rem"
@@ -141,13 +141,13 @@
                             <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>
                         </td>
 
-                        <td th:if="${!post.isEnabled() && !post.isPosted()}">
+                        <td th:if="${!post.isEnabled() && !post.isPosted() && !post.isError()}">
                             <i data-toggle="tooltip" title="Not scheduled" class="not-enabled fa fa-minus-circle"></i>
                         </td>
 
                         <td th:if="${post.isError()}" style="color:red">
                             <i data-toggle="tooltip"
-                               title="Error. Not scheduled and posted. Time in the past or other error."
+                               title="Error. Time in the past or post was not posted."
                                class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         </td>
 

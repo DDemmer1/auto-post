@@ -2,21 +2,24 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="../elements/header (title='Post')"></head>
 <body id="page-top">
+<div class="se-pre-con" style="display: none">
+    <img class="se-pre-con-img" src="/img/autopost_assets/autopost_circle/autopost_circle.png">
+</div>
 <!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
-<div class="bg-facebook text-white schedule-banner">
+<div class="bg-facebook text-white schedule-banner mb-4" style="height: 9.8rem; padding-bottom: 2rem">
     <div>
         <div class="container">
-            <h2><span class="fa-stack" style=" font-size: 1rem; padding-bottom: 2.5rem">
+            <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
                   <i class="fa fa-facebook fa-stack-1x"></i>
                   <i class="fa fa-file-o fa-stack-2x"></i>
-                </span> [[${page.getName()}]]
+                </span> Facebook page: [[${page.getName()}]]
             </h2>
             <hr/>
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container fade-in">
     <div class="row">
         <div class="col-md-12 mx-auto">
 
