@@ -71,6 +71,7 @@ public class HomeController {
 //            } catch (UserException e) {
 //                e.printStackTrace();
 //            }
+//            user.setAdmin(true);
 //            sessionService.addActiveUser(user);
 //            loginService.updateUser(user);
 //        }

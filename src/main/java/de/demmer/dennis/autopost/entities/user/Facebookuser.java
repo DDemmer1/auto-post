@@ -3,6 +3,7 @@ package de.demmer.dennis.autopost.entities.user;
 import de.demmer.dennis.autopost.entities.Facebookpage;
 import de.demmer.dennis.autopost.entities.ImageFile;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,6 +31,9 @@ public class Facebookuser {
 
     @Column
     private String email;
+
+    @Column
+    private String admin;
 
     @OneToMany(mappedBy = "facebookuser", cascade = CascadeType.REMOVE)
     @ElementCollection

@@ -56,6 +56,8 @@
                style="margin-bottom: 1rem; margin-top: 1rem"
                th:href="${page.getFbId()} +'/tsvform'"><i class="fa fa-upload" aria-hidden="true"></i> Import
                 TSV-File</a>
+
+            <!--Selected Dropdown-->
             <li class="nav-item dropdown action-dropdown">
                 <button class="btn text-white btn-facebook dropdown-toggle select-button" type="button"
                         id="dropdownMenuButton"
@@ -72,10 +74,29 @@
                     <div class="dropdown-item"><i class="fa fa-hourglass-half" aria-hidden="true"></i><input
                             class="dropdown-item input-submit" value="enable" name="action" type="submit"></input></div>
                 </div>
-
-                <a class="btn text-white btn-danger btn-delete-all" style="margin-bottom: 1rem; margin-top: 1rem">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete unposted</a>
             </li>
+
+            <!--Delete dropdown-->
+            <li class="nav-item dropdown action-dropdown">
+                <button class="btn text-white btn-danger dropdown-toggle select-button" type="button"
+                        id="dropdownMenuButton2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete all
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div id="btn-delete-unposted" class="dropdown-item mt-2 mb-2"><a><i class="fa fa-hourglass-half mr-4" aria-hidden="true"></i>unposted</a>
+                    </div>
+                    <div id="btn-delete-error" class="dropdown-item mt-2 mb-2"><a><i class="fa fa-exclamation-triangle  mr-4" aria-hidden="true"></i>with error</a>
+                    </div>
+                    <div id="btn-delete-all" class="dropdown-item mt-2 mb-2"><a><i class="fa fa-trash mr-4" aria-hidden="true"></i> all posts</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <!--<a class="btn text-white btn-danger btn-delete-all" style="margin-bottom: 1rem; margin-top: 1rem">-->
+            <!--<i class="fa fa-trash-o" aria-hidden="true"></i> Delete unposted</a>-->
             <div class="table-scroll">
                 <table class="table table-hover table-responsive-sm">
                     <thead>
@@ -132,7 +153,6 @@
                                 <div>([[${post.getImageFile().size()+1}]] Images)</div>
                             </td>
                         </div>
-
 
 
                         <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile().size()<=0 AND post.getImg().length()<=0)}"></td>

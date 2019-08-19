@@ -73,7 +73,7 @@ public class LoginService {
     //adds a new user
     private Facebookuser newUserLogin(Facebookuser user) {
         log.info("New fbuser: " + user.getName());
-
+        user.setAdmin("false");
         userRepository.save(user);
         user.getPageList().forEach((page) -> {
             pageRepository.save(page);
@@ -88,6 +88,7 @@ public class LoginService {
 
         Facebookuser userInDB = userRepository.findFacebookuserByFbId(user.getFbId());
         int tmpUserId = userInDB.getId();
+        String isAdmin = userInDB.getAdmin();
 
         //check for new pages
         List<Facebookpage> newPages = getNewPages(user, userInDB);
@@ -108,6 +109,7 @@ public class LoginService {
         //update fbuser data
         BeanUtils.copyProperties(user, userInDB);
         userInDB.setId(tmpUserId);
+        userInDB.setAdmin(isAdmin);
         userRepository.save(userInDB);
 
         return userInDB;

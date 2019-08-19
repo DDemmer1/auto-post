@@ -43,6 +43,8 @@ public class SessionService{
 
         activeuser.put("id",user.getId()+"");
         activeuser.put("name",user.getName());
+        activeuser.put("admin",user.getAdmin());
+
         activeuser.put("profilePic",facebookService.getProfilePicture(user.getOauthToken()));
 
         session.setAttribute("activeuser",activeuser);

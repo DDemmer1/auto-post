@@ -96,14 +96,36 @@ jQuery(document).ready(function ($) {
 
 
     //Alert before post deletion
-    $('.btn-delete-all').click(function (event) {
-        let answer = confirm('Are you sure you want to delete all unposted posts? The Posts will be irreversibly deleted from the autoPost app.')
+    $('#btn-delete-unposted').click(function (event) {
+        let answer = confirm('Are you sure you want to delete all unposted posts on this page? The Posts will be irreversibly deleted from the autoPost app.')
         if(answer === true){
-            $.post(window.location.href.split('?')[0] + '/delete', function( data ) {
+            $.post(window.location.href.split('?')[0] + '/deleteunposted', function( data ) {
                 location.reload();
             });
         }
     });
+
+    $('#btn-delete-error').click(function (event) {
+        let answer = confirm('Are you sure you want to delete all posts with errors on this page? The Posts will be irreversibly deleted from the autoPost app.')
+        if(answer === true){
+            $.post(window.location.href.split('?')[0] + '/deleteerror', function( data ) {
+                location.reload();
+            });
+        }
+    });
+
+    $('#btn-delete-all').click(function (event) {
+        let answer = confirm('Are you sure you want to delete all posts from this page? The Posts will be irreversibly deleted from the autoPost app.')
+        if(answer === true){
+            $.post(window.location.href.split('?')[0] + '/deleteall', function( data ) {
+                location.reload();
+            });
+        }
+    });
+
+
+
+
 
     //Delete image url input
     $('#delete-img-url').click(function (event) {

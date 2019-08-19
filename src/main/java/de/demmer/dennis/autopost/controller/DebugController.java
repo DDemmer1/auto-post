@@ -42,9 +42,6 @@ public class DebugController {
     @Autowired
     FacebookpageRepository facebookpageRepository;
 
-    @Value("${admin.fb.id}")
-    String adminID;
-
     @Value("${spring.datasource.url}")
     String dbURL;
 
@@ -66,7 +63,7 @@ public class DebugController {
 
         Facebookuser activeUser = sessionService.getActiveUser();
 
-        if (!activeUser.getFbId().equals(adminID)) return "error";
+        if (!activeUser.getAdmin().equals("true")) return "error";
 
 
         Map<Integer, ScheduledFuture<?>> tasks = scheduleService.getTasks();
@@ -95,7 +92,7 @@ public class DebugController {
         model.addAttribute("tasks",scheduledTasks.size());
 
         model.addAttribute("adminmail", debugMail);
-        model.addAttribute("admin", facebookuserRepository.findFacebookuserByFbId(adminID).getName());
+        model.addAttribute("admin", facebookuserRepository.findFacebookuserByFbId(activeUser.getFbId()).getName());
         model.addAttribute("facebooklogin", facebookRedirect);
         model.addAttribute("dburl", dbURL);
         model.addAttribute("dbtype", dbtype);
@@ -123,7 +120,7 @@ public class DebugController {
 
         Facebookuser activeUser = sessionService.getActiveUser();
 
-        if (!activeUser.getFbId().equals(adminID)) return "error";
+        if (!activeUser.getAdmin().equals("true")) return "error";
 
         scheduleService.scheduleAll();
 
@@ -139,7 +136,7 @@ public class DebugController {
 
         Facebookuser activeUser = sessionService.getActiveUser();
 
-        if (!activeUser.getFbId().equals(adminID)) return "error";
+        if (!activeUser.getAdmin().equals("true")) return "error";
 
         scheduleService.killAllTasks();
 

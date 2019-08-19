@@ -167,28 +167,65 @@ public class PageController {
 
 
 
-    @PostMapping(value = "/schedule/{id}/delete")
-    public String changeSelected(@PathVariable(value = "id") String id, Model model) {
+    @PostMapping(value = "/schedule/{id}/deleteunposted")
+    public String deleteUnposted(@PathVariable(value = "id") String id, Model model) {
         Facebookuser user = sessionService.getActiveUser();
         if (user == null) {
             return "no-login";
         }
-
         if(!facebookuserService.isAdminOfPage(id,user)){
             return "no-rights";
         }
-
         List<Facebookpost> posts = postRepository.findAllByFacebookpageFbIdAndPosted(id,false);
-        log.info("Posts to delete size:" + posts.size());
+        log.info("Delete-Unposted. Posts to delete size:" + posts.size());
         posts.forEach((post) -> {
             scheduleService.cancelScheduling(post);
             postRepository.delete(post);
         });
-
         model.addAttribute("page", pageRepository.findByFbId(id));
         model.addAttribute("postList", new ArrayList<>());
+        return "page";
+    }
 
 
+    @PostMapping(value = "/schedule/{id}/deleteall")
+    public String deleteAll(@PathVariable(value = "id") String id, Model model) {
+        Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+        if(!facebookuserService.isAdminOfPage(id,user)){
+            return "no-rights";
+        }
+        List<Facebookpost> posts = postRepository.findAllByFacebookpageFbId(id);
+        log.info("Delete-all. Delete size:" + posts.size());
+        posts.forEach((post) -> {
+            scheduleService.cancelScheduling(post);
+            postRepository.delete(post);
+        });
+        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("postList", new ArrayList<>());
+        return "page";
+    }
+
+
+    @PostMapping(value = "/schedule/{id}/deleteerror")
+    public String deleteError(@PathVariable(value = "id") String id, Model model) {
+        Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+        if(!facebookuserService.isAdminOfPage(id,user)){
+            return "no-rights";
+        }
+        List<Facebookpost> posts = postRepository.findAllByFacebookpageFbIdAndError(id,true);
+        log.info("Delete-Error: Posts to delete size: " + posts.size());
+        posts.forEach((post) -> {
+            scheduleService.cancelScheduling(post);
+            postRepository.delete(post);
+        });
+        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("postList", new ArrayList<>());
         return "page";
     }
 

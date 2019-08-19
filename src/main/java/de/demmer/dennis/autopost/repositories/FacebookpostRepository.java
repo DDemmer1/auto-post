@@ -34,4 +34,7 @@ public interface FacebookpostRepository extends CrudRepository<Facebookpost, Int
     List<Facebookpost> findByError(boolean error);
     List<Facebookpost> findAllByFacebookpageFbIdAndPosted(String pageFbId,boolean isPosted);
 
+    List<Facebookpost> findAllByFacebookpageFbIdAndError(String id, boolean isError);
+
+    List<Facebookpost> findAllByFacebookpageFbId(String id);
 }
