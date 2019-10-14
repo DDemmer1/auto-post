@@ -75,7 +75,10 @@ public class DebugController {
             if(counter > numPostsToShow) break;
             Optional<Facebookpost> postOptional = facebookpostRepository.findById(entry.getKey());
             Facebookpost post = postOptional.orElse(null);
-            scheduledTasks.add(post);
+            if(post != null){
+                scheduledTasks.add(post);
+            }
+
             counter++;
         }
 
