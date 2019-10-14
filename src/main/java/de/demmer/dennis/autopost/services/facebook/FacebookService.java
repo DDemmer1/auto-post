@@ -1,6 +1,9 @@
 package de.demmer.dennis.autopost.services.facebook;
 
 
+import com.linkedin.urls.Url;
+import com.linkedin.urls.detection.UrlDetector;
+import com.linkedin.urls.detection.UrlDetectorOptions;
 import com.restfb.*;
 import com.restfb.exception.FacebookException;
 import com.restfb.types.FacebookType;
@@ -172,7 +175,8 @@ public class FacebookService {
                 String pageID = post.getPageID();
                 String pageAccessToken = facebook.pageOperations().getAccessToken(pageID);
                 FacebookClient fbClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_3_3);
-                String id = fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent())).getId();
+                String link = getFirstUrlFromString(post.getContent());
+                String id = fbClient.publish(pageID + "/feed", FacebookType.class, Parameter.with("message", post.getContent()), Parameter.with("link",link)).getId();
                 return id;
             }
         } catch (Exception e) {
@@ -180,6 +184,17 @@ public class FacebookService {
         }
         return null;
 
+    }
+
+    private String getFirstUrlFromString(String postContent){
+        UrlDetector parser = new UrlDetector(postContent, UrlDetectorOptions.Default);
+        List<Url> found = parser.detect();
+        if(found.size()> 0){
+            String firstUrl = found.get(0).toString();
+            log.info(firstUrl);
+            return firstUrl;
+        }
+        return "";
     }
 
 
