@@ -5,7 +5,7 @@ import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
-import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
+import de.demmer.dennis.autopost.services.facebook.FacebookService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
 import de.demmer.dennis.autopost.services.userhandling.FacebookuserService;
@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,7 +44,7 @@ public class PageController {
     FacebookpostRepository postRepository;
 
     @Autowired
-    FacebookSpringSocialService facebookService;
+    FacebookService facebookService;
 
     @Autowired
     TsvService tsvService;
@@ -162,6 +163,70 @@ public class PageController {
             });
 
         return new ModelAndView("redirect:/schedule/" + id, modelMap);
+    }
+
+
+
+    @PostMapping(value = "/schedule/{id}/deleteunposted")
+    public String deleteUnposted(@PathVariable(value = "id") String id, Model model) {
+        Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+        if(!facebookuserService.isAdminOfPage(id,user)){
+            return "no-rights";
+        }
+        List<Facebookpost> posts = postRepository.findAllByFacebookpageFbIdAndPosted(id,false);
+        log.info("Delete-Unposted. Posts to delete size:" + posts.size());
+        posts.forEach((post) -> {
+            scheduleService.cancelScheduling(post);
+            postRepository.delete(post);
+        });
+        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("postList", new ArrayList<>());
+        return "page";
+    }
+
+
+    @PostMapping(value = "/schedule/{id}/deleteall")
+    public String deleteAll(@PathVariable(value = "id") String id, Model model) {
+        Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+        if(!facebookuserService.isAdminOfPage(id,user)){
+            return "no-rights";
+        }
+        List<Facebookpost> posts = postRepository.findAllByFacebookpageFbId(id);
+        log.info("Delete-all. Delete size:" + posts.size());
+        posts.forEach((post) -> {
+            scheduleService.cancelScheduling(post);
+            postRepository.delete(post);
+        });
+        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("postList", new ArrayList<>());
+        return "page";
+    }
+
+
+    @PostMapping(value = "/schedule/{id}/deleteerror")
+    public String deleteError(@PathVariable(value = "id") String id, Model model) {
+        Facebookuser user = sessionService.getActiveUser();
+        if (user == null) {
+            return "no-login";
+        }
+        if(!facebookuserService.isAdminOfPage(id,user)){
+            return "no-rights";
+        }
+        List<Facebookpost> posts = postRepository.findAllByFacebookpageFbIdAndError(id,true);
+        log.info("Delete-Error: Posts to delete size: " + posts.size());
+        posts.forEach((post) -> {
+            scheduleService.cancelScheduling(post);
+            postRepository.delete(post);
+        });
+        model.addAttribute("page", pageRepository.findByFbId(id));
+        model.addAttribute("postList", new ArrayList<>());
+        return "page";
     }
 
 

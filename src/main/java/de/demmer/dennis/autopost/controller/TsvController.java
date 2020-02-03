@@ -5,7 +5,7 @@ import de.demmer.dennis.autopost.entities.Facebookpost;
 import de.demmer.dennis.autopost.entities.user.Facebookuser;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookpostRepository;
-import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
+import de.demmer.dennis.autopost.services.facebook.FacebookService;
 import de.demmer.dennis.autopost.services.scheduling.ScheduleService;
 import de.demmer.dennis.autopost.services.tsvimport.MalformedTsvException;
 import de.demmer.dennis.autopost.services.tsvimport.TsvService;
@@ -46,7 +46,7 @@ public class TsvController {
     TsvService tsvService;
 
     @Autowired
-    FacebookSpringSocialService facebookService;
+    FacebookService facebookService;
 
     @Autowired
     FacebookpostRepository postRepository;

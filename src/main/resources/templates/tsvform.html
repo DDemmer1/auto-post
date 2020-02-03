@@ -6,29 +6,31 @@
 
 <body id="page-top">
 
+<div class="se-pre-con" style="display: none">
+    <img class="se-pre-con-img" src="/img/autopost_assets/autopost_circle/autopost_circle.png">
+</div>
 <!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
 
 
-<div class="bg-facebook text-white schedule-banner">
+<div class="bg-facebook text-white schedule-banner pb-2 mb-4" style="height: 9.8rem">
     <div>
         <div class="container">
             <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
                   <i class="fa fa-facebook fa-stack-1x"></i>
                   <i class="fa fa-file-o fa-stack-2x"></i>
-                </span> [[${page.getName()}]]
+                </span> Facebook page: [[${page.getName()}]]
             </h2>
-            <hr/>
         </div>
     </div>
 </div>
 
 
-<div class="container">
+<div class="container fade-in">
     <div class="row">
         <div class="col">
             <h2>Choose TSV file</h2>
-            <form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data">
+            <form th:action="'tsvform/upload'" method="post" enctype="multipart/form-data" id="tsvform">
                 <div class="row">
                     <div class="col">
                         <input class="btn btn-facebook text-white" type="file" name="file" id="file">

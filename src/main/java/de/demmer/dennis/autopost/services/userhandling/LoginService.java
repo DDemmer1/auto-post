@@ -6,7 +6,7 @@ import de.demmer.dennis.autopost.entities.user.UserException;
 import de.demmer.dennis.autopost.entities.user.UserFactory;
 import de.demmer.dennis.autopost.repositories.FacebookpageRepository;
 import de.demmer.dennis.autopost.repositories.FacebookuserRepository;
-import de.demmer.dennis.autopost.services.facebook.FacebookSpringSocialService;
+import de.demmer.dennis.autopost.services.facebook.FacebookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class LoginService {
     UserFactory userFactory;
 
     @Autowired
-    FacebookSpringSocialService facebookService;
+    FacebookService facebookService;
 
     @Autowired
     SessionService sessionService;
@@ -57,7 +57,7 @@ public class LoginService {
     /*
      * Adds a new user to the database and current session, or updates the informations of a returning user and adds him to the session
      */
-    private void updateUser(Facebookuser user) {
+    public void updateUser(Facebookuser user) {
 
         if (userRepository.findFacebookuserByFbId(user.getFbId()) == null) {
             //New User
@@ -73,7 +73,7 @@ public class LoginService {
     //adds a new user
     private Facebookuser newUserLogin(Facebookuser user) {
         log.info("New fbuser: " + user.getName());
-
+        user.setAdmin("false");
         userRepository.save(user);
         user.getPageList().forEach((page) -> {
             pageRepository.save(page);
@@ -88,6 +88,7 @@ public class LoginService {
 
         Facebookuser userInDB = userRepository.findFacebookuserByFbId(user.getFbId());
         int tmpUserId = userInDB.getId();
+        String isAdmin = userInDB.getAdmin();
 
         //check for new pages
         List<Facebookpage> newPages = getNewPages(user, userInDB);
@@ -108,6 +109,7 @@ public class LoginService {
         //update fbuser data
         BeanUtils.copyProperties(user, userInDB);
         userInDB.setId(tmpUserId);
+        userInDB.setAdmin(isAdmin);
         userRepository.save(userInDB);
 
         return userInDB;

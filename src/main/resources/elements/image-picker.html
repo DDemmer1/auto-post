@@ -14,6 +14,7 @@
                    aria-controls="home" aria-selected="true"><i class="fa fa-file-image-o" aria-hidden="true"></i>
                     Image Upload</a>
             </li>
+            <div class="pt-2 pr-2 pl-2">or</div>
             <li class="nav-item">
                 <a class="nav-link" id="url-tab" data-toggle="tab" href="#url" role="tab"
                    aria-controls="profile" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i>
@@ -25,22 +26,77 @@
 
             <!--Image Upload-->
             <div class="mt-4 tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-                <input data-toggle="tooltip"
-                       title="Upload an image. Only files up to 2mb are allowed" data-placement="bottom"
-                       class="btn btn-facebook text-white" type="file" name="file" id="file">
-                <div class="d-inline" th:if="${post!=null}">
-                    <div class="ml-5 d-inline" th:if="${post.getImageFile()!=null}">
-                        <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
-                             class="post-detail-picture"/>
+                <h6 style="font-weight: bold" class="ml-2 mb-3"><i class="fa fa-upload" aria-hidden="true"></i> Upload (max. 10 pictures)</h6>
+                <div class="ml-1 row">
+                    <!--Preview picture-->
+                    <div id="all-previews">
+                        <div th:if="${post==null OR post.getImageFile().size()<=0}" id="preview-container-0" class="crop ml-1 mr-1"
+                             style="display: none">
+                            <div index="0" class="close-picture-button" onclick="deleteInput(this)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                            <img class="upload-preview" id="preview-0" src="">
+                        </div>
+
+                        <div th:if="${post!= null AND post.getImageFile()!= null AND post.getImageFile().size()>0}"
+                             th:remove="tag">
+                            <script>var indexArray = [];</script>
+                            <div th:remove="tag"
+                                 th:if="${post!= null AND post.getImageFile()!= null AND post.getImageFile().size()>0}"
+                                 th:each="imageFile,iter : ${post.getImageFile()}">
+                                <div th:id="${'preview-container-'+iter.index}"
+                                     class="crop ml-1 mr-1 d-inline-block">
+                                    <div th:dbid="${imageFile.getId()}" th:index="${iter.index}" index="0"
+                                         class="close-picture-button"
+                                         onclick="deleteInput(this)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                    <img class="upload-preview" th:id="${'preview-'+iter.index}"
+                                         th:src="${'data:image/png;base64,' +
+                                     T(java.util.Base64).getEncoder().encodeToString(imageFile.getData())}">
+                                    <script th:inline="javascript">
+                                        /*<![CDATA[*/
+                                        var index = /*[[${iter.index}]]*/ 0;
+                                        indexArray.push(index);
+                                        /*]]>*/
+                                    </script>
+                                    <input accept="image/*" onchange="readURL(this)" class="hidden-input" type="file"
+                                           th:name="${'file-' + iter.index}" th:id="${'file-' + iter.index}"
+                                           name="file-0"
+                                           id="file-0">
+                                    <input th:if="${(iter.index+1) == post.getImageFile().size()}" accept="image/*"
+                                           onchange="readURL(this)" class="hidden-input" type="file"
+                                           th:name="${'file-' + (iter.index+1)}" th:id="${'file-' + (iter.index+1)}"
+                                           name="file-0"
+                                           id="file-0">
+                                </div>
+
+                                <div th:if="${(iter.index+1) == post.getImageFile().size()}" th:remove="tag">
+                                    <div th:id="${'preview-container-'+(iter.index+1)}" class="crop ml-1 mr-1"
+                                         style="display: none">
+                                        <div th:index="${(iter.index+1)}" class="close-picture-button" onclick="deleteInput(this)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </div>
+                                        <img class="upload-preview" th:id="${'preview-'  +(iter.index+1)}" src="">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
+                    <!--Mockup input-->
+                    <div class="ml-1 mr-1" id="input-container">+</div>
                 </div>
+                <input name="toDelete" id="toDelete" class="d-none"></input>
+                <input th:if="${post == null OR post.getImageFile().size()<=0}" accept="image/*"
+                       onchange="readURL(this)" class="hidden-input" type="file" name="file-0" id="file-0">
             </div>
 
 
             <!--Image Web URL-->
             <div class="mt-4 tab-pane fade" id="url" role="tabpanel" aria-labelledby="url-tab">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="image"><i class="fa fa-globe" aria-hidden="true"></i> Image URL</label>
                             <input th:value="*{img}" th:field="*{img}" rows="4" id="image" type="text" name="image"
@@ -49,24 +105,23 @@
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
+                    <div class="col-md-2" style="margin-top: 2rem; height: 1rem; margin-left: 0;">
+                        <a id="delete-img-url" class="btn btn-danger text-white"><i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="img-preview"><i class="fa fa-file-image-o" aria-hidden="true"></i> Image
                                 preview</label>
-                            <a id="img-preview-lightbox"
-                               th:href="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
-                               data-toggle="lightbox">
+                            <a>
                                 <img th:src="*{img} ?: 'https://www.splunk.com/content/dam/splunk2/images/resources/spl/placeholder.jpg'"
-                                     id="img-preview" class="img-thumbnail img-fluid rounded">
+                                     id="img-preview" class="img-fluid">
                             </a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
 </div>

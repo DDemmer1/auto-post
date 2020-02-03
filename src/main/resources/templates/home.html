@@ -1,48 +1,103 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="../elements/header (title='')"></head>
-
-
+<head th:replace="../elements/header (title='Free Facebook Page Bot -')"></head>
 <body id="page-top">
+
 
 <!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
+<div th:remove="tag" th:if="${session.activeuser == null}">
+    <header class="bg-facebook text-white">
+        <div class="container text-center">
+            <h1>Welcome to
+                <div class="rounded pr-2 pl-2 pb-1 pt-0 bg-dark d-inline"><strong>autoPost</strong> <img
+                        class="autopost-logo"
+                        src="img/autopost_assets/autopost_circle/autopost_circle.png"></div>
+                <div style="display:inline; font-size: 0.5rem"> BETA</div>
+            </h1>
+            <p class="lead">Your free Facebook scheduling Service</p>
+            <div th:unless="${session.activeuser != null}" class="d-lg-none nav-item">
+                <a class="mobile-login btn btn-login btn-facebook border-white" th:href="${loginlink}"><i
+                        class="fa fa-facebook-square"></i>
+                    Login with Facebook</a>
+            </div>
+        </div>
+    </header>
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8 mx-auto">
+                    <h2>About autoPost </h2>
+                    <p class="lead"><strong>autoPost</strong> is a small and easy-to-use webapplication to ease the
+                        scheduled publication of posts on Facebook pages</p>
+                    <ul>
+                        <li><i class="fa fa-users" aria-hidden="true"></i> Free to use and Open Source</li>
+                        <li><i class="fa fa-calendar" aria-hidden="true"></i> Schedule your posts on Facebook pages</li>
+                        <li><i class="fa fa-upload" aria-hidden="true"></i> Import TSV files for fast and easy post
+                            scheduling
+                        </li>
 
-<header class="bg-facebook text-white">
-    <div class="container text-center">
-        <h1>Welcome to <div class="rounded pr-2 pl-2 pb-1 pt-0 bg-dark d-inline"><strong>autoPost</strong> <img class="autopost-logo"
-                                                      src="img/autopost_assets/autopost_circle/autopost_circle.png"></div><div style="display:inline; font-size: 0.5rem"> BETA</div>
-        </h1>
-        <p class="lead">Your free social media scheduling Service</p>
-        <div th:unless="${session.activeuser != null}" class="d-lg-none nav-item">
-            <a class="mobile-login btn btn-login btn-facebook border-white" th:href="${loginlink}"><i
-                    class="fa fa-facebook-square"></i>
-                Login with Facebook</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:remove="tag" th:if="${session.activeuser != null}">
+
+    <div class="bg-facebook text-white home-dashboard-container ">
+        <div class="container text-center fade-in">
+            <h1 class="ml-4">
+                <div class="rounded pr-2 pl-2 pb-1 pt-0 bg-dark d-inline"><strong>autoPost</strong> <img
+                        class="autopost-logo"
+                        src="img/autopost_assets/autopost_circle/autopost_circle.png"></div>
+                <div style="display:inline; font-size: 0.5rem"> BETA</div>
+            </h1>
+            <h2 class="text-white"><i class="fa fa-user-circle " aria-hidden="true"></i> [[${user.getName()}]]</h2>
+
         </div>
     </div>
-</header>
 
-<section id="about">
+
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8 mx-auto">
-                <h2>About autoPost </h2>
-                <p class="lead"><strong>autoPost</strong> is a small and easy-to-use webapplication to ease the
-                    scheduled publication of posts on Facebook pages</p>
-                <ul>
-                    <li><i class="fa fa-users" aria-hidden="true"></i> Free to use and Open Source</li>
-                    <li><i class="fa fa-calendar" aria-hidden="true"></i> Schedule your posts on Facebook pages</li>
-                    <li><i class="fa fa-upload" aria-hidden="true"></i> Import TSV files for fast and easy post
-                        scheduling
-                    </li>
+        <div class="row status-tables">
+            <div class="col-12 col-sm-6 fade-in">
+                <h2><i class="fa fa-facebook-square" aria-hidden="true"></i> Your Posts</h2>
+                <hr>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Scheduled:</td>
+                        <td>[[${scheduled}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Posted:</td>
+                        <td>[[${posted}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Disabled:</td>
+                        <td>[[${disabled}]]</td>
+                    </tr>
+                    <tr>
+                        <td>Error:</td>
+                        <td>[[${error}]]</td>
+                    </tr>
+                </table>
+            </div>
 
-                </ul>
+            <div class="col-12 col-sm-1"></div>
+
+            <div class="col-12 col-sm-5 fade-in">
+                <h2><i class="fa fa-user" aria-hidden="true"></i> Your Pages</h2>
+                <hr>
+                <h6>Choose a page to schedule:</h6>
+                <div th:each="page : ${pageList}" class="row mb-2 ml-2">
+                    <a  th:href="'/schedule/' + ${page.getFbId()}" class="fbpage-link"><i class="fa fa-facebook-square"></i> [[${page.getName()}]]</a>
+                </div>
+
             </div>
         </div>
     </div>
-</section>
-
+</div>
 
 <!-- Footer -->
 <footer th:replace="../elements/footer"></footer>

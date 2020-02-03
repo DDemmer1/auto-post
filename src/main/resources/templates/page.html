@@ -9,7 +9,7 @@
 <!-- Navigation -->
 <nav th:replace="../elements/navbar"></nav>
 
-<div class="bg-facebook text-white schedule-banner">
+<div class="bg-facebook text-white schedule-banner mb-4" style="height: 9.8rem; padding-bottom: 2rem">
     <div>
         <div class="container">
             <h2><span class="fa-stack" style=" font-size: 0.75rem; padding-bottom: 2rem">
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <form th:action="${page.getFbId()} + '/selected'" method="GET">
+    <form th:action="${page.getFbId()} + '/selected'" method="GET" class="fade-in">
 
         <div class="container schedule-table">
             <a class="btn text-white btn-facebook" style="margin-bottom: 1rem; margin-top: 1rem"
@@ -56,6 +56,8 @@
                style="margin-bottom: 1rem; margin-top: 1rem"
                th:href="${page.getFbId()} +'/tsvform'"><i class="fa fa-upload" aria-hidden="true"></i> Import
                 TSV-File</a>
+
+            <!--Selected Dropdown-->
             <li class="nav-item dropdown action-dropdown">
                 <button class="btn text-white btn-facebook dropdown-toggle select-button" type="button"
                         id="dropdownMenuButton"
@@ -71,9 +73,30 @@
                     </div>
                     <div class="dropdown-item"><i class="fa fa-hourglass-half" aria-hidden="true"></i><input
                             class="dropdown-item input-submit" value="enable" name="action" type="submit"></input></div>
-
                 </div>
             </li>
+
+            <!--Delete dropdown-->
+            <li class="nav-item dropdown action-dropdown">
+                <button class="btn text-white btn-danger dropdown-toggle select-button" type="button"
+                        id="dropdownMenuButton2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete all
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div id="btn-delete-unposted" class="dropdown-item mt-2 mb-2"><a><i class="fa fa-hourglass-half mr-4" aria-hidden="true"></i>unposted</a>
+                    </div>
+                    <div id="btn-delete-error" class="dropdown-item mt-2 mb-2"><a><i class="fa fa-exclamation-triangle  mr-4" aria-hidden="true"></i>with error</a>
+                    </div>
+                    <div id="btn-delete-all" class="dropdown-item mt-2 mb-2"><a><i class="fa fa-trash mr-4" aria-hidden="true"></i> all posts</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <!--<a class="btn text-white btn-danger btn-delete-all" style="margin-bottom: 1rem; margin-top: 1rem">-->
+            <!--<i class="fa fa-trash-o" aria-hidden="true"></i> Delete unposted</a>-->
             <div class="table-scroll">
                 <table class="table table-hover table-responsive-sm">
                     <thead>
@@ -103,30 +126,48 @@
                             <pre class="bootstrap-default-font" style="" th:text="${post.getContent()}"></pre>
                         </td>
 
-                        <div th:if="${post.getImg()!=null}">
-                            <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}"
-                                                                         class="post-picture"/>
+
+                        <div th:remove="tag" th:if="${post.getImageFile().size()<=0 OR post.getImg().length()<=0}">
+                            <div th:if="${post.getImg()!=null}" th:remove="tag">
+                                <td th:if="${post.getImg().length()>0}"><img th:src="${post.getImg()}"
+                                                                             class="post-picture"/>
+                                </td>
+                            </div>
+
+                            <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()>=2}">
+                                <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
+                                     class="post-picture"/>
+                                <div>[[${post.getImageFile().size()}]] Images</div>
+                            </td>
+
+                            <td th:if="${post.getImageFile()!=null AND post.getImageFile().size()==1}">
+                                <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
+                                     class="post-picture"/>
                             </td>
                         </div>
 
-                        <td th:if="${post.getImageFile()!=null}">
-                            <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().getData())}"
-                                 class="post-picture"/>
-                        </td>
+                        <div th:remove="tag" th:if="${post.getImageFile().size()>0 AND post.getImg().length()>0}">
+                            <td>
+                                <img th:src="${'data:image/png;base64,' + T(java.util.Base64).getEncoder().encodeToString(post.getImageFile().get(0).getData())}"
+                                     class="post-picture"/>
+                                <div>([[${post.getImageFile().size()+1}]] Images)</div>
+                            </td>
+                        </div>
 
-                        <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile()==null AND post.getImg().length()<=0)}"></td>
+
+                        <td th:if="${(post.getImageFile()==null AND post.getImg()==null) OR (post.getImageFile().size()<=0 AND post.getImg().length()<=0)}"></td>
 
                         <td th:if="${post.isEnabled() && !post.isPosted()&& !post.isError()}">
                             <i data-toggle="tooltip" title="Scheduled" class="check-enabled fa fa-hourglass-half"></i>
                         </td>
 
-                        <td th:if="${!post.isEnabled() && !post.isPosted()}">
+                        <td th:if="${!post.isEnabled() && !post.isPosted() && !post.isError()}">
                             <i data-toggle="tooltip" title="Not scheduled" class="not-enabled fa fa-minus-circle"></i>
                         </td>
 
                         <td th:if="${post.isError()}" style="color:red">
                             <i data-toggle="tooltip"
-                               title="Error. Not scheduled and posted. Time in the past or other error."
+                               title="Error. Time in the past or post was not posted."
                                class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         </td>
 

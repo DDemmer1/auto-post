@@ -1,11 +1,19 @@
 <div th:fragment="scheduling" xmlns:th="http://www.thymeleaf.org">
     <div style="margin-top: 1rem" class="jumbotron">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="form-group">
+                    <!--<label for="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>-->
+                    <!--<input required th:value="*{time}" th:field="*{time}" id="time" type="time" name="time" class="form-control" placeholder="HH:MM">-->
+
                     <label for="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Time</label>
 
-                    <input required th:value="*{time}" th:field="*{time}" id="time" type="time" name="time" class="form-control" placeholder="HH:MM">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                        </div>
+                        <input style="background-color: white; cursor: pointer" readonly class="form-control" id="time" name="time" placeholder="HH:MM" th:value="*{time}" th:field="*{time}" th:required="required">
+                    </div>
 
                     <div class="help-block with-errors"></div>
                 </div>
@@ -14,7 +22,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="date"><i class="fa fa-calendar" aria-hidden="true"></i> Date</label>
-                    <input max="2070-01-01"required th:value="*{date}" th:field="*{date}" id="date" type="date" name="date" class="form-control" placeholder="YYYY-MM-DD">
+                    <input max="2070-01-01" required th:value="*{date}" th:field="*{date}" id="date" type="date" name="date" class="form-control" placeholder="YYYY-MM-DD">
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
